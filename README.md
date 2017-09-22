@@ -7,4 +7,4 @@
 + Shaishav Shah: sshah11@
 
 #### Milestones:
-+ Milestone1: [Design](https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone1)
++ Milestone1: [Design](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/DESIGN.md)
