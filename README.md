@@ -5,3 +5,6 @@ Git has implemented multiple functions that can track and update repositories. H
 
 Thus, the problem we aim to address here is that of recording the activity of inefficient commits of codes as well as the developer responsible for it. This also gives us an opportunity to identify and maintain the ‘health’ of the repository. The erring developer would be temporarily denied access to the repository if he/she makes consecutive bad commits to the repository.As mentioned above, a repo having a branch with bad commits is not healthy for the application, therefore maintaining a summary of the commits would be a helpful functionality which has not yet been implemented on Github.
 
+## Story Board
+
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/StoryBoard.jpeg)
