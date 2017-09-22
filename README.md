@@ -9,6 +9,16 @@ Thus, the problem we aim to address here is that of recording the activity of bu
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/StoryBoard.jpeg)
 
+## Wire Frame
+
+  
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe1.gif)  
+
+
+
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe2.gif)
+
+
 ## Use Cases
 **1. Tentative blocking of a buggy code committer** 
 
