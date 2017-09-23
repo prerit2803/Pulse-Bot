@@ -91,7 +91,7 @@ These wireframes depict the manner in which the bot responds to different types 
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe2.gif)
 
-### Architecture Design + Additional Patterns  
+## Architecture Design  
 
 The Architecture Design Pattern for this bot resembles the **Event Systems - Explicit Invocation pattern**.  
 In this pattern, there are multiple events that can be termed as Explicit Invocation. Following are a couple of examples illustrating the explicit event driven architecture:  
@@ -126,10 +126,10 @@ Bot
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
 This architectural pattern represents the event when a user requests through a chat.
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)  
 This architectural pattern represents the event when a build job is finished by the Jenkins.
 
-#### Constraints
+### Constraints
 + User cannot voluntarily revoke temporary block imposed by bot.  
 + It needs the Jenkins build Job to use the GitHub and Maven plugin.  
 + It would not be able to track the commits if they are squashed on GitHub.  
