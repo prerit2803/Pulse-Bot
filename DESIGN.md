@@ -113,6 +113,8 @@ Bot
 
 #### Architecture Components
 
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern3.png)
+
 + **Jenkins**: This is a Continuous Integration service that has already been established and is running on the build server. Our bot interacts with the Jenkins service to get status of the build jobs initiated by a commit.  
 
 + **REDIS**: An in-memory fast data structure to store the stats collected by the bot. The bot will use it to time blocked users, total count, daily counts for each user. Alternatively, any database will suffice given it  allows setting an expiration time for a key and is fast.  
@@ -121,6 +123,10 @@ Bot
 
 + **PulseBot**: The key entity of our project which interacts with Slack, Github, Jenkins, and Redis to provide solution to the user. The Pulse Bot parses the user chat from Slack portal and performs required action. It also maintains a mapping of Slack ID to Github ID of all users.  
 
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
+
+
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)
 
 #### Constraints
 + User cannot voluntarily revoke temporary block imposed by bot.  
