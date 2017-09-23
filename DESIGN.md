@@ -46,10 +46,11 @@ Use Case: Tentative blocking of a buggy code committer
 4. Alternative Flow:  
 	[E1] No user is present who exceeds the number of broken commit threshold.
   ```
+
   ```
 Use Case: Create a new branch with healthy code and lock it down until master branch is unstable.  
 
-1. Preconditions:    
+1. Preconditions:  
 	Personal access token for GitHub repositories must be available to the bot.  
 	Jenkins CI must be up and running with the required jobs.  
 	Bot must be authorized to edit jobs on Jenkins.  
