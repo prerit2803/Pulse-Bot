@@ -69,6 +69,7 @@ Use Case: Create a report with a summary of number of commits per user and their
 	[E2] Repo has no collaborators.
 
 ```
+
 ### Design Sketches
 #### Story Board
 
@@ -76,7 +77,7 @@ Use Case: Create a report with a summary of number of commits per user and their
 
 #### Wire Frame
 
-	These wireframes depict the manner in which the bot responds to different types of users (blocked/not blocked) on the slack interface.  
+These wireframes depict the manner in which the bot responds to different types of users (blocked/not blocked) on the slack interface.  
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe1.gif)  
 
