@@ -1,5 +1,11 @@
-# CSC510-Project
-Software Engineering Fall 2017 Project
+# Design Milestone
+#### Team
++ Akriti Bilala: abilala@
++ Ankur Saxena: asaxena3@
++ Jaydeep Rane: jrane@
++ Prerit Bhandari: pbhanda2@
++ Shaishav Shah: sshah11@
+
 ## Problem Statement
 In a Continuous Integration environment, it is essential to maintain a healthy state of the deployment branch of a repository. Several buggy commits that fail the build may mess up the repository health and pose quite a challenge for developers to maintain a stable branch for deployment. Currently no concrete solutions exist to prevent this scenario. If a particular user responsible for successive buggy commits is not denied access, it may lead to a cascading effect and affect severely the health of the repository and working of other users in the long run.  
 
@@ -84,3 +90,39 @@ These wireframes depict the manner in which the bot responds to different types 
 
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe2.gif)
+
+### Architecture Design + Additional Patterns  
+
+The Architecture Design Pattern for this bot resembles the **Event Systems - Explicit Invocation pattern**.  
+In this pattern, there are multiple events that can be termed as Explicit Invocation. Following are a couple of examples illustrating the explicit event driven architecture:  
+
++ **Explicit Event**:  
+A commit to the master branch.  
+**Event Handler**:  
+Bot  
+**Action taken**:  
+	If the commit leads to build failure, bot creates a new branch with stable version of master and locks it down till master branch is bug free.  
+	If build is successful, then the bot updates the report which is readily available on request by any user.  
+
++ **Explicit Event**:  
+Exceeding limit of buggy commits by a user.  
+**Event Handler**:  
+Bot  
+**Action taken**:  
+	Blocking the user for stipulated amount of time.  
+
+#### Architecture Components
+
++ **Jenkins**: This is a Continuous Integration service that has already been established and is running on the build server. Our bot interacts with the Jenkins service to get status of the build jobs initiated by a commit.  
+
++ **REDIS**: An in-memory fast data structure to store the stats collected by the bot. The bot will use it to time blocked users, total count, daily counts for each user. Alternatively, any database will suffice given it  allows setting an expiration time for a key and is fast.  
+
++ **Slack**: Slack provides an interface for the users to interact with our bot. 
+
++ **PulseBot**: The key entity of our project which interacts with Slack, Github, Jenkins, and Redis to provide solution to the user. The Pulse Bot parses the user chat from Slack portal and performs required action. It also maintains a mapping of Slack ID to Github ID of all users.  
+
+
+#### Constraints
++ User cannot voluntarily revoke temporary block imposed by bot.  
++ It needs the Jenkins build Job to use the GitHub and Maven plugin.  
++ It would not be able to track the commits if they are squashed on GitHub.  
