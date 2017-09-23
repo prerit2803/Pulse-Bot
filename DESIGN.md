@@ -47,25 +47,26 @@ Use Case: Tentative blocking of a buggy code committer
 	[E1] No user is present who exceeds the number of broken commit threshold.
   ```
 
-  ```
+```
 Use Case: Create a new branch with healthy code and lock it down until master branch is unstable.  
 
-1. Preconditions:  
+1. Preconditions:    
 	Personal access token for GitHub repositories must be available to the bot.  
 	Jenkins CI must be up and running with the required jobs.  
-	Bot must be authorized to edit jobs on Jenkins.  
+	Bot must be authorized to edit jobs on Jenkins.
   
-2. Main Flow:  
+2. Main Flow:    
 	As soon as build on master branch fails, the bot creates a new branch with the last stable commit as its HEAD.  
 	When the master branch becomes stable again, bot deletes the branch that was created in previous step.  
 	User asks which is the current stable branch [S1].
-	
+  
 3. Subflows:  
-	[S1] Bot provides the name of the current stable branch that can be deployed.
+	[S1] Bot provides the name of the current stable branch that can be deployed.  
+	 
 4. Alternative Flow:  
-	[E1] No broken code is commited on master branch. 
+	[E1] No broken code is commited on master branch.
   ```
-  ```
+```
 Use Case: Create a report with a summary of number of commits per user and their segregation into broken or stable.    
 
 1. Preconditions:      
