@@ -124,9 +124,10 @@ Bot
 + **PulseBot**: The key entity of our project which interacts with Slack, Github, Jenkins, and Redis to provide solution to the user. The Pulse Bot parses the user chat from Slack portal and performs required action. It also maintains a mapping of Slack ID to Github ID of all users.  
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
-
+This architectural pattern represents the event when a user requests through a chat.
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)
+This architectural pattern represents the event when a build job is finished by the Jenkins.
 
 #### Constraints
 + User cannot voluntarily revoke temporary block imposed by bot.  
