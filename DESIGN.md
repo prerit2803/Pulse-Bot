@@ -12,7 +12,7 @@ In a Continuous Integration environment, it is essential to maintain a healthy s
 Thus, the problem we aim to address here is that of recording the activity of buggy commits of codes as well as the developer responsible for it. This also gives us an opportunity to identify and maintain the ‘health’ of the repository by checking every commit made by the contributors. The erring developer would be temporarily denied access to the repository if he/she makes consecutive bad commits to the repository. We shall provide a comprehensive report of the activities of all the contributors of the repositories which can also serve as metric for the developers accountability while committing code.  
 
 ## Bot Description
-We are designing a bot capable of maintaining the last healthy state of a repository and tracking the number of buggy commits made by a contributors of a repository. These capabilities are extended to a chatbot which can perform multiple tasks like tentatively revoking their permission to commit given they cross a threshold count, generate a report for all users, chat with a user. It interacts, in background, with a Continuous Integration service (Jenkins) to get and track the status of a build triggered by a collaborator’s commit on a git repo. The bot maintains the statistics for each user and responds to user queries on Slack.    
+We are designing a bot capable of **maintaining the last healthy state of a repository** and **tracking the number of buggy commits made by a contributors of a repository**. These capabilities are extended to a chatbot which can perform multiple tasks like tentatively revoking their permission to commit given they cross a threshold count, generate a report for all users, chat with a user. It interacts, in background, with a Continuous Integration service (Jenkins) to get and track the status of a build triggered by a collaborator’s commit on a git repo. The bot maintains the statistics for each user and responds to user queries on Slack.    
 
 When a user commits a code, it gets automatically queued for a build job. If the build fails, users debugs and keeps committing until it’s fixed, thereby possibly doing more buggy commits in the process. Our bot runs the job of maintaining the status of each build perpetuated by a commit and maintains a safe branch after each commit. The best feature of the bot is that it automates the result tracking of each commits and can answer users on Slack portal through a chat. This makes the process of tracking seamless and hence a good solution for any industry.    
 
@@ -98,7 +98,9 @@ These wireframes depict the manner in which the bot responds to different types 
 The following diagram shows the architectural components of the bot.
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern3.png)
 
-+ **Jenkins**: This is a Continuous Integration service that has already been established and is running on the build server. Our bot interacts with the Jenkins service to get status of the build jobs initiated by a commit.  
++ **Jenkins**: This is a Continuous Integration service that has already been established and is running on the build server. Our bot interacts with the Jenkins service to get status of the build jobs initiated by a commit. 
+
++ **Github**: Contains the project repository that Jenkins will build.
 
 + **Redis**: An in-memory fast data structure to store the stats collected by the bot. The bot will use it to time blocked users, total count, daily counts for each user. Alternatively, any database will suffice given it  allows setting an expiration time for a key and is fast.  
 
@@ -109,8 +111,8 @@ The following diagram shows the architectural components of the bot.
 ### Design Pattern
 The Architecture Design Pattern for this bot resembles the **Event Systems - Explicit Invocation pattern**.  
 In this pattern, there are multiple events that can be termed as Explicit Invocation. Following are a couple of examples illustrating the explicit event driven architecture: 
+#### Event 1
 
-```
 **Explicit Event**  
 A commit to the master branch.  
 **Event Handler**  
@@ -119,18 +121,19 @@ Bot
 + If the commit leads to build failure, bot creates a new branch with stable version of master and locks it down until master branch is bug free.  
 + If build is successful, then the bot updates the stats in it's records.
 + If the git user has exceeded the threshold of buggy commits for that day, bot revokes it's permission to commit in the repository.
-```
+
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
 This architectural pattern represents the flow of events when a user requests through a chat.
-```
- **Explicit Event**  
+#### Event 2
+
+**Explicit Event**  
 Request of a statistic by user on Slack chat
 **Event Handler**    
 Bot  
 **Action taken**  
 + Parse the chat for a request. 
 + Respond with the correct statistics.
-```
+
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)  
 This architectural pattern represents the flow of events when a build job is finished by the Jenkins.
 
