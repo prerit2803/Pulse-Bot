@@ -18,9 +18,9 @@ When a user commits a code, it gets automatically queued for a build job. If the
 
 The bot can be categorized as a Space Responder, since it maintains user contexts for each Slack user and responds them with their respective statistics. Also, the bot will follow an Event Driven  Architecture which acts in response to the build job triggered by user commits. Since it runs as a service in the background that interacts with the Continuous Integration tools it can be related to the DevOps bot discussed in the class.   
 
-### Use Cases
+## Use Cases
 ```
-Use Case: Tentative blocking of a buggy code committer  
+Use Case 1: Tentative blocking of a buggy code committer  
 
 1. Preconditions:    
 	Personal access token for GitHub repositories must be available to the bot.  
@@ -40,7 +40,7 @@ Use Case: Tentative blocking of a buggy code committer
   ```
 
 ```
-Use Case: Create a new branch with healthy code and lock it down until master branch is unstable.  
+Use Case 2: Create a new branch with healthy code and lock it down until master branch is unstable.  
 
 1. Preconditions:    
 	Personal access token for GitHub repositories must be available to the bot.  
@@ -59,7 +59,7 @@ Use Case: Create a new branch with healthy code and lock it down until master br
 	[E1] No broken code is commited on master branch.
   ```
 ```
-Use Case: Create a report with a summary of number of commits per user and their segregation into broken or stable.    
+Use Case 3: Create a report with a summary of number of commits per user and their segregation into broken or stable.    
 
 1. Preconditions:      
 	Mapping of Slack ID of users to their Github ID must be populated in the bot.  
@@ -76,12 +76,12 @@ Use Case: Create a report with a summary of number of commits per user and their
 
 ```
 
-### Design Sketches
-#### Story Board
+## Design Sketches
+### Story Board
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/StoryBoard.jpeg)
 
-#### Wire Frame
+### Wire Frame
 
 These wireframes depict the manner in which the bot responds to different types of users (blocked/not blocked) on the slack interface.  
 
@@ -93,41 +93,46 @@ These wireframes depict the manner in which the bot responds to different types 
 
 ## Architecture Design  
 
-The Architecture Design Pattern for this bot resembles the **Event Systems - Explicit Invocation pattern**.  
-In this pattern, there are multiple events that can be termed as Explicit Invocation. Following are a couple of examples illustrating the explicit event driven architecture:  
+### Architecture Components
 
-+ **Explicit Event**:  
-A commit to the master branch.  
-**Event Handler**:  
-Bot  
-**Action taken**:  
-	If the commit leads to build failure, bot creates a new branch with stable version of master and locks it down till master branch is bug free.  
-	If build is successful, then the bot updates the report which is readily available on request by any user.  
-
-+ **Explicit Event**:  
-Exceeding limit of buggy commits by a user.  
-**Event Handler**:  
-Bot  
-**Action taken**:  
-	Blocking the user for stipulated amount of time.  
-
-#### Architecture Components
-
+The following diagram shows the architectural components of the bot.
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern3.png)
 
 + **Jenkins**: This is a Continuous Integration service that has already been established and is running on the build server. Our bot interacts with the Jenkins service to get status of the build jobs initiated by a commit.  
 
-+ **REDIS**: An in-memory fast data structure to store the stats collected by the bot. The bot will use it to time blocked users, total count, daily counts for each user. Alternatively, any database will suffice given it  allows setting an expiration time for a key and is fast.  
++ **Redis**: An in-memory fast data structure to store the stats collected by the bot. The bot will use it to time blocked users, total count, daily counts for each user. Alternatively, any database will suffice given it  allows setting an expiration time for a key and is fast.  
 
 + **Slack**: Slack provides an interface for the users to interact with our bot. 
 
 + **PulseBot**: The key entity of our project which interacts with Slack, Github, Jenkins, and Redis to provide solution to the user. The Pulse Bot parses the user chat from Slack portal and performs required action. It also maintains a mapping of Slack ID to Github ID of all users.  
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
-This architectural pattern represents the event when a user requests through a chat.
+### Design Pattern
+The Architecture Design Pattern for this bot resembles the **Event Systems - Explicit Invocation pattern**.  
+In this pattern, there are multiple events that can be termed as Explicit Invocation. Following are a couple of examples illustrating the explicit event driven architecture: 
 
+```
+**Explicit Event**  
+A commit to the master branch.  
+**Event Handler**  
+Bot  
+**Action taken**  
++ If the commit leads to build failure, bot creates a new branch with stable version of master and locks it down until master branch is bug free.  
++ If build is successful, then the bot updates the stats in it's records.
++ If the git user has exceeded the threshold of buggy commits for that day, bot revokes it's permission to commit in the repository.
+```
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
+This architectural pattern represents the flow of events when a user requests through a chat.
+```
+ **Explicit Event**  
+Request of a statistic by user on Slack chat
+**Event Handler**    
+Bot  
+**Action taken**  
++ Parse the chat for a request. 
++ Respond with the correct statistics.
+```
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)  
-This architectural pattern represents the event when a build job is finished by the Jenkins.
+This architectural pattern represents the flow of events when a build job is finished by the Jenkins.
 
 ### Constraints
 + User cannot voluntarily revoke temporary block imposed by bot.  
