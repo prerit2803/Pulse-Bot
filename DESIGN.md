@@ -111,31 +111,29 @@ The following diagram shows the architectural components of the bot.
 ### Design Pattern
 The Architecture Design Pattern for this bot resembles the **Event Systems - Explicit Invocation pattern**.  
 In this pattern, there are multiple events that can be termed as Explicit Invocation. Following are a couple of examples illustrating the explicit event driven architecture: 
-#### Event 1
 
-**Explicit Event**  
-A commit to the master branch.  
+**Explicit Event 1**  
+A commit to the master branch.    
 **Event Handler**  
 Bot  
 **Action taken**  
 + If the commit leads to build failure, bot creates a new branch with stable version of master and locks it down until master branch is bug free.  
 + If build is successful, then the bot updates the stats in it's records.
 + If the git user has exceeded the threshold of buggy commits for that day, bot revokes it's permission to commit in the repository.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)  
+This architectural pattern represents the flow of events when a build job is finished by the Jenkins.
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
-This architectural pattern represents the flow of events when a user requests through a chat.
-#### Event 2
 
-**Explicit Event**  
-Request of a statistic by user on Slack chat
+**Explicit Event 2**  
+Request of a statistic by user on Slack chat.  
 **Event Handler**    
 Bot  
 **Action taken**  
 + Parse the chat for a request. 
 + Respond with the correct statistics.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
+This architectural pattern represents the flow of events when a user requests through a chat.
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)  
-This architectural pattern represents the flow of events when a build job is finished by the Jenkins.
 
 ### Constraints
 + User cannot voluntarily revoke temporary block imposed by bot.  
