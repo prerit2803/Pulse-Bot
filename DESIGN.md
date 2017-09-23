@@ -12,21 +12,7 @@ When a user commits a code, it gets automatically queued for a build job. If the
 
 The bot can be categorized as a Space Responder, since it maintains user contexts for each Slack user and responds them with their respective statistics. Also, the bot will follow an Event Driven  Architecture which acts in response to the build job triggered by user commits. Since it runs as a service in the background that interacts with the Continuous Integration tools it can be related to the DevOps bot discussed in the class.   
 
-## Story Board
-
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/StoryBoard.jpeg)
-
-## Wire Frame
-
-  
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe1.gif)  
-
-
-
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe2.gif)
-
-
-## Use Cases
+### Use Cases
 ```
 Use Case: Tentative blocking of a buggy code committer  
 
@@ -83,3 +69,17 @@ Use Case: Create a report with a summary of number of commits per user and their
 	[E2] Repo has no collaborators.
 
 ```
+### Design Sketches
+#### Story Board
+
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/StoryBoard.jpeg)
+
+#### Wire Frame
+
+	These wireframes depict the manner in which the bot responds to different types of users (blocked/not blocked) on the slack interface.  
+
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe1.gif)  
+
+
+
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe2.gif)
