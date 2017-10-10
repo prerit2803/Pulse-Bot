@@ -40,6 +40,13 @@
     regexp: '<denyAnonymousReadAccess>true</denyAnonymousReadAccess>'
     line: '<denyAnonymousReadAccess>false</denyAnonymousReadAccess>'
 
+- name: set security to Enable proxy compatibility
+  lineinfile:
+    dest: /var/lib/jenkins/config.xml
+    state: present
+    regexp: '<excludeClientIPFromCrumb>false</excludeClientIPFromCrumb>'
+    line: '<excludeClientIPFromCrumb>true</excludeClientIPFromCrumb>'
+
 - name: create groovy script directory
   file: path=/var/lib/jenkins/init.groovy.d state=directory mode=0755
 
