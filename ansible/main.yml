@@ -1,0 +1,5 @@
+---
+- hosts: all
+  roles: 
+  - { role: javaGitMaven, sudo: yes }
+  - { role: jenkins, sudo: yes }
