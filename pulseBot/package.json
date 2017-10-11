@@ -1,0 +1,20 @@
+{
+  "name": "pulseBot",
+  "version": "0.0.0",
+  "description": "Implementation of pulseBot",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.ncsu.edu/sshah11/CSC510-Project"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.16.2",
+    "fs": "0.0.1-security",
+    "body-parser": "~1.18.2"
+  }
+}
