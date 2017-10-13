@@ -13,8 +13,11 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "~1.18.2",
     "express": "~4.16.2",
     "fs": "0.0.1-security",
-    "body-parser": "~1.18.2"
+    "redis": "^2.8.0",
+    "request": "^2.83.0"
   }
 }
