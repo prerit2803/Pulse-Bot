@@ -5,7 +5,7 @@ var redis = require('redis')
 var client = redis.createClient(6379, '127.0.0.1', {})
 
 var token = "token " + process.env.githubToken;
-var userId = "pulseBotProject";
+var orgName = "pulseBotProject";
 var repoName = "MavenVoid";
 // var branchName = "stableBranch"// + Date.now()
 var sha = "7e2af98abd9aed2b18831c5937b38f106aab20e9"
@@ -47,9 +47,9 @@ function refactorOnStableBuild(jenkinsJSON){
       if(stableBranchName == "master"){
         return;
       }
-      return removeBranchProtection(userName, repoName, stableBranchName)
+      return removeBranchProtection(orgName, repoName, stableBranchName)
     }).then(function(stableBranchName){
-      return deleteBranch(userName, repoName, stableBranchName)
+      return deleteBranch(orgName, repoName, stableBranchName)
     }).then(function(branchName){
       return updateStableBranchName("master")
     })
@@ -61,9 +61,9 @@ function refactorOnUnstableBuild(jenkinsJSON){
     var sha = jenkinsJSON.commitID
     var userName = jenkinsJSON.AuthorName
     console.log("here1")
-    createBranch(userName, repoName, "stableBranch" + Date.now()).then(function(stableBranchName){
+    createBranch(orgName, repoName, "stableBranch" + Date.now()).then(function(stableBranchName){
       console.log("here")
-      return addBranchProtection(userName, repoName, stableBranchName)
+      return addBranchProtection(orgName, repoName, stableBranchName)
     }).then(function(stableBranchName){
       console.log("here2")
       return updateStableBranchName(stableBranchName)
@@ -71,9 +71,9 @@ function refactorOnUnstableBuild(jenkinsJSON){
   })
 }
 
-function getBranchProtection(userName, repoName, branchName){
+function getBranchProtection(orgName, repoName, branchName){
    var options = {
-    url: urlRoot + "/repos/" + userName + "/" + repoName + "/branches/" + branchName + "/protection",
+    url: urlRoot + "/repos/" + orgName + "/" + repoName + "/branches/" + branchName + "/protection",
     method: 'GET',
     headers: {
       "content-type": "application/json",
@@ -90,9 +90,9 @@ function getBranchProtection(userName, repoName, branchName){
   })
 }
 
-function addBranchProtection(userName, repoName, branchName){
+function addBranchProtection(orgName, repoName, branchName){
    var options = {
-    url: urlRoot + "/repos/" + userName + "/" + repoName + "/branches/" + branchName + "/protection",
+    url: urlRoot + "/repos/" + orgName + "/" + repoName + "/branches/" + branchName + "/protection",
     method: 'PUT',
     headers: {
       "content-type": "application/json",
@@ -110,9 +110,9 @@ function addBranchProtection(userName, repoName, branchName){
   })
 }
 
-function removeBranchProtection(userName, repoName, branchName){
+function removeBranchProtection(orgName, repoName, branchName){
    var options = {
-    url: urlRoot + "/repos/" + userName + "/" + repoName + "/branches/" + branchName + "/protection",
+    url: urlRoot + "/repos/" + orgName + "/" + repoName + "/branches/" + branchName + "/protection",
     method: 'DELETE',
     headers: {
       "content-type": "application/json",
@@ -155,10 +155,10 @@ function getStableBranchname(){
   })
 }
 
-function createBranch(userName, repoName, branchName)
+function createBranch(orgName, repoName, branchName)
 {
   var options = {
-    url: urlRoot + "/repos/" + userName + "/" + repoName + "/git/refs",
+    url: urlRoot + "/repos/" + orgName + "/" + repoName + "/git/refs",
     method: 'POST',
     headers: {
       "User-Agent": "EnableIssues",
@@ -182,10 +182,10 @@ function createBranch(userName, repoName, branchName)
   })
 }
 
-function deleteBranch(userName, repoName, branchName)
+function deleteBranch(orgName, repoName, branchName)
 {
   var options = {
-    url: urlRoot + "/repos/" + userName + "/" + repoName + "/git/refs/heads/" + branchName,
+    url: urlRoot + "/repos/" + orgName + "/" + repoName + "/git/refs/heads/" + branchName,
     method: 'DELETE',
     headers: {
       "User-Agent": "EnableIssues",
