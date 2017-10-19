@@ -12,8 +12,7 @@ var urlRoot = "https://github.ncsu.edu/api/v3"
 var maxCount = 5
 
 handleUser(userName).then((user)=>{
-	console.log("removed "+ user)
-//	addUser(user)
+	addUser(user)
 }).catch((value)=>{
 	console.log(value)
 })
@@ -65,7 +64,7 @@ function removeUser(user){
 		request(options,(error,response,body)=>{
 			console.log("remove user response:"+response.statusCode)
 			if(response.statusCode==204){
-			//	console.log(user)
+				console.log("removed "+user)
 				resolve(user)
 			}
 			else reject("Couldn't remove user!")
