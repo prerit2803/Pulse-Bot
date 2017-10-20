@@ -109,3 +109,23 @@ function NoofBrokenCommitsToday(authorName){
     });
   });
 }
+
+function totalNoOfCommits(authorName){
+  var value = 1 ;
+  // console.log("in totalNoOfCommits" +authorName);
+  return new Promise(function(resolve,reject){
+    client.hexists('totalNoOfCommits', authorName , function(err, reply){
+
+      if(reply ==0){
+        client.hmset('totalNoOfCommits', authorName, value);
+        resolve(authorName);
+      }
+      else{
+         client.hget('totalNoOfCommits', authorName ,function(err, reply){
+          client.hmset('totalNoOfCommits',authorName, +reply + 1);
+           resolve(authorName);
+         });
+      }
+    });
+  });
+}
