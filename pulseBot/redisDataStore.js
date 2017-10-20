@@ -4,6 +4,29 @@ client = redis.createClient();
 
 var MaxBrokenCommitThreshold = 5;
 
+var fake = {
+  "commitID":"getlost",
+  "AuthorName":"hello"
+}
+
+var myPromise = BuildFailed(fake).then(function(response){
+  console.log("successful " + JSON.stringify(response))
+}).catch(function(response){
+  console.log("error " + JSON.stringify(response));
+});
+
+function BuildSucceded(userDetails){
+  return new Promise(function(resolve, reject){
+    var commitID = userDetails.commitID;
+    var authorName = userDetails.AuthorName;
+    addCommitId(commitID,authorName).then(function(addcommitid){
+      return addStatus(commitID,"success");
+    }).then(function(status){
+      return totalNoOfCommits(authorName);
+    });
+  });
+}
+
 function BuildSucceded(userDetails){
   return new Promise(function(resolve, reject){
     var commitID = userDetails.commitID;
