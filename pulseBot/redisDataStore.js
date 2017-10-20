@@ -58,3 +58,54 @@ function addStatus(commitID, status){
       resolve("Added status");
     });
 }
+
+function CheckBlockedUser(authorName){
+  return new Promise(function(resolve,reject){
+  client.exists(authorName, function(err,reply){
+    resolve(reply);
+    });
+  });
+}
+
+function NoOfBrokenCommits(authorName){
+  var value = 1;
+  return new Promise(function(resolve,reject){
+    client.hexists('noOfBrokenCommits', authorName , function(err, reply){
+      if(reply ==0){
+        client.hmset('noOfBrokenCommits', authorName, value);
+        resolve(authorName);
+      }
+      else{
+         client.hget('noOfBrokenCommits', authorName ,function(err, reply){
+             if(reply >= MaxBrokenCommitThreshold){
+               var expirationTime = parseInt(((+new Date)/1000)+86400);
+                client.set(authorName, expirationTime);
+                client.expire(authorName, expirationTime);
+                client.hmset('noOfBrokenCommits', authorName, 0);
+                resolve(authorName);
+             }
+             else {
+               client.hmset('noOfBrokenCommits',authorName, +reply + 1);
+               resolve(authorName);
+             }
+         });
+      }
+    });
+  });
+}
+
+function NoofBrokenCommitsToday(authorName){
+  return new Promise(function(resolve,reject){
+    client.exists(authorName,function(err, reply){
+      if(reply ==0){
+        console.log("Not blocked user");
+        client.hget('noOfBrokenCommits', authorName, function(err, reply){
+          resolve('{"NoofBrokenCommitsToday ":"'+MaxBrokenCommitThreshold -(+reply)+'"}');
+        });
+      }
+      else{
+            resolve('{"Blocked ":"'+MaxBrokenCommitThreshold+'"}');
+      }
+    });
+  });
+}
