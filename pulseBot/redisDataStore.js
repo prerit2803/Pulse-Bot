@@ -27,14 +27,26 @@ function BuildSucceded(userDetails){
   });
 }
 
-function BuildSucceded(userDetails){
+function BuildFailed(userDetails){
   return new Promise(function(resolve, reject){
     var commitID = userDetails.commitID;
     var authorName = userDetails.AuthorName;
     addCommitId(commitID,authorName).then(function(addcommitid){
-      return addStatus(commitID,"success");
+      return addStatus(commitID,"fail");
     }).then(function(status){
       return totalNoOfCommits(authorName);
+    }).then(function(commits){
+      return CheckBlockedUser(authorName);
+    }).then(function(reply){
+      if(reply==0)
+        return NoOfBrokenCommits(authorName);
+      else {
+        client.get(authorName, function(err,reply){
+          var t = new Date(null); // Epoch
+          t.setTime(+reply*1000);
+          reject('{"Error":"User is Blocked, Next access at '+t+'"}');
+          });
+      }
     });
   });
 }
