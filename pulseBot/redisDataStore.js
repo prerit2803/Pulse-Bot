@@ -4,6 +4,18 @@ client = redis.createClient();
 
 var MaxBrokenCommitThreshold = 5;
 
+function BuildSucceded(userDetails){
+  return new Promise(function(resolve, reject){
+    var commitID = userDetails.commitID;
+    var authorName = userDetails.AuthorName;
+    addCommitId(commitID,authorName).then(function(addcommitid){
+      return addStatus(commitID,"success");
+    }).then(function(status){
+      return totalNoOfCommits(authorName);
+    });
+  });
+}
+
 function checkIfUserExists(slackId,githubId){
   return new Promise(function(resolve,reject){
     client.hexists('userMap', slackId , function(err, reply){
