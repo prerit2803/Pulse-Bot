@@ -57,7 +57,7 @@ function checkUserExists(user){
 function removeUser(user){
 	var options = {
 		url: urlRoot + "/repos/"+orgName+"/"+repoName+"/collaborators/"+user,
-	    method: 'DELET',
+	    method: 'DELETE',
 	    headers: {
 	      "content-type": "application/json",
 	      "Authorization": gitToken,
