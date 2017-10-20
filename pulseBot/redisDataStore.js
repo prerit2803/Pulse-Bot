@@ -40,3 +40,19 @@ function adduser(slackId,githubId){
       resolve('{"GithubID ":"'+githubId+'"}');
     });
   }
+
+function addCommitId(commitID,authorName){
+  return new Promise(function(resolve,reject){
+    // console.log("in add commitid" + commitID      + authorName);
+    client.hmset('commitIDAuthorNameMap', commitID, authorName);
+    resolve("Added commitID");
+  });
+}
+
+function addStatus(commitID, status){
+  return new Promise(function(resolve,reject){
+    // console.log("in addStatus" + commitID      + status);
+      client.hmset('commitIDStatusMap', commitID, status);
+      resolve("Added status");
+    });
+}
