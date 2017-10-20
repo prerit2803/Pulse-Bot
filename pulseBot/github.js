@@ -1,5 +1,4 @@
 var request = require('request');
-var fs = require("fs");
 var Promise = require('bluebird');
 var redis = require('redis')
 var client = redis.createClient(6379, '127.0.0.1', {})
@@ -7,44 +6,38 @@ var client = redis.createClient(6379, '127.0.0.1', {})
 var token = "token " + process.env.githubToken;
 var orgName = "pulseBotProject";
 var repoName = "MavenVoid";
-// var branchName = "stableBranch"// + Date.now()
-var sha = "7e2af98abd9aed2b18831c5937b38f106aab20e9"
+
 var lastStableCommitKey = "lastStableCommit"
 var stableBranchNameKey = "stableBranchName"
 
-var myJSON = {"commitID":sha, "AuthorName": "sshah11"}
+var commitID = "7e2af98abd9aed2b18831c5937b38f106aab20e9"
+var AuthorName = "jrane"
+var myJSON = {"commitID":commitID, "AuthorName": AuthorName}
 
 var protectionJson = {
   "required_status_checks": null,
   "required_pull_request_reviews": null,
   "enforce_admins": true,
-  "restrictions": null
+  "restrictions":{
+  "users": [],
+  "teams": []
+  }
 }
 
 var urlRoot = "https://github.ncsu.edu/api/v3";
 
-
-// var myPromise = createBranch(userId, repoName, branchName).then(function(response){
-//   console.log("successful " + JSON.stringify(response))
-// }).catch(function(response){
-//   console.log("error " + JSON.stringify(response));
-// })
-
-// var myPromise2 = updateStableCommitKey(sha).then(console.log)
-
-refactorOnStableBuild(myJSON).then(function(data){
-  console.log(data)
-})
-
 function refactorOnStableBuild(jenkinsJSON){
+
+  //updateStableCommitID Redis KEY->removeBranchProtection->deleteBranch->update stableBranchName Redis Key
+
   return new Promise(function(resolve, reject){
-    var sha = jenkinsJSON.commitID
+    var commitID = jenkinsJSON.commitID
     var userName = jenkinsJSON.AuthorName
 
-    updateStableCommit(sha).then(function(sha){
+    updateStableCommitID(commitID).then(function(commitID){
       return getStableBranchname()
     }).then(function(stableBranchName){
-      if(stableBranchName == "master"){
+      if(stableBranchName === "master"){
         return;
       }
       return removeBranchProtection(orgName, repoName, stableBranchName)
@@ -52,43 +45,58 @@ function refactorOnStableBuild(jenkinsJSON){
       return deleteBranch(orgName, repoName, stableBranchName)
     }).then(function(branchName){
       return updateStableBranchName("master")
+    }).catch(function(error){
+      console.log(error)
     })
   })
 }
 
 function refactorOnUnstableBuild(jenkinsJSON){
+
+  //get lastStableCommitID from REDIS->createStableBranch->addBranchProtection->update stableBranchName Redis Key
+
   return new Promise(function(resolve, reject){
-    var sha = jenkinsJSON.commitID
+    var commitID = jenkinsJSON.commitID
     var userName = jenkinsJSON.AuthorName
-    console.log("here1")
-    createBranch(orgName, repoName, "stableBranch" + Date.now()).then(function(stableBranchName){
-      console.log("here")
+
+    getStableCommitID().then(function(commitID){
+      return createBranch(orgName, repoName, "stableBranch" + Date.now(), commitID)
+    }).then(function(stableBranchName){
       return addBranchProtection(orgName, repoName, stableBranchName)
     }).then(function(stableBranchName){
-      console.log("here2")
       return updateStableBranchName(stableBranchName)
+    }).catch(function(error){
+      console.log(error)
     })
   })
 }
 
-function getBranchProtection(orgName, repoName, branchName){
-   var options = {
-    url: urlRoot + "/repos/" + orgName + "/" + repoName + "/branches/" + branchName + "/protection",
-    method: 'GET',
-    headers: {
-      "content-type": "application/json",
-      "Authorization": token,
-      "Accept": "application/vnd.github.loki-preview"
-    }
-  };
 
-  return new Promise(function (resolve, reject) {
-      request(options, function (error, response, body) {
-        // console.log(response.statusCode)
-        resolve(branchName)
-    });
-  })
-}
+// updateStableCommitID("04342d5de26574e13748a8a0e44cb84d1b8e6d0c").then(function(commitID){
+//   return refactorOnUnstableBuild(myJSON)
+// }).then(function(data){
+//   console.log(data)
+// })
+
+
+// function getBranchProtection(orgName, repoName, branchName){
+//    var options = {
+//     url: urlRoot + "/repos/" + orgName + "/" + repoName + "/branches/" + branchName + "/protection",
+//     method: 'GET',
+//     headers: {
+//       "content-type": "application/json",
+//       "Authorization": token,
+//       "Accept": "application/vnd.github.loki-preview"
+//     }
+//   };
+
+//   return new Promise(function (resolve, reject) {
+//       request(options, function (error, response, body) {
+//         // console.log(response.statusCode)
+//         resolve(branchName)
+//     });
+//   })
+// }
 
 function addBranchProtection(orgName, repoName, branchName){
    var options = {
@@ -104,7 +112,9 @@ function addBranchProtection(orgName, repoName, branchName){
  
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        // console.log(response.statusCode)
+        if(response.statusCode!=200){
+          reject("error in addBranchProtection: " + body)
+        }
         resolve(branchName)
     });
   })
@@ -123,16 +133,32 @@ function removeBranchProtection(orgName, repoName, branchName){
 
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        // console.log(response.statusCode)
-        resolve(branchName)
+      if(response.statusCode!=204){
+        reject("error in removeBranchProtection: " + body)
+      }
+      resolve(branchName)
     });
   })
 }
 
-function updateStableCommit(sha){
+function updateStableCommitID(commitID){
   return new Promise(function(resolve, reject){
-    client.set(lastStableCommitKey, sha)
+    client.set(lastStableCommitKey, commitID)
     client.get(lastStableCommitKey, function(err,value){
+      if(commitID != value){
+        reject(value)
+      }
+      resolve(commitID)
+    })
+  })
+}
+
+function getStableCommitID(){
+  return new Promise(function(resolve, reject){
+    client.get(lastStableCommitKey, function(err,value){
+      if(err){
+        reject(value)
+      }
       resolve(value)
     })
   })
@@ -155,27 +181,25 @@ function getStableBranchname(){
   })
 }
 
-function createBranch(orgName, repoName, branchName)
+function createBranch(orgName, repoName, branchName, commitID)
 {
   var options = {
     url: urlRoot + "/repos/" + orgName + "/" + repoName + "/git/refs",
     method: 'POST',
     headers: {
-      "User-Agent": "EnableIssues",
       "content-type": "application/json",
       "Authorization": token
     },
     json: {
       "ref": "refs/heads/" + branchName,
-      "sha": sha
+      "sha": commitID
     }
   };
 
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        console.log(response.body)
-        if(response.statusCode != 201){
-          reject(response.body)
+        if(response.statusCode !== 201){
+          reject("error in createBranch" + body)
         }
         resolve(branchName)
     });
@@ -188,7 +212,6 @@ function deleteBranch(orgName, repoName, branchName)
     url: urlRoot + "/repos/" + orgName + "/" + repoName + "/git/refs/heads/" + branchName,
     method: 'DELETE',
     headers: {
-      "User-Agent": "EnableIssues",
       "content-type": "application/json",
       "Authorization": token
     }
@@ -196,10 +219,15 @@ function deleteBranch(orgName, repoName, branchName)
  
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        if(response.statusCode != 204){
-          reject(response.body)
+        if(response.statusCode !== 204){
+          reject("error in deleteBranch: " + body)
         }
         resolve(branchName)
     });
   })
 }
+
+
+exports.refactorOnUnstableBuild = refactorOnUnstableBuild
+exports.refactorOnStableBuild = refactorOnStableBuild
+exports.updateStableBranchName = updateStableBranchName
