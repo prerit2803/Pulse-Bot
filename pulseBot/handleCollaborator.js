@@ -5,7 +5,7 @@ var redis = require('redis')
 var client = redis.createClient(6379, '127.0.0.1', {})
 
 var gitToken = "token " + process.env.githubToken
-var orgName = "pulseBotProjec"
+var orgName = "pulseBotProject"
 var repoName = "MavenVoid"
 var userName= "jrane"
 var urlRoot = "https://github.ncsu.edu/api/v3"
@@ -20,8 +20,8 @@ handleUser(userName).then((user)=>{
 function handleUser(user){
 	return new Promise( (resolve,reject) => {
 		checkUserExists(user).then((user)=> {
-			var userCount = 6//client.get(user)
-			console.log(userCount)
+			var userCount = 1//client.get(user)
+			//console.log(userCount)
 			if(userCount>maxCount){
 				resolve(removeUser(user))
 			}
@@ -47,11 +47,11 @@ function checkUserExists(user){
 			if(response.statusCode===204){
 				resolve(user)
 			}
-			else reject("checkUserExists"+body)
+			else reject("checkUserExists\n"+body)
 		})	
-	}).catch((value)=>{
+	})/*.catch((value)=>{
 		console.log(value)
-	})
+	})*/
 }
 
 function removeUser(user){
@@ -100,7 +100,7 @@ function addUser(user){
 			}
 			else reject("addUser"+body)
 		})	
-	}).catch( (value)=>{
+	})/*.catch( (value)=>{
 		console.log(value)
-	})
+	})*/
 }
