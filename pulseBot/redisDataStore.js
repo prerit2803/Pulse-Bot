@@ -2,6 +2,8 @@ var redis = require("redis");
 var Promise = require('promise');
 client = redis.createClient();
 
+var MaxBrokenCommitThreshold = 5;
+
 function checkIfUserExists(slackId,githubId){
   return new Promise(function(resolve,reject){
     client.hexists('userMap', slackId , function(err, reply){
