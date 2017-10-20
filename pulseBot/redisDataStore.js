@@ -5,12 +5,12 @@ client = redis.createClient();
 var MaxBrokenCommitThreshold = 5;
 
 var fake = {
-  "commitID":"getlost",
-  "AuthorName":"hello"
+  "commitID":"get",
+  "AuthorName":"qwret"
 }
 
-var myPromise = BuildFailed(fake).then(function(response){
-  console.log("successful " + JSON.stringify(response))
+var myPromise = BuildSucceded(fake).then(function(response){
+  console.log("successful " + JSON.stringify(response));
 }).catch(function(response){
   console.log("error " + JSON.stringify(response));
 });
@@ -23,6 +23,8 @@ function BuildSucceded(userDetails){
       return addStatus(commitID,"success");
     }).then(function(status){
       return totalNoOfCommits(authorName);
+    }).then(function(response){
+      resolve(response);
     });
   });
 }
@@ -41,12 +43,16 @@ function BuildFailed(userDetails){
       if(reply==0)
         return NoOfBrokenCommits(authorName);
       else {
-        client.get(authorName, function(err,reply){
-          var t = new Date(null); // Epoch
-          t.setTime(+reply*1000);
-          reject('{"Error":"User is Blocked, Next access at '+t+'"}');
+        return new Promise(function(resolve, reject){
+          client.get(authorName, function(err,reply){
+            var t = new Date(null); // Epoch
+            t.setTime(+reply*1000);
+            resolve('{"Error":"User is Blocked, Next access at '+t+'"}');
           });
+        });
       }
+    }).then(function(response){
+      resolve(response);
     });
   });
 }
@@ -59,7 +65,6 @@ function checkIfUserExists(slackId,githubId){
     }
     // console.log("Reply is : " + reply);
     if(reply===0){
-      console.log("in if");
       if(githubId){
         adduser(slackId,githubId);
         resolve('{"GithubID ":"'+githubId+'"}');
@@ -69,14 +74,14 @@ function checkIfUserExists(slackId,githubId){
     }
     }
     else{
-      console.log("gitid " + client.hget('userMap', slackId, function(err,reply){
+      client.hget('userMap', slackId, function(err,reply){
         if(err){
           reject('{"Error":"'+err+'"}');
         }
         else{
           resolve('{"GithubID ":"'+reply+'"}');
         }
-      }));
+      });
     }
   });
 });
@@ -85,24 +90,27 @@ function checkIfUserExists(slackId,githubId){
 function adduser(slackId,githubId){
   return new Promise(function(resolve,reject){
     // console.log("slack id    "+ slackid);
-    client.hmset('userMap', slackId, githubId);
+    client.hmset('userMap', slackId, githubId, function(err,reply){
       resolve('{"GithubID ":"'+githubId+'"}');
+    });
     });
   }
 
 function addCommitId(commitID,authorName){
   return new Promise(function(resolve,reject){
     // console.log("in add commitid" + commitID      + authorName);
-    client.hmset('commitIDAuthorNameMap', commitID, authorName);
-    resolve("Added commitID");
+    client.hmset('commitIDAuthorNameMap', commitID, authorName, function(err,reply){
+        resolve("Added commitID");
+    });
   });
 }
 
 function addStatus(commitID, status){
   return new Promise(function(resolve,reject){
     // console.log("in addStatus" + commitID      + status);
-      client.hmset('commitIDStatusMap', commitID, status);
-      resolve("Added status");
+      client.hmset('commitIDStatusMap', commitID, status,function(err,reply){
+          resolve("Added status");
+      });
     });
 }
 
@@ -119,8 +127,9 @@ function NoOfBrokenCommits(authorName){
   return new Promise(function(resolve,reject){
     client.hexists('noOfBrokenCommits', authorName , function(err, reply){
       if(reply ==0){
-        client.hmset('noOfBrokenCommits', authorName, value);
-        resolve(authorName);
+        client.hmset('noOfBrokenCommits', authorName, value, function(err,reply){
+            resolve(authorName);
+        });
       }
       else{
          client.hget('noOfBrokenCommits', authorName ,function(err, reply){
@@ -128,12 +137,14 @@ function NoOfBrokenCommits(authorName){
                var expirationTime = parseInt(((+new Date)/1000)+86400);
                 client.set(authorName, expirationTime);
                 client.expire(authorName, expirationTime);
-                client.hmset('noOfBrokenCommits', authorName, 0);
-                resolve(authorName);
+                client.hmset('noOfBrokenCommits', authorName, 0, function(err,reply){
+                  resolve(authorName);
+                });
              }
              else {
-               client.hmset('noOfBrokenCommits',authorName, +reply + 1);
-               resolve(authorName);
+               client.hmset('noOfBrokenCommits',authorName, +reply + 1, function(err,reply){
+                    resolve(authorName);
+               });
              }
          });
       }
@@ -164,13 +175,15 @@ function totalNoOfCommits(authorName){
     client.hexists('totalNoOfCommits', authorName , function(err, reply){
 
       if(reply ==0){
-        client.hmset('totalNoOfCommits', authorName, value);
-        resolve(authorName);
+        client.hmset('totalNoOfCommits', authorName, value, function(err,reply){
+            resolve(authorName);
+        });
       }
       else{
          client.hget('totalNoOfCommits', authorName ,function(err, reply){
-          client.hmset('totalNoOfCommits',authorName, +reply + 1);
-           resolve(authorName);
+          client.hmset('totalNoOfCommits',authorName, +reply + 1, function(err,reply){
+               resolve(authorName);
+          });
          });
       }
     });
