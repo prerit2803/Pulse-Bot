@@ -20,7 +20,7 @@ handleUser(userName).then((user)=>{
 function handleUser(user){
 	return new Promise( (resolve,reject) => {
 		checkUserExists(user).then((user)=> {
-			var userCount = 1//client.get(user)
+			var userCount = 6//client.get(user)
 			//console.log(userCount)
 			if(userCount>maxCount){
 				resolve(removeUser(user))
@@ -57,7 +57,7 @@ function checkUserExists(user){
 function removeUser(user){
 	var options = {
 		url: urlRoot + "/repos/"+orgName+"/"+repoName+"/collaborators/"+user,
-	    method: 'DELETE',
+	    method: 'DELET',
 	    headers: {
 	      "content-type": "application/json",
 	      "Authorization": gitToken,
@@ -71,11 +71,11 @@ function removeUser(user){
 				console.log("removed "+user)
 				resolve(user)
 			}
-			else reject("removeUser"+body)
+			else reject("removeUser\n"+body)
 		})
-	}).catch( (value)=>{
+	})/*.catch( (value)=>{
 		console.log(value)
-	})
+	})*/
 }
 
 function addUser(user){
@@ -98,7 +98,7 @@ function addUser(user){
 				console.log("added "+user)
 				resolve(user)
 			}
-			else reject("addUser"+body)
+			else reject("addUser\n"+body)
 		})	
 	})/*.catch( (value)=>{
 		console.log(value)
