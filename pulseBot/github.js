@@ -10,9 +10,9 @@ var repoName = "MavenVoid";
 var lastStableCommitKey = "lastStableCommit"
 var stableBranchNameKey = "stableBranchName"
 
-var commitID = "7e2af98abd9aed2b18831c5937b38f106aab20e9"
-var AuthorName = "jrane"
-var myJSON = {"commitID":commitID, "AuthorName": AuthorName}
+// var commitID = "7e2af98abd9aed2b18831c5937b38f106aab20e9"
+// var AuthorName = "jrane"
+// var myJSON = {"commitID":commitID, "AuthorName": AuthorName}
 
 var protectionJson = {
   "required_status_checks": null,
@@ -37,16 +37,20 @@ function refactorOnStableBuild(jenkinsJSON){
     updateStableCommitID(commitID).then(function(commitID){
       return getStableBranchname()
     }).then(function(stableBranchName){
-      if(stableBranchName === "master"){
-        return;
+      if(stableBranchName == "master"){
+        return Promise.reject("master is already stable")
       }
-      return removeBranchProtection(orgName, repoName, stableBranchName)
+      else{
+        return removeBranchProtection(orgName, repoName, stableBranchName)
+      }
     }).then(function(stableBranchName){
       return deleteBranch(orgName, repoName, stableBranchName)
     }).then(function(branchName){
       return updateStableBranchName("master")
+    }).then(function(branchName){
+      resolve("refactorOnStableBuild successful")
     }).catch(function(error){
-      console.log(error)
+      reject(error)
     })
   })
 }
@@ -58,22 +62,31 @@ function refactorOnUnstableBuild(jenkinsJSON){
   return new Promise(function(resolve, reject){
     var commitID = jenkinsJSON.commitID
     var userName = jenkinsJSON.AuthorName
-
-    getStableCommitID().then(function(commitID){
-      return createBranch(orgName, repoName, "stableBranch" + Date.now(), commitID)
+    
+    getStableBranchname().then(function(stableBranchName){
+      if(stableBranchName != "master"){
+        return Promise.reject("Stable branch already exists")
+      }
+      else{
+        return getStableCommitID();
+      }
+    }).then(function(stableCommitID){
+      return createBranch(orgName, repoName, "stableBranch" + Date.now(), stableCommitID)
     }).then(function(stableBranchName){
       return addBranchProtection(orgName, repoName, stableBranchName)
     }).then(function(stableBranchName){
       return updateStableBranchName(stableBranchName)
+    }).then(function(branchName){
+      resolve("refactorOnUnstableBuild successful")
     }).catch(function(error){
-      console.log(error)
+      reject(error)
     })
   })
 }
 
 
-// updateStableCommitID("04342d5de26574e13748a8a0e44cb84d1b8e6d0c").then(function(commitID){
-//   return refactorOnUnstableBuild(myJSON)
+// updateStableCommitID("063df6f74d63b8c4c9b7cfe71ed60024cae8bb67").then(function(commitID){
+//   return refactorOnStableBuild(myJSON)
 // }).then(function(data){
 //   console.log(data)
 // })
@@ -199,7 +212,7 @@ function createBranch(orgName, repoName, branchName, commitID)
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
         if(response.statusCode !== 201){
-          reject("error in createBranch" + body)
+          reject("error in createBranch " + JSON.stringify(response.body))
         }
         resolve(branchName)
     });
@@ -226,7 +239,6 @@ function deleteBranch(orgName, repoName, branchName)
     });
   })
 }
-
 
 exports.refactorOnUnstableBuild = refactorOnUnstableBuild
 exports.refactorOnStableBuild = refactorOnStableBuild
