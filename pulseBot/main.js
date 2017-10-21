@@ -38,7 +38,7 @@ app.post('/successBuild', function(req, res) {
     }).catch(function(data){
       res.set('Content-Type', 'text/plain')
       res.send('')
-      // console.log("in catch of post successBuild" + data)
+      console.log("in catch of post successBuild" + data)
     })
 });
 
@@ -51,7 +51,7 @@ app.post('/failBuild', function(req, res) {
     }).catch(function(data){
       res.set('Content-Type', 'text/plain')
       res.send('')
-      // console.log("in catch of post failBuild" + data)
+      console.log("in catch of post failBuild" + data)
     })
 });
 
