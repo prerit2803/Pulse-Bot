@@ -38,19 +38,7 @@ function BuildFailed(userDetails){
     }).then(function(status){
       return totalNoOfCommits(authorName);
     }).then(function(commits){
-      return CheckBlockedUser(authorName);
-    }).then(function(reply){
-      if(reply==0)
-        return NoOfBrokenCommits(authorName);
-      else {
-        return new Promise(function(resolve, reject){
-          client.get(authorName, function(err,reply){
-            var t = new Date(null); // Epoch
-            t.setTime(+reply*1000);
-            resolve('{"Error":"User is Blocked, Next access at '+t+'"}');
-          });
-        });
-      }
+      return NoOfBrokenCommits(authorName);
     }).then(function(response){
       resolve(response);
     });
@@ -114,13 +102,13 @@ function addStatus(commitID, status){
     });
 }
 
-function CheckBlockedUser(authorName){
-  return new Promise(function(resolve,reject){
-  client.exists(authorName, function(err,reply){
-    resolve(reply);
-    });
-  });
-}
+// function CheckBlockedUser(authorName){
+//   return new Promise(function(resolve,reject){
+//   client.exists(authorName, function(err,reply){
+//     resolve(reply);
+//     });
+//   });
+// }
 
 function NoOfBrokenCommits(authorName){
   var value = 1;
@@ -133,19 +121,19 @@ function NoOfBrokenCommits(authorName){
       }
       else{
          client.hget('noOfBrokenCommits', authorName ,function(err, reply){
-             if(reply >= MaxBrokenCommitThreshold){
-               var expirationTime = parseInt(((+new Date)/1000)+86400);
-                client.set(authorName, expirationTime);
-                client.expire(authorName, expirationTime);
-                client.hmset('noOfBrokenCommits', authorName, 0, function(err,reply){
-                  resolve(authorName);
-                });
-             }
-             else {
+             // if(reply >= MaxBrokenCommitThreshold){
+             //   var expirationTime = parseInt(((+new Date)/1000)+86400);
+             //    client.set(authorName, expirationTime);
+             //    client.expire(authorName, expirationTime);
+             //    client.hmset('noOfBrokenCommits', authorName, 0, function(err,reply){
+             //      resolve(authorName);
+             //    });
+             // }
+             // else {
                client.hmset('noOfBrokenCommits',authorName, +reply + 1, function(err,reply){
                     resolve(authorName);
                });
-             }
+             // }
          });
       }
     });
