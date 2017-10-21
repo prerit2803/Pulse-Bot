@@ -5,11 +5,11 @@ client = redis.createClient();
 var MaxBrokenCommitThreshold = 5;
 
 var fake = {
-  "commitID":"get",
-  "AuthorName":"qwret"
+  "commitID":"rainbow",
+  "AuthorName":"rain"
 }
 
-var myPromise = BuildSucceded(fake).then(function(response){
+var myPromise = BuildFailed(fake).then(function(response){
   console.log("successful " + JSON.stringify(response));
 }).catch(function(response){
   console.log("error " + JSON.stringify(response));
