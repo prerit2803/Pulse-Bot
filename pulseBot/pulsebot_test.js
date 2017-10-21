@@ -13,8 +13,14 @@ var controller = Botkit.slackbot({
 
 // connect the bot to a stream of messages
 controller.spawn({
-  token: process.env.SLACKTOKEN,
+  // token: process.env.SLACKTOKEN,
+  token: 'xoxb-259933162213-cuEXH2HjVx5ZEkR5BKnSJB3i',
 }).startRTM()
+
+
+// calltotalNoOfCommits();
+// noOfBrokenCommits();
+// userMap();
 
 
 function checkIfUserExists(slackId){
@@ -119,7 +125,7 @@ controller.hears('grant me access',['mention', 'direct_mention','direct_message'
   checkIfUserExists(message.user).then(function(reply){
     console.log("rep: "+reply);
     if(reply==0)
-      bot.reply(message,"Enter GitHubID followed by #");
+      bot.reply(message,"Enter GitHubID starting with # (dont add spaces)");
     else{
       client.hget('userMap', message.user, function(err, reply){
       CheckBlockedUser(reply).then(function(checkblocked){
@@ -144,19 +150,80 @@ controller.hears('grant me access',['mention', 'direct_mention','direct_message'
 
 controller.hears('repo health',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
+  
   console.log(message);
   checkIfUserExists(message.user).then(function(reply){
     console.log("rep: "+reply);
     if(reply==0)
-      bot.reply(message,"Enter GitHubID followed by #");
+      bot.reply(message,"Enter GitHubID starting with # (no spaces)");
+
+  	  // After entering Github ID, the user should still be able to see the repo health. User-Specific report will be 
+  	  // showing null values, while repo specific values can still be visible to the new user.
+
     else{
       var result = "";
-      client.hget('userMap', message.user, function(err, reply){
+      // Displays number of broken commits for user
+      client.get('userMap', message.user, function(err, reply){
+
         NoofBrokenCommitsToday(reply).then(function(resp){
+
           result += "Your bad commits for the day: "+resp;
-          client.get('stableBranchName', function(err, res){
-            result += " Stable Branch is "+res;
-            bot.reply(message, result);
+
+      // Displays stable branch name
+      client.get('stableBranchName', function(err, res){ 
+
+          result += " \n Stable Branch is "+ res;
+
+          bot.reply(message, result);
+
+
+
+      // total number of commits, contributors and their commits
+      result="";
+      client.hgetall('totalNoOfCommits',function(err,reply){
+      		
+      		var totcommitscount = 0
+      		var arr = reply;
+      		var i = 0;
+      		var repostats = "";
+      		for (var key in arr) {
+      			i+=1;
+  			if (arr.hasOwnProperty(key)) {
+   				var val = arr[key];
+    			totcommitscount+= +val;
+    			repostats+= (key+" "+val+"\n");
+  					}
+				}
+
+			result = "Number of contributors on repo: " +i+ " \n Total number of commits on this repo: " + totcommitscount +
+			"\n Names of repo contributors and their total commits: \n" + repostats;
+
+      		bot.reply(message, result);
+
+      result="";
+
+      // displays bad and good commits percentage
+      client.hgetall('noOfBrokenCommits',function(err,reply){
+      		
+      		var arr = reply;
+      		var totbadcommitscount = 0;
+
+      		for (var key in arr) {
+  			if (arr.hasOwnProperty(key)) {
+   				var val = arr[key];
+    			totbadcommitscount+= +val;
+  					}
+				}
+
+			badcommitspercentage = (totbadcommitscount/totcommitscount)*100;
+			goodcommitspercentage = 100 - badcommitspercentage;
+			
+			result = "Bad commits percentage on repo: " + badcommitspercentage.toFixed(2) + "% \n Good commmits percentage on repo: " + goodcommitspercentage.toFixed(2)+"%";
+      		bot.reply(message, result);
+      		
+
+      		  });
+      		});
           });
         });
       });
@@ -165,5 +232,34 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
 });
 
 
+// function calltotalNoOfCommits()
+// {
+// 	client.hmset('totalNoOfCommits','prerit','3');
+// 	client.hmset('totalNoOfCommits','ankur','3');
+// 	client.hmset('totalNoOfCommits','shaishav','3');
+// 	client.hmset('totalNoOfCommits','akriti','4');
+// 	client.hmset('totalNoOfCommits','jaydeep','4');
+// }
 
+// function noOfBrokenCommits()
+// {
+// 	client.hmset('noOfBrokenCommits','jaydeep','1');
+// 	client.hmset('noOfBrokenCommits','prerit','1');
+// 	client.hmset('noOfBrokenCommits','shaishav','2');
+// 	client.hmset('noOfBrokenCommits','ankur','2');
+// 	client.hmset('noOfBrokenCommits','akriti','1');
+// }
 
+// function callcommitIDStatusMap()
+// {
+// 	client.hmset('commitIDStatusMap','123','1');
+// 	client.hmset('commitIDStatusMap','1111','0');
+// 	client.hmset('commitIDStatusMap','121','1');
+// 	client.hmset('commitIDStatusMap','123','0');
+
+// }
+
+// function userMap()
+// {
+// 	client.hmset('userMap','jaydeep','jaydeep');
+// }
