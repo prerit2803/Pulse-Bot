@@ -13,7 +13,7 @@ var controller = Botkit.slackbot({
 
 // connect the bot to a stream of messages
 controller.spawn({
-  token: process.env.SLACKTOKEN,
+ token: process.env.SLACKTOKEN,
 }).startRTM()
 
 
@@ -63,6 +63,14 @@ function adduser(slackId,githubId){
     });
   }
 
+
+controller.hears('^(?!.*(#|Hi bot|What is the stable branch name|Grant me repo access|What is the repo health ?|What are my bad commits left for the day ?))',['mention', 'direct_mention','direct_message'], function(bot,message)
+{
+	console.log(message);
+	
+	bot.reply(message,"I'm sorry but i only understand the following commands: \n 1. What is the stable branch name ?\n 2. Grant me repo access \n 3. What is the repo health ? \n 4. What are my bad commits left for the day ?");
+
+});
 
 controller.hears('Hi bot',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
@@ -157,7 +165,7 @@ controller.hears('Grant me repo access',['mention', 'direct_mention','direct_mes
   });
 });
 
-controller.hears('What is the repo health?',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('What is the repo health ?',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
 
   console.log(message);
@@ -193,9 +201,10 @@ controller.hears('What is the repo health?',['mention', 'direct_mention','direct
 
       		var totcommitscount = 0
       		var arr = reply;
-    
+    		var i = 0;
       		var repostats = "";
       		for (var key in arr) {
+      			i+=1;
   			if (arr.hasOwnProperty(key)) {
    				var val = arr[key];
     			totcommitscount+= +val;
