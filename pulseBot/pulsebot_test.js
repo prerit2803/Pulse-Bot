@@ -38,16 +38,19 @@ function CheckBlockedUser(authorName){
   });
 }
 function NoofBrokenCommitsToday(authorName){
+  console.log(authorName);
   return new Promise(function(resolve,reject){
     client.exists(authorName,function(err, reply){
       if(reply ==0){
         console.log("Not blocked user");
         client.hget('noOfBrokenCommits', authorName, function(err, reply){
-          resolve('{"NoofBrokenCommitsToday ":"'+5 -(+reply)+'"}');
+          if(reply==null)
+              resolve(0);
+          resolve(reply);
         });
       }
       else{
-            resolve('{"Blocked ":"'+5+'"}');
+            resolve("User is Blocked");
       }
     });
   });
@@ -61,7 +64,14 @@ function adduser(slackId,githubId){
   }
 
 
-controller.hears('bad commits left',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('Hi bot',['mention', 'direct_mention','direct_message'], function(bot,message)
+{
+	console.log(message);
+	bot.reply(message,"Hello! How can i help you today ? You can ask me any of the following questions: \n 1. What is the stable branch name ?\n 2. Grant me repo access \n 3. What is the repo health ? \n 4. What are my bad commits left for the day ?");
+
+});
+
+controller.hears('What are my bad commits left for the day ?',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   console.log(message);
   checkIfUserExists(message.user).then(function(reply){
@@ -72,9 +82,9 @@ controller.hears('bad commits left',['mention', 'direct_mention','direct_message
     	client.hget('userMap', message.user, function(err, reply){
     		client.hget('noOfBrokenCommits', reply, function(err, resp){
           if(resp==null)
-            bot.reply(message, "Number of Broken Commits: "+0);
+            bot.reply(message, "Number of bad commits left: 5");
     			else {
-    			 bot.reply(message, "Number of Broken Commits: "+resp);
+    			 bot.reply(message, "Number of bad commits left: "+(5-resp));
     			}
     		});
     	});
@@ -106,7 +116,7 @@ controller.hears('bad commits left',['mention', 'direct_mention','direct_message
 //   });
 // });
 
-controller.hears('stable branch name',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('What is the stable branch name ?',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   console.log(message);
   client.get('stableBranchName', function(err, resp){
@@ -118,7 +128,7 @@ controller.hears('stable branch name',['mention', 'direct_mention','direct_messa
   });
 });
 
-controller.hears('grant me access',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('Grant me repo access',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   console.log(message);
   checkIfUserExists(message.user).then(function(reply){
@@ -147,46 +157,45 @@ controller.hears('grant me access',['mention', 'direct_mention','direct_message'
   });
 });
 
-controller.hears('repo health',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('What is the repo health?',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
-  
+
   console.log(message);
   checkIfUserExists(message.user).then(function(reply){
     console.log("rep: "+reply);
     if(reply==0)
       bot.reply(message,"Enter GitHubID starting with # (no spaces)");
 
-  	  // After entering Github ID, the user should still be able to see the repo health. User-Specific report will be 
+  	  // After entering Github ID, the user should still be able to see the repo health. User-Specific report will be
   	  // showing null values, while repo specific values can still be visible to the new user.
 
     else{
       var result = "";
       // Displays number of broken commits for user
-      client.get('userMap', message.user, function(err, reply){
-
+      client.hget('userMap', message.user, function(err, reply){
+      console.log("usermap is : " + reply);
         NoofBrokenCommitsToday(reply).then(function(resp){
 
           result += "Your bad commits for the day: "+resp;
 
       // Displays stable branch name
-      client.get('stableBranchName', function(err, res){ 
+      client.get('stableBranchName', function(err, res){
 
           result += " \n Stable Branch is "+ res;
 
-          bot.reply(message, result);
+          // bot.reply(message, result);
 
 
 
       // total number of commits, contributors and their commits
-      result="";
+      // result="";
       client.hgetall('totalNoOfCommits',function(err,reply){
-      		
+
       		var totcommitscount = 0
       		var arr = reply;
-      		var i = 0;
+    
       		var repostats = "";
       		for (var key in arr) {
-      			i+=1;
   			if (arr.hasOwnProperty(key)) {
    				var val = arr[key];
     			totcommitscount+= +val;
@@ -194,16 +203,16 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
   					}
 				}
 
-			result = "Number of contributors on repo: " +i+ " \n Total number of commits on this repo: " + totcommitscount +
+			result += "\nNumber of contributors on repo: " +i+ " \n Total number of commits on this repo: " + totcommitscount +
 			"\n Names of repo contributors and their total commits: \n" + repostats;
 
-      		bot.reply(message, result);
+      		// bot.reply(message, result);
 
-      result="";
+      // result="";
 
       // displays bad and good commits percentage
       client.hgetall('noOfBrokenCommits',function(err,reply){
-      		
+
       		var arr = reply;
       		var totbadcommitscount = 0;
 
@@ -216,10 +225,10 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
 
 			badcommitspercentage = (totbadcommitscount/totcommitscount)*100;
 			goodcommitspercentage = 100 - badcommitspercentage;
-			
-			result = "Bad commits percentage on repo: " + badcommitspercentage.toFixed(2) + "% \n Good commmits percentage on repo: " + goodcommitspercentage.toFixed(2)+"%";
+
+			result += "\nBad commits percentage on repo: " + badcommitspercentage.toFixed(2) + "% \n Good commmits percentage on repo: " + goodcommitspercentage.toFixed(2)+"%";
       		bot.reply(message, result);
-      		
+
 
       		  });
       		});
