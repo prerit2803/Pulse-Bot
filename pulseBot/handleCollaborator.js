@@ -109,3 +109,9 @@ function addUser(user){
 		console.log(value)
 	})*/
 }
+
+
+exports.handleUser= handleUser;
+exports.orgName = orgName;
+exports.repoName = repoName;
+exports.userName= userName;
