@@ -11,13 +11,15 @@ var urlRoot = "https://github.ncsu.edu/api/v3"
 
 
 //main function call to handle a user 
-/*handleUser(userName).then( (user)=>{
+handleUser(userName).then( (user)=>{
 	//console.log('\n'+Date().toString()+":\t"+user)
-	addUser(user)
+	//return addUser(user)
 }).catch((value)=>{
 	console.log(value)
 }).done()
-*/
+
+//addUser(userName)
+
 //checks if user exists -> removes if necessary
 function handleUser(user){
 	return new Promise( (resolve,reject) => {
@@ -46,11 +48,11 @@ function checkUserExists(user){
 	}
 	return new Promise( (resolve,reject)=>{
 		request(options,(error,response,body)=>{		
-			console.log('\n'+Date().toString()+":\t"+response)
+			//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
 				resolve(user)
 			}
-			else reject('\n'+Date().toString()+":\tUser doesn't exist!\n"+body)
+			else reject('\n'+Date().toString()+":\tCouldn't find user!\n"+JSON.stringify(response))
 		})	
 	})/*.catch((value)=>{
 		console.log(value)
@@ -71,11 +73,12 @@ function removeUser(user){
 	}
 	return new Promise( (resolve, reject)=>{
 		request(options,(error,response,body)=>{
+			//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
 				console.log('\n'+Date().toString()+":\tremoved "+user)
 				resolve(user)
 			}
-			else reject('\n'+Date().toString()+":\t"+body)
+			else reject('\n'+Date().toString()+":\t"+"Couldn't remove user!\n"+JSON.stringify(response))
 		})
 	})/*.catch( (value)=>{
 		console.log(value)
@@ -99,11 +102,12 @@ function addUser(user){
 	}
 	return new Promise( (resolve,reject)=>{
 		request(options,(error,response,body)=>{
+			//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
 				console.log('\n'+Date().toString()+":\tadded "+user)
 				resolve(user)
 			}
-			else reject('\n'+Date().toString()+":\t"+body)
+			else reject('\n'+Date().toString()+":\tCouldn't add user!\n"+JSON.stringify(response))
 		})	
 	})/*.catch( (value)=>{
 		console.log(value)

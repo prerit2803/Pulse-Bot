@@ -48,7 +48,7 @@ app.post('/failBuild', function(req, res) {
   	const body = req.body
   	console.log(body)
     
-    handleCollaborator.handleUser(body.author)
+    handleCollaborator.handleUser(body.AuthorName)
     .then( (user)=>{
         //console.log('\n'+Date().toString()+":\t"+user)
         // addUser(user)
