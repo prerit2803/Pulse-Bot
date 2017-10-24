@@ -5,7 +5,6 @@ var nock = require("nock");
 var github = require("../github.js");
 
 var data = require("./data/githubMockData.json")
-console.log(data.createBranchSuccess.statusCode)
 var orgName = github.orgName
 var repoName = github.repoName
 var branchName = "testStableBranch"
@@ -30,7 +29,6 @@ describe('testcreateNewBranch', function(){
   	// TEST CASE
     it('should return error', function(done){
       github.createBranch(orgName, repoName, branchName, commitID).catch(function (results){
-      	console.log(results)
         expect(results).to.equal("error in createBranch: " + JSON.stringify(data.createBranchFail))
         done()
       });
@@ -57,7 +55,6 @@ describe('testdeleteBranch', function(){
   	// TEST CASE
     it('should return error', function(done){
       github.deleteBranch(orgName, repoName, branchName).catch(function (results){
-      	console.log(results)
         expect(results).to.equal("error in deleteBranch: " + JSON.stringify(data.deleteBranchFail))
         done()
       });
@@ -84,7 +81,6 @@ describe('addBranchProtection', function(){
   	// TEST CASE
     it('should return error', function(done){
       github.addBranchProtection(orgName, repoName, branchName).catch(function (results){
-      	console.log(results)
         expect(results).to.equal("error in addBranchProtection: " + JSON.stringify(data.addBranchProtectionFail))
         done()
       });
@@ -111,7 +107,6 @@ describe('removeBranchProtection', function(){
   	// TEST CASE
     it('should return error', function(done){
       github.removeBranchProtection(orgName, repoName, branchName).catch(function (results){
-      	console.log(results)
         expect(results).to.equal("error in removeBranchProtection: " + JSON.stringify(data.deleteBranchProtectionFail))
         done()
       });
