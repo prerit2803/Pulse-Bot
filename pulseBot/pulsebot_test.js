@@ -43,7 +43,7 @@ function NoofBrokenCommitsToday(authorName){
     client.exists(authorName,function(err, reply){
       if(reply ==0){
         console.log("Not blocked user");
-        client.hget('noOfBrokenCommits', authorName, function(err, reply){
+        client.hget('noofBrokenCommitsToday', authorName, function(err, reply){
           if(reply==null)
               resolve(0);
           resolve(reply);
@@ -64,11 +64,11 @@ function adduser(slackId,githubId){
   }
 
 
-controller.hears('^(?!.*(#|Hi bot|What is the stable branch name|Grant me repo access|What is the repo health ?|What are my bad commits left for the day ?))',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('^(?!.*(#|Hi bot|stable branch name|Grant me repo access|repo health|bad commits left for the day))',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
 	console.log(message);
 	
-	bot.reply(message,"I'm sorry but i only understand the following commands: \n 1. What is the stable branch name ?\n 2. Grant me repo access \n 3. What is the repo health ? \n 4. What are my bad commits left for the day ?");
+	bot.reply(message,"I'm sorry but i only understand the following commands: \n 1. Stable branch name\n 2. Grant me repo access \n 3. repo health \n 4. bad commits left for the day");
 
 });
 
@@ -79,7 +79,7 @@ controller.hears('Hi bot',['mention', 'direct_mention','direct_message'], functi
 
 });
 
-controller.hears('What are my bad commits left for the day ?',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('bad commits left for the day',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   console.log(message);
   checkIfUserExists(message.user).then(function(reply){
@@ -124,7 +124,7 @@ controller.hears('What are my bad commits left for the day ?',['mention', 'direc
 //   });
 // });
 
-controller.hears('What is the stable branch name ?',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('stable branch name',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   console.log(message);
   client.get('stableBranchName', function(err, resp){
@@ -136,7 +136,7 @@ controller.hears('What is the stable branch name ?',['mention', 'direct_mention'
   });
 });
 
-controller.hears('Grant me repo access',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('Grant repo access',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   console.log(message);
   checkIfUserExists(message.user).then(function(reply){
@@ -165,7 +165,7 @@ controller.hears('Grant me repo access',['mention', 'direct_mention','direct_mes
   });
 });
 
-controller.hears('What is the repo health ?',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('repo health',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
 
   console.log(message);
@@ -212,8 +212,9 @@ controller.hears('What is the repo health ?',['mention', 'direct_mention','direc
   					}
 				}
 
-			result += "\nNumber of contributors on repo: " +i+ " \n Total number of commits on this repo: " + totcommitscount +
-			"\n Names of repo contributors and their total commits: \n" + repostats;
+			// result += "\n Number of contributors on repo: " +i+ " \n Total number of commits on this repo: " + totcommitscount +
+			// "\n Names of repo contributors and their total commits: \n" + repostats;
+			result+="\n Names of repo contributors and their total commits: \n" + repostats;
 
       		// bot.reply(message, result);
 
@@ -235,7 +236,7 @@ controller.hears('What is the repo health ?',['mention', 'direct_mention','direc
 			badcommitspercentage = (totbadcommitscount/totcommitscount)*100;
 			goodcommitspercentage = 100 - badcommitspercentage;
 
-			result += "\nBad commits percentage on repo: " + badcommitspercentage.toFixed(2) + "% \n Good commmits percentage on repo: " + goodcommitspercentage.toFixed(2)+"%";
+			// result += "\nBad commits percentage on repo: " + badcommitspercentage.toFixed(2) + "% \n Good commmits percentage on repo: " + goodcommitspercentage.toFixed(2)+"%";
       		bot.reply(message, result);
 
 
