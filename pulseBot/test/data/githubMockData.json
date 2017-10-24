@@ -1,0 +1,223 @@
+{
+	"deleteBranchProtectionFail": {
+		"statusCode": 404,
+		"body": "{\"message\":\"Branch not protected\",\"documentation_url\":\"https://developer.github.com/enterprise/2.11/v3\"}",
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Mon, 23 Oct 2017 23:46:47 GMT",
+			"content-type": "application/json; charset=utf-8",
+			"content-length": "104",
+			"status": "404 Not Found",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"x-github-media-type": "github.loki-preview",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "9cf4f533-24ab-4dd0-b42a-a998f91cd25d",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.056524"
+		}
+	},
+
+	"deleteBranchProtectionSuccess" : {
+		"statusCode": 204,
+		"body": "",
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Mon, 23 Oct 2017 23:51:16 GMT",
+			"status": "204 No Content",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"x-github-media-type": "github.loki-preview",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "8907ea77-a4c8-4315-83cd-343720a4268b",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.083076"
+		}
+	},
+
+	"addBranchProtectionSuccess": {
+		"statusCode": 200,
+		"body": {
+			"url": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/branches/testStableBranch/protection",
+			"restrictions": {
+				"url": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/branches/testStableBranch/protection/restrictions",
+				"users_url": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/branches/testStableBranch/protection/restrictions/users",
+				"teams_url": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/branches/testStableBranch/protection/restrictions/teams",
+				"users": [],
+				"teams": []
+			},
+			"enforce_admins": {
+				"url": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/branches/testStableBranch/protection/enforce_admins",
+				"enabled": true
+			}
+		},
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Tue, 24 Oct 2017 00:01:06 GMT",
+			"content-type": "application/json; charset=utf-8",
+			"content-length": "737",
+			"status": "200 OK",
+			"cache-control": "private, max-age=60, s-maxage=60",
+			"vary": "Accept, Authorization, Cookie, X-GitHub-OTP",
+			"etag": "\"6cfdf4c19e697716e0460a671a19dc3f\"",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"x-github-media-type": "github.loki-preview",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "d6c0e4b8-fbcc-422d-ab85-d1fd160dd395",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.161887"
+		}
+	},
+
+	"addBranchProtectionFail": {
+		"statusCode": 404,
+		"body": {
+			"message": "Branch not found",
+			"documentation_url": "https://developer.github.com/enterprise/2.11/v3"
+		},
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Tue, 24 Oct 2017 00:10:42 GMT",
+			"content-type": "application/json; charset=utf-8",
+			"content-length": "100",
+			"status": "404 Not Found",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"x-github-media-type": "github.loki-preview",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "c292028f-5ad3-4d29-9930-1401d8908477",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.049632"
+		}
+	},
+
+	"createBranchFail": {
+		"statusCode": 422,
+		"body": {
+			"message": "Reference already exists",
+			"documentation_url": "https://developer.github.com/enterprise/2.11/v3/git/refs/#create-a-reference"
+		},
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Tue, 24 Oct 2017 00:19:49 GMT",
+			"content-type": "application/json; charset=utf-8",
+			"content-length": "137",
+			"status": "422 Unprocessable Entity",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"x-github-media-type": "github.v3",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "769f6441-52b5-45ae-8198-0fdf1041db9f",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.074099"
+		}
+	},
+
+	"createBranchSuccess": {
+		"statusCode": 201,
+		"body": {
+			"ref": "refs/heads/testStableBranch",
+			"url": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/git/refs/heads/testStableBranch",
+			"object": {
+				"sha": "7e2af98abd9aed2b18831c5937b38f106aab20e9",
+				"type": "commit",
+				"url": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/git/commits/7e2af98abd9aed2b18831c5937b38f106aab20e9"
+			}
+		},
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Tue, 24 Oct 2017 00:21:48 GMT",
+			"content-type": "application/json; charset=utf-8",
+			"content-length": "340",
+			"status": "201 Created",
+			"cache-control": "private, max-age=60, s-maxage=60",
+			"vary": "Accept, Authorization, Cookie, X-GitHub-OTP",
+			"etag": "\"f62649e0f1a2a54f1d6d0d0976ec6da3\"",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"location": "https://github.ncsu.edu/api/v3/repos/pulseBotProject/MavenVoid/git/refs/heads/testStableBranch",
+			"x-github-media-type": "github.v3",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "03e4884e-a98b-43e7-83fe-9acebb80b90f",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.073084"
+		}
+	},
+
+	"deleteBranchSuccess": {
+		"statusCode": 204,
+		"body": "",
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Tue, 24 Oct 2017 00:23:41 GMT",
+			"status": "204 No Content",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"x-github-media-type": "github.v3; format=json",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "bc2768b1-5898-4336-90fc-4dfa3dc65c21",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.153883"
+		}
+	},
+
+	"deleteBranchFail": {
+		"statusCode": 422,
+		"body": "{\"message\":\"Reference does not exist\",\"documentation_url\":\"https://developer.github.com/enterprise/2.11/v3/git/refs/#update-a-reference\"}",
+		"headers": {
+			"server": "GitHub.com",
+			"date": "Tue, 24 Oct 2017 00:24:39 GMT",
+			"content-type": "application/json; charset=utf-8",
+			"content-length": "137",
+			"status": "422 Unprocessable Entity",
+			"x-oauth-scopes": "repo",
+			"x-accepted-oauth-scopes": "",
+			"x-github-media-type": "github.v3; format=json",
+			"access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+			"access-control-allow-origin": "*",
+			"x-github-request-id": "a9882cc2-fd57-4baa-a732-9ab36cc36439",
+			"content-security-policy": "default-src 'none'",
+			"strict-transport-security": "max-age=31536000; includeSubdomains",
+			"x-content-type-options": "nosniff",
+			"x-frame-options": "deny",
+			"x-xss-protection": "1; mode=block",
+			"x-runtime-rack": "0.057863"
+		}
+	}
+}
