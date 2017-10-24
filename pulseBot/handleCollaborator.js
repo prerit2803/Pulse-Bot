@@ -1,5 +1,4 @@
 var request = require('request')
-var fs = require("fs")
 var Promise = require('bluebird')
 var redis = require('redis')
 var client = redis.createClient(6379, '127.0.0.1', {})
@@ -7,34 +6,37 @@ var client = redis.createClient(6379, '127.0.0.1', {})
 var gitToken = "token " + process.env.githubToken
 var orgName = "pulseBotProject"
 var repoName = "MavenVoid"
-var userName= "jrane"
+var userName= "mbehroo"
 var urlRoot = "https://github.ncsu.edu/api/v3"
-var maxCount = 5
 
-handleUser(userName).then((user)=>{
+
+//main function call to handle a user 
+handleUser(userName).then( (user)=>{
+	//console.log('\n'+Date().toString()+":\t"+user)
 	addUser(user)
 }).catch((value)=>{
 	console.log(value)
-})
+}).done()
 
+//checks if user exists -> removes if necessary
 function handleUser(user){
 	return new Promise( (resolve,reject) => {
 		checkUserExists(user).then((user)=> {
-			var userCount = 6//client.get(user)
-			//console.log(userCount)
-			if(userCount>maxCount){
+			var hasToBeRemoved = 1//client.exists(user)
+			if(hasToBeRemoved == 1){
 				resolve(removeUser(user))
 			}
-			else reject("handleUser\n"+user) 
+			else reject('\n'+Date().toString()+":\tNo action taken for user "+user) 
 		}).catch((value)=>{
 			console.log(value)
 		})
 	})
 }
 
+// check if user is a member of organization
 function checkUserExists(user){
 	var options = {
-		url: urlRoot + "/orgs/"+orgName+"/members/"+user,
+		url: urlRoot + "/repos/"+orgName+"/"+ repoName+"/collaborators/"+userName,
 	    method: 'GET',
 	    headers: {
 	      "content-type": "application/json",
@@ -44,16 +46,19 @@ function checkUserExists(user){
 	}
 	return new Promise( (resolve,reject)=>{
 		request(options,(error,response,body)=>{		
+			//console.log('\n'+Date().toString()+":\t"+response)
 			if(response.statusCode===204){
 				resolve(user)
 			}
-			else reject("checkUserExists\n"+body)
+			else reject('\n'+Date().toString()+":\tUser doesn't exist!\n"+body)
 		})	
 	})/*.catch((value)=>{
 		console.log(value)
 	})*/
 }
 
+
+// removes user from list of collaborators
 function removeUser(user){
 	var options = {
 		url: urlRoot + "/repos/"+orgName+"/"+repoName+"/collaborators/"+user,
@@ -66,18 +71,19 @@ function removeUser(user){
 	}
 	return new Promise( (resolve, reject)=>{
 		request(options,(error,response,body)=>{
-			console.log("remove user response:"+response.statusCode)
 			if(response.statusCode===204){
-				console.log("removed "+user)
+				console.log('\n'+Date().toString()+":\tremoved "+user)
 				resolve(user)
 			}
-			else reject("removeUser\n"+body)
+			else reject('\n'+Date().toString()+":\t"+body)
 		})
 	})/*.catch( (value)=>{
 		console.log(value)
 	})*/
 }
 
+
+// adds user to repo as collaborator
 function addUser(user){
 	var options = {
 		url: urlRoot + "/repos/"+orgName+"/"+repoName+"/collaborators/"+user,
@@ -93,12 +99,11 @@ function addUser(user){
 	}
 	return new Promise( (resolve,reject)=>{
 		request(options,(error,response,body)=>{
-			console.log("add user response:"+response.statusCode)
 			if(response.statusCode===204){
-				console.log("added "+user)
+				console.log('\n'+Date().toString()+":\tadded "+user)
 				resolve(user)
 			}
-			else reject("addUser\n"+body)
+			else reject('\n'+Date().toString()+":\t"+body)
 		})	
 	})/*.catch( (value)=>{
 		console.log(value)
