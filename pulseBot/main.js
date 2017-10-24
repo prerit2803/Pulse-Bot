@@ -6,7 +6,7 @@ var successCommitID = ""
 var failCommitID = ""
 
 var github = require("./github.js");
-var handleCollaborator = require("../handleCollaborator.js");
+var handleCollaborator = require("./handleCollaborator.js");
 
 app.use(bodyParser.urlencoded({
     extended: true
