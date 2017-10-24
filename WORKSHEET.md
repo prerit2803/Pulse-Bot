@@ -28,10 +28,10 @@
 |   |                     | Week 2 : Sept 28 - Oct 25   |                                       |              |                |             |        |
 |---|---------------------|--------------------------------|---------------------------------------|--------------|----------------|-------------|--------|
 |   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |        |
-| 1 |3 Use Cases   | Revisiting all use cases    |  Discussion on possible changes to use cases and their finalisation   | [Trello Card](https://trello.com/c/jXrFcxkN)          |    All        | 30-Sep      | 30-Sep |
-| 2 | Mocking     |  Mocking/injection techniques discussion |  Implemented mock services and data supporting service integration.   | [Trello Card](https://trello.com/c/GZ7zq26s)         |  Shaishav Prerit Ankur Akriti      | 2-Oct      | 2-Oct |
-| 3 | Bot Implementation     |   Bot Platform     |Designed basic conversational hooks  | [Trello Card](https://trello.com/c/1tWzGuVQ)        |   Jaydeep Prerit       | 8-Oct     | 8-Oct |
-|   |                     |    Bot Integration    | Implemented use-case specific hooks | [Trello Card](https://trello.com/c/1tWzGuVQ)  |Prerit   Jaydeep | 8-Oct     | 8-Oct |
-| 4 | Selenium testing of each use case  |Creating and debugging Selenium Testing for all use cases | Finalised Selenium Tests           | [Trello Card](https://trello.com/c/Cl351cN4) | Shaishav Akriti Prerit Ankur     | 15-Oct     | 15-Oct |
-| 5 | Task Tracking -- WORKSHEET.md  | Task Tracking and updates |    In progress  | [Trello Card](https://trello.com/c/SxTvgYAM)         |    Jaydeep         | 20-Oct      | 20-Oct |
-| 6 | Screencast  | Demonstrating Selenium tests on use cases| In-progress  | [Trello Card](https://trello.com/c/SxTvgYAM) | Shaishav      | 23-Oct      | 23-Oct |
+| 1 |3 Use Cases   | Revisiting all use cases    |  Discussion on possible changes to use cases and their finalisation   | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)          |    All        | 30-Sep      | 30-Sep |
+| 2 | Mocking     |  Mocking/injection techniques discussion |  Implemented mock services and data supporting service integration.   | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)         |  Shaishav Prerit Ankur Akriti      | 2-Oct      | 2-Oct |
+| 3 | Bot Implementation     |   Bot Platform     |Designed basic conversational hooks  | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)        |   Jaydeep Prerit       | 8-Oct     | 8-Oct |
+|   |                     |    Bot Integration    | Implemented use-case specific hooks | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)  |Prerit   Jaydeep | 8-Oct     | 8-Oct |
+| 4 | Selenium testing of each use case  |Creating and debugging Selenium Testing for all use cases | Finalised Selenium Tests           | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot) | Shaishav Akriti Prerit Ankur     | 15-Oct     | 15-Oct |
+| 5 | Task Tracking -- WORKSHEET.md  | Task Tracking and updates |    In progress  | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)         |    Jaydeep         | 20-Oct      | 20-Oct |
+| 6 | Screencast  | Demonstrating Selenium tests on use cases| In-progress  | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot) | Shaishav      | 23-Oct      | 23-Oct |
