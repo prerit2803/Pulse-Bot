@@ -42,3 +42,37 @@ describe('addBrokenCommits()', function(){
     });
   });
 });
+
+describe('totalNoOfCommits()', function(){
+
+  it('should return value', function(done) {
+    main.totalNoOfCommits(authorName).then(function (results)
+    {
+      expect(results).to.equal(1);
+      //test case is done. Need this for asychronous operations.
+      done();
+    });
+  });
+
+  it('should return updatedreply', function(done) {
+   main.addBrokenCommits(authorName).then(function (results)
+   {
+     main.addBrokenCommits(authorName).then(function (results){
+       expect(results).to.equal(2);
+     });
+
+     //test case is done. Need this for asychronous operations.
+     done();
+   });
+ });
+});
+
+describe('NoOfBrokenCommits()', function(){
+
+  it('should add the first broken commit', function(done) {
+    main.NoOfBrokenCommits(authorName).then(function (results){
+      expect(results).to.equal(1);
+      //test case is done. Need this for asychronous operations.
+      done();
+    });
+  });
