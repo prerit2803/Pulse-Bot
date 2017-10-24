@@ -51,7 +51,7 @@ app.post('/failBuild', function(req, res) {
     handleCollaborator.handleUser(body.AuthorName)
     .then( (user)=>{
         //console.log('\n'+Date().toString()+":\t"+user)
-        // addUser(user)
+        addUser(user)
     }).catch((value)=>{
         console.log(value)
     })

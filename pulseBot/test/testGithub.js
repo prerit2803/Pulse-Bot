@@ -113,3 +113,45 @@ describe('removeBranchProtection', function(){
     });
   });
 })
+
+describe('StableCommitID test', function(){
+  describe('StableCommitIDSetAndGet()', function(){
+  	var stableCommitID = "stableCommitID"
+  	var commitID = "commitID"
+   	// TEST CASE
+   	it('should return branchName', function(done){
+      github.updateStableCommitID(stableCommitID, commitID).then(function (results){
+        expect(results).to.equal(commitID)
+        done()
+      });
+    });
+
+    it('should return branchName', function(done){
+      github.getStableCommitID(stableCommitID).then(function (results){
+        expect(results).to.equal(commitID)
+        done()
+      });
+    });
+  });
+})
+
+describe('StableBranchName test', function(){
+  describe('StableBranchNameSetAndGet()', function(){
+  	var stableBranchName = "stableBranchName"
+  	var branchName = "branchName"
+   	// TEST CASE
+   	it('should return branchName', function(done){
+      github.updateStableCommitID(stableBranchName, branchName).then(function (results){
+        expect(results).to.equal(branchName)
+        done()
+      });
+    });
+
+    it('should return branchName', function(done){
+      github.getStableCommitID(stableBranchName).then(function (results){
+        expect(results).to.equal(branchName)
+        done()
+      });
+    });
+  });
+})

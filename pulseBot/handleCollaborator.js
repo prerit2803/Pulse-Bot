@@ -11,13 +11,13 @@ var urlRoot = "https://github.ncsu.edu/api/v3"
 
 
 //main function call to handle a user 
-handleUser(userName).then( (user)=>{
+/*handleUser(userName).then( (user)=>{
 	//console.log('\n'+Date().toString()+":\t"+user)
-	//return addUser(user)
+	return addUser(user)
 }).catch((value)=>{
 	console.log(value)
 }).done()
-
+*/
 //addUser(userName)
 
 //checks if user exists -> removes if necessary
@@ -116,6 +116,7 @@ function addUser(user){
 
 
 exports.handleUser= handleUser;
+exports.addUser= addUser;
 exports.orgName = orgName;
 exports.repoName = repoName;
 exports.userName= userName;
