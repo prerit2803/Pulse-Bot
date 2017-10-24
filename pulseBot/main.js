@@ -6,6 +6,7 @@ var successCommitID = ""
 var failCommitID = ""
 
 var github = require("./github.js");
+var handleCollaborator = require("./handleCollaborator.js");
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 app.post('/successBuild', function(req, res) {
   	const body = req.body
   	console.log(body)
+    
     github.refactorOnStableBuild(body).then(function(data){
       res.set('Content-Type', 'text/plain')
       res.send('')
@@ -45,6 +47,14 @@ app.post('/successBuild', function(req, res) {
 app.post('/failBuild', function(req, res) {
   	const body = req.body
   	console.log(body)
+    
+    handleCollaborator.handleUser(body.AuthorName)
+    .then( (user)=>{
+        //console.log('\n'+Date().toString()+":\t"+user)
+        //handleCollaborator.addUser(user)
+    }).catch((value)=>{
+        console.log(value)
+    })
     github.refactorOnUnstableBuild(body).then(function(data){
       res.set('Content-Type', 'text/plain')
       res.send('')

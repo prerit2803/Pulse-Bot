@@ -113,8 +113,8 @@ function createBranch(orgName, repoName, branchName, commitID)
 
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        if(response.statusCode !== 201){
-          reject("error in createBranch " + JSON.stringify(body))
+        if(response.statusCode != 201){
+          reject("error in createBranch: " + JSON.stringify(response.body))
         }
         resolve(branchName)
     });
@@ -134,8 +134,8 @@ function deleteBranch(orgName, repoName, branchName)
  
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        if(response.statusCode !== 204){
-          reject("error in deleteBranch: " + JSON.stringify(body))
+        if(response.statusCode != 204){
+          reject("error in deleteBranch: " + response.body)
         }
         resolve(branchName)
     });
@@ -157,7 +157,7 @@ function addBranchProtection(orgName, repoName, branchName){
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
         if(response.statusCode!=200){
-          reject("error in addBranchProtection: " + JSON.stringify(body))
+          reject("error in addBranchProtection: " + JSON.stringify(response.body))
         }
         resolve(branchName)
     });
@@ -178,7 +178,7 @@ function removeBranchProtection(orgName, repoName, branchName){
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
         if(response.statusCode!=204){
-          reject("error in removeBranchProtection: " + JSON.stringify(body))
+          reject("error in removeBranchProtection: " + response.body)
         }
         resolve(branchName)
     });
@@ -232,6 +232,10 @@ exports.addBranchProtection = addBranchProtection
 exports.removeBranchProtection = removeBranchProtection
 exports.createBranch = createBranch
 exports.deleteBranch = deleteBranch
+exports.updateStableCommitID = updateStableCommitID
+exports.getStableCommitID = getStableCommitID
+exports.updateStableBranchName = updateStableBranchName
+exports.getStableBranchName = getStableBranchName
 exports.urlRoot = urlRoot
 exports.orgName = orgName
 exports.repoName = repoName
