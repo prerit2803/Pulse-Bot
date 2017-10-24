@@ -76,3 +76,30 @@ describe('NoOfBrokenCommits()', function(){
       done();
     });
   });
+
+  it('should block the user for more than 5 broken commits', function(done) {
+   main.NoOfBrokenCommits(authorName).then(function (results){
+     main.NoOfBrokenCommits(authorName).then(function(results1){
+          main.NoOfBrokenCommits(authorName).then(function(results2){
+            main.NoOfBrokenCommits(authorName).then(function(results3){
+              main.NoOfBrokenCommits(authorName).then(function(results4){
+                expect(results4).to.equal(0);
+              });
+            });
+          });
+       });
+     });
+     done();
+    });
+
+     it('should increase the broken commits of the user', function(done) {
+        main.NoOfBrokenCommits(authorName).then(function(results1){
+             main.NoOfBrokenCommits(authorName).then(function(results2){
+                   expect(results2).to.equal(2);
+             });
+          });
+
+     //test case is done. Need this for asychronous operations.
+     done();
+   });
+ });
