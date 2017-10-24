@@ -11,13 +11,13 @@ var urlRoot = "https://github.ncsu.edu/api/v3"
 
 
 //main function call to handle a user 
-handleUser(userName).then( (user)=>{
+/*handleUser(userName).then( (user)=>{
 	//console.log('\n'+Date().toString()+":\t"+user)
 	addUser(user)
 }).catch((value)=>{
 	console.log(value)
 }).done()
-
+*/
 //checks if user exists -> removes if necessary
 function handleUser(user){
 	return new Promise( (resolve,reject) => {
@@ -46,7 +46,7 @@ function checkUserExists(user){
 	}
 	return new Promise( (resolve,reject)=>{
 		request(options,(error,response,body)=>{		
-			//console.log('\n'+Date().toString()+":\t"+response)
+			console.log('\n'+Date().toString()+":\t"+response)
 			if(response.statusCode===204){
 				resolve(user)
 			}
