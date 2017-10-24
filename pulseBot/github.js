@@ -98,6 +98,7 @@ function refactorOnUnstableBuild(jenkinsJSON){
 
 function createBranch(orgName, repoName, branchName, commitID)
 {
+  console.log(urlRoot + "/repos/" + orgName + "/" + repoName + "/git/refs")
   var options = {
     url: urlRoot + "/repos/" + orgName + "/" + repoName + "/git/refs",
     method: 'POST',
@@ -113,8 +114,9 @@ function createBranch(orgName, repoName, branchName, commitID)
 
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        if(response.statusCode !== 201){
-          reject("error in createBranch " + JSON.stringify(body))
+        console.log(response.statusCode)
+        if(response.statusCode != 201){
+          reject("error in createBranch: " + JSON.stringify(response.body))
         }
         resolve(branchName)
     });
@@ -134,8 +136,9 @@ function deleteBranch(orgName, repoName, branchName)
  
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
-        if(response.statusCode !== 204){
-          reject("error in deleteBranch: " + JSON.stringify(body))
+        if(response.statusCode != 204){
+          console.log("heteeeeeeeeeeeeeeeeeeeeeeeeeeee" + JSON.stringify(body))
+          reject("error in deleteBranch: " + response.body)
         }
         resolve(branchName)
     });
@@ -157,7 +160,7 @@ function addBranchProtection(orgName, repoName, branchName){
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
         if(response.statusCode!=200){
-          reject("error in addBranchProtection: " + JSON.stringify(body))
+          reject("error in addBranchProtection: " + JSON.stringify(response.body))
         }
         resolve(branchName)
     });
@@ -178,7 +181,7 @@ function removeBranchProtection(orgName, repoName, branchName){
   return new Promise(function (resolve, reject) {
       request(options, function (error, response, body) {
         if(response.statusCode!=204){
-          reject("error in removeBranchProtection: " + JSON.stringify(body))
+          reject("error in removeBranchProtection: " + response.body)
         }
         resolve(branchName)
     });
