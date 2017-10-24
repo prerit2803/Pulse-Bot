@@ -38,7 +38,7 @@ function handleUser(user){
 // check if user is a member of organization
 function checkUserExists(user){
 	var options = {
-		url: urlRoot + "/repos/"+orgName+"/"+ repoName+"/collaborators/"+userName,
+		url: urlRoot + "/repos/"+orgName+"/"+ repoName+"/collaborators/"+user,
 	    method: 'GET',
 	    headers: {
 	      "content-type": "application/json",
