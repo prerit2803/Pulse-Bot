@@ -188,7 +188,9 @@ public class CollaboratorTest {
 	}
 	
 	private static void removeNonBuggyUser() {
-		
+		ChromeDriverManager.getInstance().setup();
+		driver = new ChromeDriver();
+
 		driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
 
 		// Wait until page loads and we can see a sign in button.
