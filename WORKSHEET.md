@@ -31,7 +31,7 @@
 | 1 |3 Use Cases   |  Use Case 1:blocking of a buggy code committer     | Subflow 1 finalised   | [Trello Card](https://trello.com/c/EfjPntRx)          |    All        | 30-Sep      | 30-Sep |
 |  |   |    |  Subflow 2 finalised  | [Trello Card](https://trello.com/c/EfjPntRx)          |    All        | 30-Sep      | 30-Sep |
 |  |   |    |  Subflow 3 finalised  | [Trello Card](https://trello.com/c/EfjPntRx)          |    All        | 30-Sep      | 30-Sep |
-|  |   |  Use Case 2: Create a new branch with healthy code and lock it down until master branch is unstable.  |  Subflow 1 finalised  | [Trello Card](https://trello.com/c/92I9Tz94)          |    All        | 2-OCt      | 3-Oct |
+|  |   |  Use Case 2: Create a new branch with healthy code and lock it down until master branch is unstable.  |  Subflow 1 finalised  | [Trello Card](https://trello.com/c/92I9Tz94)          |    All        | 2-Oct      | 3-Oct |
 |  |   |   |  Alternative flow E1 verified  | [Trello Card](https://trello.com/c/92I9Tz94)        |    All        | 2-Oct      | 3-Oct |
 |  |   |  Use Case 3: Repo Health Summary |  Subflow 1 finalised  | [Trello Card](https://trello.com/c/yJYqCPK8)          |    All        | 4-Oct      | 4-Oct |
 |  |   |   |  Alternative flow E1 and E2 verified  | [Trello Card](https://trello.com/c/yJYqCPK8)        |    All        | 4-Oct      | 4-Oct |
