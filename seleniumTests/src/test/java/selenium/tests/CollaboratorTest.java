@@ -59,6 +59,7 @@ public class CollaboratorTest {
 		httpClient.execute(httpPost);
 		httpClient.close();
 		
+		removeNonBuggyUser();
 	}
 	
 	@Test
@@ -184,5 +185,43 @@ public class CollaboratorTest {
 			httpPost.setHeader("Content-type", "application/json");
 			httpClient.execute(httpPost);
 		}
+	}
+	
+	private static void removeNonBuggyUser() {
+		
+		driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
+
+		// Wait until page loads and we can see a sign in button.
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		
+		// Find email and password fields.
+		WebElement uname = driver.findElement(By.xpath("//input[@name='login']"));
+		WebElement pw = driver.findElement(By.xpath("//input[@name='password']"));
+		// Type in our user login info.
+		uname.sendKeys(username);
+		pw.sendKeys(password);
+		// Click
+		WebElement signin = driver.findElement(By.xpath("//input[@name='commit']"));
+		signin.click();
+
+		// Wait until we go to MavenVoid repository page.
+		wait.until(ExpectedConditions.titleContains("MavenVoid"));
+		// Click the settings tab to check collaborators.
+		WebElement setting=driver.findElement(By.xpath("//a[contains(@href,'MavenVoid/setting')]"));
+		setting.click(); 		
+		// Wait until collaborator option is clickable.
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(.,'Collaborators & teams')]")));
+		WebElement collaborator=driver.findElement(By.xpath("//a[contains(.,'Collaborators & teams')]"));
+		// Click collaborator tab
+		collaborator.click();
+		
+		//remove nonBuggyUser
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='collaborators']")));
+		WebElement removeButton=driver.findElement(By.xpath("//button[contains(@aria-label,'"+nonBuggyUser+"')]"));
+		removeButton.submit();
+		
+		driver.close();
+		driver.quit();
+
 	}
 }
