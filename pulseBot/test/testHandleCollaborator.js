@@ -1,11 +1,10 @@
 var chai = require("chai")
 var expect = chai.expect
 var nock = require("nock")
-var fakeredis= require("fakeredis")
 
 var handleCollaborator = require("../handleCollaborator.js")
 var data = require("./data/handleCollaboratorMockData.json")
-
+var client = handleCollaborator.client
 
 describe('helper functions', ()=>{
   // Function: checkUserExists(user)
@@ -73,8 +72,8 @@ describe('helper functions', ()=>{
       })
     })
   })
-  
 })
+
 describe('main function', ()=>{
   // Function: handleUser(user)
   // Tests: success, failure
@@ -83,7 +82,6 @@ describe('main function', ()=>{
     var testUser= "mbehroo"  
     //create fake redis client and set a key for user
     before( ()=>{
-      var client= fakeredis.createClient(6379, '127.0.0.1')   
       client.set(testUser,1)
     })
     var mockUserExists = nock(handleCollaborator.urlRoot)
@@ -108,9 +106,9 @@ describe('main function', ()=>{
     
     //create fake redis client and set a key for user
     before( ()=>{
-      var client= fakeredis.createClient(6379, '127.0.0.1')   
       client.set(testUser,0)
     })
+
     var mockUserExists = nock(handleCollaborator.urlRoot)
       .get('/repos/pulseBotProject/MavenVoid/collaborators/mbehroo')
       .reply(204,data.userExists)

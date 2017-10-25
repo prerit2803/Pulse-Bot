@@ -1,14 +1,12 @@
 var request = require('request')
 var Promise = require('bluebird')
-var redis = require('redis')
-var client = redis.createClient(6379, '127.0.0.1', {})
+var redisDataStore = require("../redisDataStore.js");
+var client = redisDataStore.client
 
 var gitToken = "token " + process.env.githubToken
 var orgName = "pulseBotProject"
 var repoName = "MavenVoid"
-var userName= "mbehroo"
 var urlRoot = "https://github.ncsu.edu/api/v3"
-
 
 //main function call to handle a user 
 
@@ -29,11 +27,15 @@ function handleUser(user){
 		checkUserExists(user).catch((value)=>{
 			console.log(value)
 		}).then((user)=> {
-			var hasToBeRemoved=client.get(user)
-			if(hasToBeRemoved == 1){
-				resolve(removeUser(user))
-			}
-			else {reject("No action taken for user "+user) }
+			client.get(user, (err, hasToBeRemoved)=>{
+				console.log(hasToBeRemoved)
+				if(hasToBeRemoved == 1){
+					resolve(removeUser(user))
+				}
+				else {
+					reject("No action taken for user "+user) }
+			})
+			
 		})
 	})
 }
@@ -55,7 +57,7 @@ function checkUserExists(user){
 			if(response.statusCode===204){
 				resolve(user)
 			}
-			else reject("Couldn't find user!\n"+JSON.stringify(response))
+			else reject("Couldn't find user!\n"+response.body)
 		})	
 	})/*.catch((value)=>{
 		console.log(value)
@@ -76,12 +78,16 @@ function removeUser(user){
 	}
 	return new Promise( (resolve, reject)=>{
 		request(options,(error,response,body)=>{
-			//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
+			// console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
 				//console.log('\n'+Date().toString()+":\tremoved "+user)
+				console.log("here1111111111111111")
 				resolve(user)
 			}
-			else reject("Couldn't remove user!\n"+JSON.stringify(response))
+			else{
+				console.log("here222222222222222222")
+				reject("Couldn't remove user!\n"+response.body)
+			} 
 		})
 	})/*.catch( (value)=>{
 		console.log(value)
@@ -110,7 +116,7 @@ function addUser(user){
 				//console.log('\n'+Date().toString()+":\tadded "+user)
 				resolve(user)
 			}
-			else reject("Couldn't add user!\n"+JSON.stringify(response))
+			else reject("Couldn't add user!\n"+JSON.stringify(response.body))
 		})	
 	})/*.catch( (value)=>{
 		console.log(value)
@@ -124,5 +130,5 @@ exports.removeUser= removeUser;
 exports.checkUserExists= checkUserExists;
 exports.orgName = orgName;
 exports.repoName = repoName;
-exports.gitToken= gitToken;
 exports.urlRoot= urlRoot;
+exports.client = client

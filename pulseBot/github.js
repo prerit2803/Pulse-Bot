@@ -1,7 +1,7 @@
 var request = require('request');
 var Promise = require('bluebird');
-var redis = require('redis')
-var client = redis.createClient(6379, '127.0.0.1', {})
+var redisDataStore = require("../redisDataStore.js");
+var client = redisDataStore.client
 
 var token = "token " + process.env.githubToken;
 var orgName = "pulseBotProject";
