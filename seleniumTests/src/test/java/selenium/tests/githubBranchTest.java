@@ -15,6 +15,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -33,7 +34,7 @@ public class githubBranchTest
 	private static CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 	private static String serverAddress = "http://13.59.112.43:3000";
 	
-	@AfterClass
+	@BeforeClass // runs before testSuite
 	public static void preSetUp() throws Exception{
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(serverAddress + "/successBuild");
@@ -100,7 +101,7 @@ public class githubBranchTest
 		String branchButtonPath = "//button[@aria-label='Switch branches or tags']";
 		WebElement branchButton = driver.findElement(By.xpath(branchButtonPath));
 		branchButton.click();
-		
+		Thread.sleep(5000);
 		String branchNamePath = "//span[contains(.,'testStable')]";
 		WebElement branch = driver.findElement(By.xpath(branchNamePath));
 		assertNotNull(branch);
@@ -132,7 +133,7 @@ public class githubBranchTest
 		String branchButtonPath = "//button[@aria-label='Switch branches or tags']";
 		WebElement branchButton = driver.findElement(By.xpath(branchButtonPath));
 		branchButton.click();
-		
+		Thread.sleep(5000);
 		String branchNamePath = "//span[contains(.,'testStable')]";
 		List<WebElement> branches = driver.findElements(By.xpath(branchNamePath));
 		assertEquals(branches.size(),0);

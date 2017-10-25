@@ -27,9 +27,7 @@ function handleUser(user){
 		checkUserExists(user).catch((value)=>{
 		}).then((user)=> {
 			client.exists(user, (err, hasToBeRemoved)=>{
-				console.log("here1111111111111    " + hasToBeRemoved)
 				if(hasToBeRemoved == 1){
-
 					resolve(removeUser(user))
 				}
 				else {

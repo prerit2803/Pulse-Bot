@@ -31,8 +31,6 @@ public class CollaboratorTest {
 	private static String username=System.getenv("username");
 	private static String buggyUser="mbehroo";
 	private static String serverAddress = "http://13.59.112.43:3000";
-	private static CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-	
 	@Before	//runs before each test
 	public void setUp() throws Exception 
 	{
@@ -50,17 +48,19 @@ public class CollaboratorTest {
 	
 	@AfterClass // runs after testSuite
 	public static void cleanUp() throws Exception{
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(serverAddress + "/successBuild");
 		StringEntity params = new StringEntity("{\"commitID\":\"34fc1208c7b241f81b128996ca3f52cb2429cfc3\","
-				+ "\"AuthorName\":\"AuthorName\", "
+				+ "\"AuthorName\":\"mbehroo\", "
 				+ "\"source\":\"SeleniumTest\"} ");
 		httpPost.setEntity(params);
 		httpPost.setHeader("Content-type", "application/json");
 		httpClient.execute(httpPost);
+		httpClient.close();
 	}
 	
 	@Test
-	public void testUserRemoved() throws ClientProtocolException, IOException {
+	public void testUserRemoved() throws ClientProtocolException, IOException, InterruptedException {
 		
 		driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
 
@@ -92,6 +92,8 @@ public class CollaboratorTest {
 		WebElement inputBox=driver.findElement(By.xpath("//input[@id='search-member']"));
 		inputBox.sendKeys(buggyUser);
 		inputBox.submit();
+		
+		Thread.sleep(5000);
 		
 		// Assert if user has been added
 		String commiterXpath="//a[@href='/"+ buggyUser +"']";
@@ -114,8 +116,8 @@ public class CollaboratorTest {
 	}
 
 	
-//	@Test
-	public void testUserNotRemoved() throws ClientProtocolException, IOException {
+	@Test
+	public void testUserNotRemoved() throws ClientProtocolException, IOException, InterruptedException {
 		
 		driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
 
@@ -147,7 +149,7 @@ public class CollaboratorTest {
 		WebElement inputBox=driver.findElement(By.xpath("//input[@id='search-member']"));
 		inputBox.sendKeys(buggyUser);
 		inputBox.submit();
-		
+		Thread.sleep(5000);
 		// Assert if user has been added
 		String commiterXpath="//a[@href='/"+ buggyUser +"']";
 		List<WebElement> commiter=driver.findElements(By.xpath(commiterXpath));
@@ -155,7 +157,7 @@ public class CollaboratorTest {
 		assertEquals(commiter.size(),1) ; //user added successfully!
 		
 		//send 5 http request mocking buggy count less than the maxBuggyCount per day
-		sendHTTPrequest(5);
+		sendHTTPrequest(1);
 		
 		//wait until collaborator list loads
 		driver.navigate().refresh();

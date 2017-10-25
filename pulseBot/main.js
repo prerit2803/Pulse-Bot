@@ -45,9 +45,9 @@ app.post('/successBuild', function(req, res) {
     })
 
     redis.BuildSucceded(body).then(function(value){
-      console.log("in redis success "+ value);
+      console.log("in /successBuild redis success "+ value);
     }).catch(function(value){
-      console.log("in redis failure "+ value);
+      console.log("in /successBuild redis failure "+ value);
     });
 });
 
@@ -64,11 +64,12 @@ app.post('/failBuild', function(req, res) {
     })
 
     redis.BuildFailed(body).then( (value)=>{
+      console.log(body.AuthorName)
       return handleCollaborator.handleUser(body.AuthorName)
     }).then((value)=>{
-      console.log("in redis success "+ value);
+      console.log("in /failBuild redis success "+ value);
     }).catch(function(value){
-      console.log("in redis failure "+ value);
+      console.log("in /failBuild redis failure "+ value);
     })
 });
 
