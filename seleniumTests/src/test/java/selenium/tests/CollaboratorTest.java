@@ -30,6 +30,7 @@ public class CollaboratorTest {
 	private static String password=System.getenv("password");
 	private static String username=System.getenv("username");
 	private static String buggyUser="mbehroo";
+	private static String nonBuggyUser="ntabass";
 	private static String serverAddress = "http://13.59.112.43:3000";
 	@Before	//runs before each test
 	public void setUp() throws Exception 
@@ -57,6 +58,7 @@ public class CollaboratorTest {
 		httpPost.setHeader("Content-type", "application/json");
 		httpClient.execute(httpPost);
 		httpClient.close();
+		
 	}
 	
 	@Test
@@ -81,7 +83,7 @@ public class CollaboratorTest {
 		wait.until(ExpectedConditions.titleContains("MavenVoid"));
 		// Click the settings tab to check collaborators.
 		WebElement setting=driver.findElement(By.xpath("//a[contains(@href,'MavenVoid/setting')]"));
-		setting.click(); 		
+		setting.click();
 		// Wait until collaborator option is clickable.
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(.,'Collaborators & teams')]")));
 		WebElement collaborator=driver.findElement(By.xpath("//a[contains(.,'Collaborators & teams')]"));
@@ -93,25 +95,26 @@ public class CollaboratorTest {
 		inputBox.sendKeys(buggyUser);
 		inputBox.submit();
 		
-		Thread.sleep(5000);
 		
+		driver.navigate().refresh();
 		// Assert if user has been added
 		String commiterXpath="//a[@href='/"+ buggyUser +"']";
 		List<WebElement> commiter=driver.findElements(By.xpath(commiterXpath));
-		//System.out.println(commiter.size());	
+		//System.out.println(commiter.size());
 		assertEquals(commiter.size(),1) ; //user added successfully!
 		
 		//send 6 http request mocking 6 buggy commits
-		sendHTTPrequest(6);
+		sendHTTPrequest(6, buggyUser);
 		
 		//wait until collaborator list loads
+		Thread.sleep(5000);
 		driver.navigate().refresh();
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='collaborators']")));
 		
 		//check collaborator
 		commiterXpath="//a[@href='/"+ buggyUser +"']";
-		commiter=driver.findElements(By.xpath(commiterXpath));
-		assertEquals(commiter.size(),0) ;	//user removed successfully!
+		List<WebElement> commiter1=driver.findElements(By.xpath(commiterXpath));
+		assertEquals(commiter1.size(),0) ;	//user removed successfully!
 		
 	}
 
@@ -147,37 +150,39 @@ public class CollaboratorTest {
 		// Add buggyUser to as a collaborator
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='search-member']")));
 		WebElement inputBox=driver.findElement(By.xpath("//input[@id='search-member']"));
-		inputBox.sendKeys(buggyUser);
+		inputBox.sendKeys(nonBuggyUser);
 		inputBox.submit();
 		Thread.sleep(5000);
 		// Assert if user has been added
-		String commiterXpath="//a[@href='/"+ buggyUser +"']";
+		String commiterXpath="//a[@href='/"+ nonBuggyUser +"']";
 		List<WebElement> commiter=driver.findElements(By.xpath(commiterXpath));
 		//System.out.println(commiter.size());	
 		assertEquals(commiter.size(),1) ; //user added successfully!
 		
-		//send 5 http request mocking buggy count less than the maxBuggyCount per day
-		sendHTTPrequest(1);
+		//send 1 http request mocking buggy count less than the maxBuggyCount per day
+		sendHTTPrequest(1, nonBuggyUser);
 		
 		//wait until collaborator list loads
 		driver.navigate().refresh();
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='collaborators']")));
 		
 		//check collaborator
-		commiterXpath="//a[@href='/"+ buggyUser +"']";
+		commiterXpath="//a[@href='/"+ nonBuggyUser +"']";
 		commiter=driver.findElements(By.xpath(commiterXpath));	
 		assertEquals(commiter.size(),1) ;	//user not removed
 		
 	}
 	
-	private void sendHTTPrequest(int commits) throws ClientProtocolException, IOException {
+	private void sendHTTPrequest(int commits, String user) throws ClientProtocolException, IOException {
 		while(commits-- !=0) {
 			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 			HttpPost httpPost = new HttpPost("http://13.59.112.43:3000/failBuild");
-			StringEntity params =new StringEntity("{\"commitID\":\"commitID\",\"AuthorName\":\"mbehroo\",\"source\":\"SeleniumTest\"} ");
+			StringEntity params =new StringEntity("{\"commitID\":\"commitID\","
+					+ "\"AuthorName\":\""+user+"\","
+					+ "\"source\":\"SeleniumTest\"} ");
 			httpPost.setEntity(params);
 			httpPost.setHeader("Content-type", "application/json");
-			HttpResponse response = httpClient.execute(httpPost);
+			httpClient.execute(httpPost);
 		}
 	}
 }
