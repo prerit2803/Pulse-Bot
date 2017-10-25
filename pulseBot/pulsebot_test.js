@@ -129,7 +129,7 @@ controller.hears('stable branch name',['mention', 'direct_mention','direct_messa
     if(resp=="master")
       bot.reply(message,"Master branch is stable. No build Failure");
     else {
-      bot.reply(message,"Master branch is locked. "+resp+" is the new stable branch.");
+      bot.reply(message,"Master branch is unstable. "+resp+" is the new stable branch.");
     }
   });
 });
