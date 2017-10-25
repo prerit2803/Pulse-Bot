@@ -61,5 +61,7 @@ This file contains the description of and link to all the deliverables.
 ## Mocking
 ## Bot Implementation
 ## Selenium testing of each use case
-## Task Tracking -- WORKSHEET.md
+## Task Tracking
+We used Trello for task tracking. A weekly itinerary of tasks peprformed can be found in the worksheet.md located [here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
+
 ## Screencast
