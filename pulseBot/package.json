@@ -19,6 +19,7 @@
     "botkit": "^0.6.4",
     "chai": "^4.1.2",
     "express": "~4.16.2",
+    "fakeredis": "^2.0.0",
     "fs": "0.0.1-security",
     "mocha": "^4.0.0",
     "nock": "^9.0.17",
