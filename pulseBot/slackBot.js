@@ -87,7 +87,7 @@ controller.hears('bad commits left for the day',['mention', 'direct_mention','di
   checkIfUserExists(message.user).then(function(reply){
     console.log("rep: "+reply);
     if(reply==0)
-    	bot.reply(message,"Enter GitHubID followed by #");
+    	bot.reply(message,"Enter GitHubID starting with #");
     else{
     	client.hget('userMap', message.user, function(err, reply){
     		NoofBrokenCommitsToday(reply).then(function(resp){
@@ -124,8 +124,8 @@ controller.hears('bad commits left for the day',['mention', 'direct_mention','di
 
 controller.hears('stable branch name',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
-  console.log(message);
-  client.get('stableBranchName', function(err, resp){
+  // console.log(message);
+  client.get('stableBranchNameTest', function(err, resp){
     if(resp=="master")
       bot.reply(message,"Master branch is stable. No build Failure");
     else {
@@ -185,7 +185,7 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
           result += "Your bad commits for the day: "+resp;
 
       // Displays stable branch name
-      client.get('stableBranchName', function(err, res){
+      client.get('stableBranchNameTest', function(err, res){
 
           result += " \n Stable Branch is "+ res;
 
