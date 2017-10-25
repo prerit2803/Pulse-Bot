@@ -25,10 +25,8 @@ handleUser(userName).then( (user)=>{
 function handleUser(user){
 	return new Promise( (resolve,reject) => {
 		checkUserExists(user).catch((value)=>{
-			console.log(value)
 		}).then((user)=> {
 			client.get(user, (err, hasToBeRemoved)=>{
-				console.log(hasToBeRemoved)
 				if(hasToBeRemoved == 1){
 					resolve(removeUser(user))
 				}
@@ -81,11 +79,9 @@ function removeUser(user){
 			// console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
 				//console.log('\n'+Date().toString()+":\tremoved "+user)
-				console.log("here1111111111111111")
 				resolve(user)
 			}
 			else{
-				console.log("here222222222222222222")
 				reject("Couldn't remove user!\n"+response.body)
 			} 
 		})
