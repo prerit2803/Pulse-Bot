@@ -168,6 +168,113 @@ public class RedisTest
     		assertEquals(authorCommits, '1');
     		assertEquals(branchName, "master");
 	}
+	@Test
+	public void buildFail()
+	{
+		HttpPost httpPost = new HttpPost("http://localhost:3000" + "/failBuild");
+		StringEntity params;
+		try {
+			params = new StringEntity("{\"commitID\":\"34fc1208c7b241f81b128996ca3f52cb2429cfc3\","
+					+ "\"AuthorName\":\"AuthorName\", "
+					+ "\"source\":\"SeleniumTest\"} ");
+			httpPost.setEntity(params);
+			httpPost.setHeader("Content-type", "application/json");
+			httpClient.execute(httpPost);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		driver.get("https://pulsebot-project.slack.com/");
+
+		// Wait until page loads and we can see a sign in button.
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
+
+		// Find email and password fields.
+		WebElement email = driver.findElement(By.id("email"));
+		WebElement pw = driver.findElement(By.id("password"));
+
+		// Enter our email and password
+		// If running this from Eclipse, you should specify these variables in the run configurations.
+		email.sendKeys("pbhanda2@ncsu.edu");
+		pw.sendKeys("****");
+
+		// Click
+		WebElement signin = driver.findElement(By.id("signin_btn"));
+		signin.click();
+
+		// Wait until we go to general channel.
+		wait.until(ExpectedConditions.titleContains("general"));
+
+		// ~~~~~~~~~~~~~~~~Switch to #selenium-bot channel and wait for it to load.
+		driver.get("https://pulsebot-project.slack.com/messages/D7M45JE2U/");
+		wait.until(ExpectedConditions.titleContains("pulsebot_test"));
+
+		// Type something
+		WebElement messageBot = driver.findElement(By.id("msg_input"));
+		assertNotNull(messageBot);
+			
+		Actions actions = new Actions(driver);
+		actions.moveToElement(messageBot);
+		actions.click();
+		actions.sendKeys("repo health");
+		actions.sendKeys(Keys.RETURN);
+		actions.build().perform();
+
+////		wait.withTimeout(80, TimeUnit.SECONDS).ignoring(StaleElementReferenceException.class);
+//		wait.withTimeout(80, TimeUnit.SECONDS);
+
+		pause(4000);
+		
+		List <WebElement> msg = driver.findElements(
+//				By.xpath("//span[@class='message_body' and text() = 'Enter GitHubID starting with # (no spaces)']"));		
+		     By.xpath("//span[.='Enter GitHubID starting with # (no spaces)']"));
+			
+			assertNotNull(msg);
+			String result = msg.get(msg.size()-1).getText();
+      		assertEquals(result,"Enter GitHubID starting with # (no spaces)");
+      		
+      		actions.moveToElement(messageBot);
+    		actions.click();
+    		actions.sendKeys("#AuthorName");
+    		actions.sendKeys(Keys.RETURN);
+    		actions.build().perform();
+    		
+    		pause(4000);
+    		
+    		List <WebElement> reply = driver.findElements(
+//    				By.xpath("//span[@class='message_body' and text() = 'Enter GitHubID starting with # (no spaces)']"));		
+    		     By.xpath("//span[contains(.,'Github ID')]"));
+    		assertNotNull(reply);
+    		String check = reply.get(reply.size()-1).getText();
+      		assertEquals(check,"Github ID: AuthorName");
+      		
+      		actions.moveToElement(messageBot);
+    		actions.click();
+    		actions.sendKeys("repo health");
+    		actions.sendKeys(Keys.RETURN);
+    		actions.build().perform();
+    		
+    		pause(4000);
+    		
+    		List <WebElement> response = driver.findElements(
+//    				By.xpath("//span[@class='message_body' and text() = 'Enter GitHubID starting with # (no spaces)']"));		
+    		     By.xpath("//span[contains(.,'Your bad commits for the day:')]"));
+    		assertNotNull(response);
+    		String repoHealthStatus = response.get(response.size()-1).getText();
+//    		System.out.println("status: "+repoHealthStatus);
+//    		String string = repoHealthStatus;
+    		String[] parts = repoHealthStatus.split("\n");
+    		char valueOfBadCommit = parts[0].charAt(parts[0].length()-1);
+    		String[] branch = parts[1].split(" ");
+    		String branchName = branch[3];
+    		char authorCommits = parts[3].charAt(parts[3].length()-1);
+//    		System.out.println(valueOfBadCommit+" "+branchName+" "+authorCommits);
+    		
+    		assertEquals(valueOfBadCommit, '1');
+    		assertEquals(authorCommits, '1');
+    		assertEquals(branchName, "master");
+	}
 }
 	
 
