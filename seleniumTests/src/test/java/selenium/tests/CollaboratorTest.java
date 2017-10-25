@@ -28,6 +28,7 @@ public class CollaboratorTest {
 
 	private static WebDriver driver;
 	private static String password=System.getenv("password");
+	private static String username=System.getenv("username");
 	private static String buggyUser="mbehroo";
 	private static String serverAddress = "http://13.59.112.43:3000";
 	private static CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -67,10 +68,10 @@ public class CollaboratorTest {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		
 		// Find email and password fields.
-		WebElement username = driver.findElement(By.xpath("//input[@name='login']"));
+		WebElement uname = driver.findElement(By.xpath("//input[@name='login']"));
 		WebElement pw = driver.findElement(By.xpath("//input[@name='password']"));
 		// Type in our user login info.
-		username.sendKeys("asaxena3");
+		uname.sendKeys(username);
 		pw.sendKeys(password);
 		// Click
 		WebElement signin = driver.findElement(By.xpath("//input[@name='commit']"));
@@ -122,10 +123,10 @@ public class CollaboratorTest {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		
 		// Find email and password fields.
-		WebElement username = driver.findElement(By.xpath("//input[@name='login']"));
+		WebElement uname = driver.findElement(By.xpath("//input[@name='login']"));
 		WebElement pw = driver.findElement(By.xpath("//input[@name='password']"));
 		// Type in our user login info.
-		username.sendKeys("asaxena3");
+		uname.sendKeys(username);
 		pw.sendKeys(password);
 		// Click
 		WebElement signin = driver.findElement(By.xpath("//input[@name='commit']"));
