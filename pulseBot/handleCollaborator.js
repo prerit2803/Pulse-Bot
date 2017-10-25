@@ -1,6 +1,6 @@
 var request = require('request')
 var Promise = require('bluebird')
-var redisDataStore = require("../redisDataStore.js");
+var redisDataStore = require("./redisDataStore.js");
 var client = redisDataStore.client
 
 var gitToken = "token " + process.env.githubToken
