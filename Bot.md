@@ -14,8 +14,8 @@ This file contains the description of and link to all the deliverables.
  Manual intervention from admin will be required to add the user back as collaborator [S3].
   
 **3. Subflows:**  
-	[S1] User commits broken code and exceeds the threshold for a day.
-	[S2] User requests for push access after a day.
+	[S1] User commits broken code and exceeds the threshold for a day.  
+	[S2] User requests for push access after a day.  
 	[S3] If user is blocked, bot can added it back after 24 hours, otherwise an admin must manually add user.  
 	 
 **4. Alternative Flow:**  
@@ -53,7 +53,7 @@ This file contains the description of and link to all the deliverables.
 	[S1] A report containing number of commits per user and their segregation into broken or stable will be returned. 
 	
 **4. Alternative Flow:**  
-	[E1] Repo is empty without any commits.
+	[E1] Repo is empty without any commits.  
 	[E2] Repo has no collaborators.
 
 
