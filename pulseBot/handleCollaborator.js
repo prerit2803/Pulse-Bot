@@ -11,26 +11,29 @@ var urlRoot = "https://github.ncsu.edu/api/v3"
 
 
 //main function call to handle a user 
-/*handleUser(userName).then( (user)=>{
+
+/*
+handleUser(userName).then( (user)=>{
 	//console.log('\n'+Date().toString()+":\t"+user)
-	return addUser(user)
+	//return addUser(user)
 }).catch((value)=>{
 	console.log(value)
 }).done()
 */
+
 //addUser(userName)
 
 //checks if user exists -> removes if necessary
 function handleUser(user){
 	return new Promise( (resolve,reject) => {
-		checkUserExists(user).then((user)=> {
-			var hasToBeRemoved = 1//client.exists(user)
+		checkUserExists(user).catch((value)=>{
+			console.log(value)
+		}).then((user)=> {
+			var hasToBeRemoved=client.get(user)
 			if(hasToBeRemoved == 1){
 				resolve(removeUser(user))
 			}
-			else reject('\n'+Date().toString()+":\tNo action taken for user "+user) 
-		}).catch((value)=>{
-			console.log(value)
+			else {reject("No action taken for user "+user) }
 		})
 	})
 }
@@ -52,7 +55,7 @@ function checkUserExists(user){
 			if(response.statusCode===204){
 				resolve(user)
 			}
-			else reject('\n'+Date().toString()+":\tCouldn't find user!\n"+JSON.stringify(response))
+			else reject("Couldn't find user!\n"+JSON.stringify(response))
 		})	
 	})/*.catch((value)=>{
 		console.log(value)
@@ -75,10 +78,10 @@ function removeUser(user){
 		request(options,(error,response,body)=>{
 			//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
-				console.log('\n'+Date().toString()+":\tremoved "+user)
+				//console.log('\n'+Date().toString()+":\tremoved "+user)
 				resolve(user)
 			}
-			else reject('\n'+Date().toString()+":\t"+"Couldn't remove user!\n"+JSON.stringify(response))
+			else reject("Couldn't remove user!\n"+JSON.stringify(response))
 		})
 	})/*.catch( (value)=>{
 		console.log(value)
@@ -104,10 +107,10 @@ function addUser(user){
 		request(options,(error,response,body)=>{
 			//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
-				console.log('\n'+Date().toString()+":\tadded "+user)
+				//console.log('\n'+Date().toString()+":\tadded "+user)
 				resolve(user)
 			}
-			else reject('\n'+Date().toString()+":\tCouldn't add user!\n"+JSON.stringify(response))
+			else reject("Couldn't add user!\n"+JSON.stringify(response))
 		})	
 	})/*.catch( (value)=>{
 		console.log(value)
@@ -117,6 +120,9 @@ function addUser(user){
 
 exports.handleUser= handleUser;
 exports.addUser= addUser;
+exports.removeUser= removeUser;
+exports.checkUserExists= checkUserExists;
 exports.orgName = orgName;
 exports.repoName = repoName;
-exports.userName= userName;
+exports.gitToken= gitToken;
+exports.urlRoot= urlRoot;
