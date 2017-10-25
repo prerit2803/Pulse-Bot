@@ -1,7 +1,7 @@
 var Botkit = require('botkit');
 var Promise = require('promise');
-var redis = require('redis');
-client = redis.createClient();
+var main = require("./redisDataStore.js");
+client = main.client;
 
 
 
@@ -42,11 +42,13 @@ function NoofBrokenCommitsToday(authorName){
   return new Promise(function(resolve,reject){
     client.exists(authorName,function(err, reply){
       if(reply ==0){
-        console.log("Not blocked user");
-        client.hget('noofBrokenCommitsToday', authorName, function(err, reply){
-          if(reply==null)
+        console.log("Not blocked user "+authorName);
+        client.hget('noOfBrokenCommitsToday', authorName, function(err, rep){
+
+                console.log("here "+rep);
+          if(rep == null)
               resolve(0);
-          resolve(reply);
+          resolve(rep);
         });
       }
       else{
@@ -67,7 +69,7 @@ function adduser(slackId,githubId){
 controller.hears('^(?!.*(#|Hi bot|stable branch name|Grant me repo access|repo health|bad commits left for the day))',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
 	console.log(message);
-	
+
 	bot.reply(message,"I'm sorry but i only understand the following commands: \n 1. Stable branch name\n 2. Grant me repo access \n 3. repo health \n 4. bad commits left for the day");
 
 });
@@ -88,12 +90,8 @@ controller.hears('bad commits left for the day',['mention', 'direct_mention','di
     	bot.reply(message,"Enter GitHubID followed by #");
     else{
     	client.hget('userMap', message.user, function(err, reply){
-    		client.hget('noOfBrokenCommits', reply, function(err, resp){
-          if(resp==null)
-            bot.reply(message, "Number of bad commits left: 5");
-    			else {
-    			 bot.reply(message, "Number of bad commits left: "+(5-resp));
-    			}
+    		NoofBrokenCommitsToday(reply).then(function(resp){
+    			 bot.reply(message, "Number of bad commits left: "+(5-(+resp)));
     		});
     	});
     }
@@ -136,7 +134,7 @@ controller.hears('stable branch name',['mention', 'direct_mention','direct_messa
   });
 });
 
-controller.hears('Grant repo access',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('Grant me repo access',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   console.log(message);
   checkIfUserExists(message.user).then(function(reply){
