@@ -7,7 +7,7 @@
 
 ### Week 1: Sept 15- Sept   22
 
-|   |                     | Week 1 : Sept 15- Sept   22    |                                       |              |                |             |        |
+|   |     Week 1 : Sept 15- Sept   22   |     |                                       |              |                |             |        |
 |---|---------------------|--------------------------------|---------------------------------------|--------------|----------------|-------------|--------|
 |   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |        |
 | 1 | Problem Statement   | Identifying the problem        | Discussing idea and brainstorming     | [Trello Card](https://trello.com/c/jXrFcxkN)          | All            | 16-Sep      | 16-Sep |
@@ -23,12 +23,19 @@
 
 ## Milestone 2 : Bot
 
-### Week 2: Sept 28 - Oct 25
+### Week 2: Sept 28 - Oct 5
 
-|   |                     | Week 2 : Sept 28 - Oct 25   |                                       |              |                |             |        |
+|   |   Week 2 : Sept 28 - Oct 5   |    |                                       |              |                |             |        |
 |---|---------------------|--------------------------------|---------------------------------------|--------------|----------------|-------------|--------|
 |   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |        |
-| 1 |3 Use Cases   | Revisiting all use cases    |  Discussion on possible changes to use cases and their finalisation   | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)          |    All        | 30-Sep      | 30-Sep |
+| 1 |3 Use Cases   |  Use Case 1:blocking of a buggy code committer     | Subflow 1 finalised   | [Trello Card](https://trello.com/c/EfjPntRx)          |    All        | 30-Sep      | 30-Sep |
+|  |   |    |  Subflow 2 finalised  | [Trello Card](https://trello.com/c/EfjPntRx)          |    All        | 30-Sep      | 30-Sep |
+|  |   |    |  Subflow 3 finalised  | [Trello Card]https://trello.com/c/EfjPntRx)          |    All        | 30-Sep      | 30-Sep |
+|  |   |  Use Case 2: Create a new branch with healthy code and lock it down until master branch is unstable.  |  Subflow 1 finalised  | [Trello Card](https://trello.com/c/92I9Tz94)          |    All        | 2-OCt      | 3-Oct |
+|  |   |   |  Alternative flow E1 verified  | [Trello Card](https://trello.com/c/92I9Tz94)        |    All        | 2-OCt      | 3-Oct |
+|  |   |  Use Case 3: Repo Health Summary |  Subflow 1 finalised  | [Trello Card](https://trello.com/c/yJYqCPK8)          |    All        | 4-OCt      | 4-Oct |
+|  |   |   |  Alternative flow E1 and E2 verified  | [Trello Card](https://trello.com/c/yJYqCPK8)        |    All        | 4-OCt      | 4-Oct |
+|   |   Week 3 : Oct 5 - Oct 12  |    |                                       |              |                |             |        |
 | 2 | Mocking     |  Mocking/injection techniques discussion |  Implemented mock services and data supporting service integration.   | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)         |  Shaishav Prerit Ankur Akriti      | 2-Oct      | 2-Oct |
 | 3 | Bot Implementation     |   Bot Platform     |Designed basic conversational hooks  | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)        |   Jaydeep Prerit       | 8-Oct     | 8-Oct |
 |   |                     |    Bot Integration    | Implemented use-case specific hooks | [Trello Card](https://trello.com/b/lue0kLZW/milestone-bot)  |Prerit   Jaydeep | 8-Oct     | 8-Oct |
