@@ -12,6 +12,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -28,7 +29,10 @@ public class CollaboratorTest {
 	private static WebDriver driver;
 	private static String password=System.getenv("password");
 	private static String buggyUser="mbehroo";
-	@Before
+	private static String serverAddress = "http://13.59.112.43:3000";
+	private static CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+	
+	@Before	//runs before each test
 	public void setUp() throws Exception 
 	{
 		//driver = new HtmlUnitDriver();
@@ -36,11 +40,22 @@ public class CollaboratorTest {
 		driver = new ChromeDriver();
 	}
 	
-	@After
+	@After //runs after each test
 	public void  tearDown() throws Exception
 	{
 		driver.close();
 		driver.quit();
+	}
+	
+	@AfterClass // runs after testSuite
+	public static void cleanUp() throws Exception{
+		HttpPost httpPost = new HttpPost(serverAddress + "/successBuild");
+		StringEntity params = new StringEntity("{\"commitID\":\"34fc1208c7b241f81b128996ca3f52cb2429cfc3\","
+				+ "\"AuthorName\":\"AuthorName\", "
+				+ "\"source\":\"SeleniumTest\"} ");
+		httpPost.setEntity(params);
+		httpPost.setHeader("Content-type", "application/json");
+		httpClient.execute(httpPost);
 	}
 	
 	@Test
@@ -151,8 +166,6 @@ public class CollaboratorTest {
 		assertEquals(commiter.size(),1) ;	//user not removed
 		
 	}
-
-	
 	
 	private void sendHTTPrequest(int commits) throws ClientProtocolException, IOException {
 		while(commits-- !=0) {
