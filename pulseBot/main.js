@@ -6,6 +6,7 @@ var successCommitID = ""
 var failCommitID = ""
 
 var github = require("./github.js");
+var redis = require("./redisDataStore.js");
 var handleCollaborator = require("./handleCollaborator.js");
 
 app.use(bodyParser.urlencoded({
@@ -32,22 +33,41 @@ app.use(bodyParser.json());
 
 app.post('/successBuild', function(req, res) {
   	const body = req.body
-  	console.log(body)
-    
+  	console.log(body);
+    redis.BuildSucceded(body)
+    .then( (user)=>{
+        res.set('Content-Type', 'text/plain')
+        res.send('haha')
+        console.log("in redis success "+user);
+    }).catch((value)=>{
+        console.log(value)
+    })
+
+
     github.refactorOnStableBuild(body).then(function(data){
-      res.set('Content-Type', 'text/plain')
-      res.send('')
+      // res.set('Content-Type', 'text/plain')
+      // res.send('')
+      // return redis.BuildSucceded(body);
     }).catch(function(data){
-      res.set('Content-Type', 'text/plain')
-      res.send('')
+      // res.set('Content-Type', 'text/plain')
+      // res.send('')
       console.log("in catch of post successBuild" + data)
     })
 });
 
 app.post('/failBuild', function(req, res) {
   	const body = req.body
-  	console.log(body)
-    
+  	console.log(body);
+
+    redis.BuildFailed(body)
+    .then( (user)=>{
+        res.set('Content-Type', 'text/plain')
+        res.send('saddy')
+    }).catch((value)=>{
+        console.log(value)
+    })
+
+
     handleCollaborator.handleUser(body.AuthorName)
     .then( (user)=>{
         //console.log('\n'+Date().toString()+":\t"+user)
@@ -55,6 +75,7 @@ app.post('/failBuild', function(req, res) {
     }).catch((value)=>{
         console.log(value)
     })
+
     github.refactorOnUnstableBuild(body).then(function(data){
       res.set('Content-Type', 'text/plain')
       res.send('')

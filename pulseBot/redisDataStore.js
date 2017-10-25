@@ -1,4 +1,4 @@
-var redis = require("fakeredis");
+var redis = require("redis");
 var Promise = require('promise');
 client = redis.createClient();
 
@@ -19,6 +19,7 @@ function BuildSucceded(userDetails){
   return new Promise(function(resolve, reject){
     var commitID = userDetails.commitID;
     var authorName = userDetails.AuthorName;
+    // console.log(commitID+" "+authorName);
     addCommitId(commitID,authorName).then(function(addcommitid){
       return addStatus(commitID,"success");
     }).then(function(status){
@@ -86,7 +87,7 @@ function BuildFailed(userDetails){
 
 function addCommitId(commitID,authorName){
   return new Promise(function(resolve,reject){
-    // console.log("in add commitid" + commitID      + authorName);
+    //  console.log("in add commitid" + commitID      + authorName);
     client.hmset('commitIDAuthorNameMap', commitID, authorName, function(err,reply){
         resolve(commitID);
     });
