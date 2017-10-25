@@ -1,4 +1,4 @@
-var redis = require("redis");
+var redis = require("fakeredis");
 var Promise = require('promise');
 client = redis.createClient();
 
