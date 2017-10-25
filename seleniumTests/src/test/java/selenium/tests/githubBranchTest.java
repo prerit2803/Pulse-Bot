@@ -46,21 +46,23 @@ public class githubBranchTest
 	}
 	
 	@AfterClass // runs after testSuite
-	public static void cleanUp() throws Exception{
+	public static void cleanUp() throws Exception{	
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(serverAddress + "/successBuild");
 		StringEntity params = new StringEntity("{\"commitID\":\"34fc1208c7b241f81b128996ca3f52cb2429cfc3\","
-				+ "\"AuthorName\":\"AuthorName\", "
+				+ "\"AuthorName\":\"mbehroo\", "
 				+ "\"source\":\"SeleniumTest\"} ");
 		httpPost.setEntity(params);
 		httpPost.setHeader("Content-type", "application/json");
 		httpClient.execute(httpPost);
+		httpClient.close();
 	}
 	
 	@Test
 	public void createStableBranchTest() throws Exception{
 		HttpPost httpPost = new HttpPost(serverAddress + "/failBuild");
 		StringEntity params = new StringEntity("{\"commitID\":\"34fc1208c7b241f81b128996ca3f52cb2429cfc3\","
-				+ "\"AuthorName\":\"AuthorName\", "
+				+ "\"AuthorName\":\"mbehroo\", "
 				+ "\"source\":\"SeleniumTest\"} ");
 		httpPost.setEntity(params);
 		httpPost.setHeader("Content-type", "application/json");
@@ -93,7 +95,7 @@ public class githubBranchTest
 	public void deleteStableBranchTest() throws Exception{
 		HttpPost httpPost = new HttpPost(serverAddress + "/successBuild");
 		StringEntity params = new StringEntity("{\"commitID\":\"063df6f74d63b8c4c9b7cfe71ed60024cae8bb67\","
-				+ "\"AuthorName\":\"AuthorName\", "
+				+ "\"AuthorName\":\"mbehroo\", "
 				+ "\"source\":\"SeleniumTest\"} ");
 		httpPost.setEntity(params);
 		httpPost.setHeader("Content-type", "application/json");
