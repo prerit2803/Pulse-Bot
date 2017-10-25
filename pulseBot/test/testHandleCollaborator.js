@@ -106,7 +106,7 @@ describe('main function', ()=>{
     
     //create fake redis client and set a key for user
     before( ()=>{
-      client.set(testUser,0)
+      client.del(testUser,0)
     })
 
     var mockUserExists = nock(handleCollaborator.urlRoot)

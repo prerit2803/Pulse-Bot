@@ -26,8 +26,10 @@ function handleUser(user){
 	return new Promise( (resolve,reject) => {
 		checkUserExists(user).catch((value)=>{
 		}).then((user)=> {
-			client.get(user, (err, hasToBeRemoved)=>{
+			client.exists(user, (err, hasToBeRemoved)=>{
+				console.log("here1111111111111    " + hasToBeRemoved)
 				if(hasToBeRemoved == 1){
+
 					resolve(removeUser(user))
 				}
 				else {

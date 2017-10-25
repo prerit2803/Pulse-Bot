@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -30,6 +32,19 @@ public class githubBranchTest
 	private static String pass = System.getenv("password");
 	private static CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 	private static String serverAddress = "http://13.59.112.43:3000";
+	
+	@AfterClass
+	public static void preSetUp() throws Exception{
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+		HttpPost httpPost = new HttpPost(serverAddress + "/successBuild");
+		StringEntity params = new StringEntity("{\"commitID\":\"34fc1208c7b241f81b128996ca3f52cb2429cfc3\","
+				+ "\"AuthorName\":\"mbehroo\", "
+				+ "\"source\":\"SeleniumTest\"} ");
+		httpPost.setEntity(params);
+		httpPost.setHeader("Content-type", "application/json");
+		httpClient.execute(httpPost);
+		httpClient.close();
+	}
 	
 	@Before // runs before every testCase
 	public void setUp() throws Exception 

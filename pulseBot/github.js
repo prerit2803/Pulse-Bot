@@ -76,11 +76,11 @@ function refactorOnUnstableBuild(jenkinsJSON){
     }
 
     getStableBranchName(stableBranchNameKey).then(function(stableBranchName){
-      if(stableBranchName != "master"){
-        return Promise.reject("Stable branch already exists ")
+      if(stableBranchName == "master" || stableBranchName==null){
+        return getStableCommitID(lastStableCommitKey);
       }
       else{
-        return getStableCommitID(lastStableCommitKey);
+        return Promise.reject("Stable branch already exists ")
       }
     }).then(function(stableCommitID){
       return createBranch(orgName, repoName, newBranchName, stableCommitID)

@@ -114,7 +114,7 @@ public class CollaboratorTest {
 	}
 
 	
-	@Test
+//	@Test
 	public void testUserNotRemoved() throws ClientProtocolException, IOException {
 		
 		driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
