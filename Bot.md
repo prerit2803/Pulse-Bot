@@ -95,65 +95,63 @@ All the test cases were tested using `npm test` and the result is [here](https:/
 
 _**Test Case flow:**_
 
-+ flow1
++ Send JSON to failBuild API of the bot
 ```
 @Test
-public void createStableBranchTest() 
-
-	...  //
-	
-}
+	public void createStableBranchTest() throws Exception{
+		HttpPost httpPost = new HttpPost(serverAddress + "/failBuild");
+		StringEntity params = new StringEntity("{\"commitID\":\"34fc1208c7b241f81b128996ca3f52cb2429cfc3\","
+				+ "\"AuthorName\":\"mbehroo\", "
+				+ "\"source\":\"SeleniumTest\"} ");
+		httpPost.setEntity(params);
+		httpPost.setHeader("Content-type", "application/json");
+		httpClient.execute(httpPost);
 ```
 
-+ flow2
++ Check if stable branch is created
 ```
-@Test
-public void testUserRemoved(){
+driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
+		wait.until(ExpectedConditions.titleContains("MavenVoid"));
+		String branchButtonPath = "//button[@aria-label='Switch branches or tags']";
+		WebElement branchButton = driver.findElement(By.xpath(branchButtonPath));
+		branchButton.click();
+		Thread.sleep(5000);
+		String branchNamePath = "//span[contains(.,'testStable')]";
+		WebElement branch = driver.findElement(By.xpath(branchNamePath));
+		assertNotNull(branch);
 
-	...  // 
-}
-
 ```
-+ flow3
-```
-@Test
-public void createStableBranchTest() {
-	...  // 
-	
-}
-```
-Success of the test case shows that
+Success of the test case shows that a stable branch is created which is protected when the build of the package fails with code on the master branch.
 
 #### Test Case 2: Delete a stable branch if master is stable
 [See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L111)
 
 _**Test Case flow:**_
 
-+ flow1
++ Send JSON to successBuild API of the bot
 ```
 @Test
-public void deleteStableBranchTest(){
-
-	...  //
-	
-}
+	public void deleteStableBranchTest() throws Exception{
+		HttpPost httpPost = new HttpPost(serverAddress + "/successBuild");
+		StringEntity params = new StringEntity("{\"commitID\":\"063df6f74d63b8c4c9b7cfe71ed60024cae8bb67\","
+				+ "\"AuthorName\":\"mbehroo\", "
+				+ "\"source\":\"SeleniumTest\"} ");
+		httpPost.setEntity(params);
+		httpPost.setHeader("Content-type", "application/json");
+		httpClient.execute(httpPost);
 ```
 
-+ flow2
++ Check if stable branch is deleted
 ```
-@Test
-public void deleteStableBranchTest(){
-	...  // 
-}
-
-```
-+ flow3
-```
-@Test
-public void deleteStableBranchTest(){
-	...  // 
-	
-}
+driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
+		wait.until(ExpectedConditions.titleContains("MavenVoid"));
+		String branchButtonPath = "//button[@aria-label='Switch branches or tags']";
+		WebElement branchButton = driver.findElement(By.xpath(branchButtonPath));
+		branchButton.click();
+		Thread.sleep(5000);
+		String branchNamePath = "//span[contains(.,'testStable')]";
+		List<WebElement> branches = driver.findElements(By.xpath(branchNamePath));
+		assertEquals(branches.size(),0);
 ```
 Success of the test case shows that
 
