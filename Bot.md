@@ -1,6 +1,3 @@
-This file contains the description of and link to all the deliverables.
-
-
 ## 3 Use Cases
 
 
@@ -61,7 +58,71 @@ _**4. Alternative Flow:**_
 ## Mocking
 ## Bot Implementation
 ## Selenium testing of each use case
+### Use Case 2: Tentative blocking a buggy user
+
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/CollaboratorTest.java#L66)
+
+_**Test Case flow:**_
+
++ Add a user as a collaborator in the repository
+```
+@Test
+public void testUserRemoved(){
+
+	...  // reach the settings-> Collaborators & Teams  page
+	
+	// Add buggyUser to as a collaborator
+	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='search-member']")));
+	WebElement inputBox=driver.findElement(By.xpath("//input[@id='search-member']"));
+	inputBox.sendKeys(buggyUser);	//buggyUser= "mbehroo"
+	inputBox.submit();
+}
+```
+Once the collaborator is added, we move to next flow,  
+
++ Simulate the user committing buggy code
+```
+@Test
+public void testUserRemoved(){
+
+	...  // add buggyUser
+	
+	sendHTTPrequest(6,buggyUser);	//5 is the threshold of buggy commits. So we send 6 commits.
+}
+
+private void sendHTTPrequest(int commits, String user) throws ClientProtocolException, IOException {
+		while(commits-- !=0) {
+			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+			HttpPost httpPost = new HttpPost("http://13.59.112.43:3000/failBuild");
+			StringEntity params =new StringEntity("{\"commitID\":\"commitID\","
+					+ "\"AuthorName\":\""+user+"\","
+					+ "\"source\":\"SeleniumTest\"} ");
+			httpPost.setEntity(params);
+			httpPost.setHeader("Content-type", "application/json");
+			httpClient.execute(httpPost);
+		}
+	}
+```
+This triggers the bot function to remove the buggyUser i.e. mbehroo.
+Finally we test,  
++ Check if the PulseBot removes the user or not
+```
+@Test
+public void testUserRemoved(){
+
+	...  // send 6 buggy commits
+	
+	//check collaborator
+	commiterXpath="//a[@href='/"+ buggyUser +"']";
+	List<WebElement> commiter1=driver.findElements(By.xpath(commiterXpath));
+	assertEquals(commiter1.size(),0) ;	//user removed successfully!
+	Thread.sleep(5000);
+
+}
+```
+Success of the test case shows that the bot can sucessfully track number of buggy commits made by user and remove it from the list of repository collaborators.
+
 ## Task Tracking
-We used Trello for task tracking. A weekly itinerary of tasks peprformed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
+We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
 
 ## Screencast
