@@ -90,10 +90,11 @@ public class CollaboratorTest {
 		WebElement collaborator=driver.findElement(By.xpath("//a[contains(.,'Collaborators & teams')]"));
 		// Click collaborator tab
 		collaborator.click();
+		
 		// Add buggyUser to as a collaborator
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='search-member']")));
 		WebElement inputBox=driver.findElement(By.xpath("//input[@id='search-member']"));
-		inputBox.sendKeys(buggyUser);
+		inputBox.sendKeys(buggyUser); //buggyUser= "mbehroo"
 		inputBox.submit();
 		
 		
@@ -105,7 +106,7 @@ public class CollaboratorTest {
 		assertEquals(commiter.size(),1) ; //user added successfully!
 		
 		//send 6 http request mocking 6 buggy commits
-		sendHTTPrequest(6, buggyUser);
+		sendHTTPrequest(6, buggyUser); 	//5 is the threshold of buggy commits. So we send 6 commits.
 		
 		//wait until collaborator list loads
 		Thread.sleep(5000);
@@ -116,7 +117,7 @@ public class CollaboratorTest {
 		commiterXpath="//a[@href='/"+ buggyUser +"']";
 		List<WebElement> commiter1=driver.findElements(By.xpath(commiterXpath));
 		assertEquals(commiter1.size(),0) ;	//user removed successfully!
-		
+		Thread.sleep(5000);
 	}
 
 	
