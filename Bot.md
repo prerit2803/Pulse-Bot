@@ -1,6 +1,3 @@
-This file contains the description of and link to all the deliverables.
-
-
 ## 3 Use Cases
 
 
@@ -61,7 +58,277 @@ _**4. Alternative Flow:**_
 ## Mocking
 ## Bot Implementation
 ## Selenium testing of each use case
+### Use Case 1: Maintaining a stable branch
+
+#### Test Case 1: Creaate a stable branch
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L78)
+
+_**Test Case flow:**_
+
++ flow1
+```
+@Test
+public void createStableBranchTest() 
+
+	...  //
+	
+}
+```
+
++ flow2
+```
+@Test
+public void testUserRemoved(){
+
+	...  // 
+}
+
+```
++ flow3
+```
+@Test
+public void createStableBranchTest() {
+	...  // 
+	
+}
+```
+Success of the test case shows that
+
+#### Test Case 2: Delete a stable branch if master is stable
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L111)
+
+_**Test Case flow:**_
+
++ flow1
+```
+@Test
+public void deleteStableBranchTest(){
+
+	...  //
+	
+}
+```
+
++ flow2
+```
+@Test
+public void deleteStableBranchTest(){
+	...  // 
+}
+
+```
++ flow3
+```
+@Test
+public void deleteStableBranchTest(){
+	...  // 
+	
+}
+```
+Success of the test case shows that
+
+
+### Use Case 2: Tentative blocking a buggy user
+
+#### Test Case 1: Blocking a user making more buggy commits than the threshold (5 in our case).
+
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/CollaboratorTest.java#L66)
+
+_**Test Case flow:**_
+
++ Add user as a collaborator in the repository
+```
+@Test
+public void testUserRemoved(){
+
+	...  // reach the settings-> Collaborators & Teams  page
+	
+	// Add buggyUser to as a collaborator
+	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='search-member']")));
+	WebElement inputBox=driver.findElement(By.xpath("//input[@id='search-member']"));
+	inputBox.sendKeys(buggyUser);	//buggyUser= "mbehroo"
+	inputBox.submit();
+}
+```
+Once the collaborator is added, we move to next flow,  
+
++ Simulate the user committing buggy code
+```
+@Test
+public void testUserRemoved(){
+
+	...  // add buggyUser
+	
+	sendHTTPrequest(6,buggyUser);	//5 is the threshold of buggy commits. So we send 6 commits.
+}
+
+private void sendHTTPrequest(int commits, String user) throws ClientProtocolException, IOException {
+		while(commits-- !=0) {
+			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+			HttpPost httpPost = new HttpPost("http://13.59.112.43:3000/failBuild");
+			StringEntity params =new StringEntity("{\"commitID\":\"commitID\","
+					+ "\"AuthorName\":\""+user+"\","
+					+ "\"source\":\"SeleniumTest\"} ");
+			httpPost.setEntity(params);
+			httpPost.setHeader("Content-type", "application/json");
+			httpClient.execute(httpPost);
+		}
+	}
+```
+This triggers the bot function to remove the buggyUser i.e. mbehroo.
+Finally we test,  
++ Check if the PulseBot removes the user or not
+```
+@Test
+public void testUserRemoved(){
+
+	...  // send 6 buggy commits
+	
+	//check collaborator
+	commiterXpath="//a[@href='/"+ buggyUser +"']";
+	List<WebElement> commiter1=driver.findElements(By.xpath(commiterXpath));
+	assertEquals(commiter1.size(),0) ;	//user removed successfully!
+	Thread.sleep(5000);
+
+}
+```
+Success of the test case shows that the bot can sucessfully track number of buggy commits made by user and remove it from the list of repository collaborators.
+
+#### Test Case 2: Not blocking a user making less buggy commits than the threshold (5 in our case).
+
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/CollaboratorTest.java#L124)
+
+_**Test Case flow:**_
+
++ Add a user as a collaborator in the repository
+```
+@Test
+public void testUserNotRemoved(){
+
+	...  // reach the settings-> Collaborators & Teams  page
+	
+	// Add buggyUser to as a collaborator
+	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='search-member']")));
+	WebElement inputBox=driver.findElement(By.xpath("//input[@id='search-member']"));
+	inputBox.sendKeys(notBuggyUser);	//buggyUser= "ntabass"
+	inputBox.submit();
+}
+```
+Once the collaborator is added, we move to next flow,  
+
++ Simulate the user committing buggy code
+```
+@Test
+public void testUserNotRemoved(){
+
+	...  // add notbuggyUser
+	
+	sendHTTPrequest(1,notBuggyUser);	//5 is the threshold of buggy commits. So we send 1 commits.
+}
+
+private void sendHTTPrequest(int commits, String user) throws ClientProtocolException, IOException {
+		while(commits-- !=0) {
+			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+			HttpPost httpPost = new HttpPost("http://13.59.112.43:3000/failBuild");
+			StringEntity params =new StringEntity("{\"commitID\":\"commitID\","
+					+ "\"AuthorName\":\""+user+"\","
+					+ "\"source\":\"SeleniumTest\"} ");
+			httpPost.setEntity(params);
+			httpPost.setHeader("Content-type", "application/json");
+			httpClient.execute(httpPost);
+		}
+	}
+```
+This triggers the bot function to handle the notBuggyUser i.e. ntabass.
+Finally we test,  
++ Check if the PulseBot removes the user or not
+```
+@Test
+public void testUserNotRemoved(){
+
+	...  // send 1 buggy commit
+	
+	//check collaborator
+	commiterXpath="//a[@href='/"+ notBuggyUser +"']";
+	List<WebElement> commiter1=driver.findElements(By.xpath(commiterXpath));
+	assertEquals(commiter1.size(),1) ;	//user not removed!
+	Thread.sleep(5000);
+
+}
+```
+Success of the test case shows that the bot can sucessfully track number of buggy commits made by user and doesn't remove it from the list of repository collaborators since it didn't cross the threshold.
+
+### Use Case 3: Create a summary report
+
+#### Test Case 1: 
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L78)
+
+_**Test Case flow:**_
+
++ flow1
+```
+@Test
+public void createStableBranchTest() 
+
+	...  //
+	
+}
+```
+
++ flow2
+```
+@Test
+public void testUserRemoved(){
+
+	...  // 
+}
+
+```
++ flow3
+```
+@Test
+public void createStableBranchTest() {
+	...  // 
+	
+}
+```
+Success of the test case shows that
+
+#### Test Case 2: 
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L111)
+
+_**Test Case flow:**_
+
++ flow1
+```
+@Test
+public void deleteStableBranchTest(){
+
+	...  //
+	
+}
+```
+
++ flow2
+```
+@Test
+public void deleteStableBranchTest(){
+	...  // 
+}
+
+```
++ flow3
+```
+@Test
+public void deleteStableBranchTest(){
+	...  // 
+	
+}
+```
+Success of the test case shows that
+
+
 ## Task Tracking
-We used Trello for task tracking. A weekly itinerary of tasks peprformed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
+We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
 
 ## Screencast
