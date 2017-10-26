@@ -56,5 +56,5 @@
 
 |   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |  
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 5 | Task Tracking -- WORKSHEET.md  | Task Tracking and updates |    In progress  | [Trello Card](https://trello.com/c/m6wqBaYw)         |    Jaydeep  Ankur         | 20-Oct      | 20-Oct |
+| 5 | Task Tracking -- WORKSHEET.md  | Task Tracking and updates |    Complete  | [Trello Card](https://trello.com/c/m6wqBaYw)         |    Jaydeep  Ankur         | 20-Oct      | 20-Oct |
 | 6 | Screencast/Bot.md  | Demonstrating Selenium tests on use cases| Completed  | [Trello Card](https://trello.com/c/OXc4FZDu) | Shaishav  Ankur  Prerit        | 24-Oct      | 25-Oct |
