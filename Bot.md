@@ -153,7 +153,7 @@ driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
 		List<WebElement> branches = driver.findElements(By.xpath(branchNamePath));
 		assertEquals(branches.size(),0);
 ```
-Success of the test case shows that
+Success of the test case shows that when master branch becomes stable, the previously created locked stable branch gets deleted.
 
 
 ### Use Case 2: Tentative blocking a buggy user
