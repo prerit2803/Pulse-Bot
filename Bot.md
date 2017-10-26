@@ -60,7 +60,7 @@ _**4. Alternative Flow:**_
 ## Selenium testing of each use case
 ### Use Case 1: Maintaining a stable branch
 
-#### Test Case 1: Creaate a stable branch
+#### Test Case 1: Create a stable branch
 [See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L78)
 
 _**Test Case flow:**_
@@ -261,72 +261,75 @@ Success of the test case shows that the bot can sucessfully track number of bugg
 ### Use Case 3: Create a summary report
 
 #### Test Case 1: 
-[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L78)
+[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/RedisTest.java#L70)
 
 _**Test Case flow:**_
 
 + flow1
 ```
 @Test
-public void createStableBranchTest() 
-
-	...  //
-	
-}
-```
-
-+ flow2
-```
-@Test
-public void testUserRemoved(){
-
-	...  // 
+public void redisTest(){
+	alternatePath();
+	buildSuccess();
+	buildFail();
 }
 
 ```
-+ flow3
+
++ subFlow1
 ```
-@Test
-public void createStableBranchTest() {
-	...  // 
-	
+public void alternatePath(){
+...
+	String repoHealthStatus = response.get(response.size()-1).getText();
+	String[] parts = repoHealthStatus.split("\n");
+	char valueOfBadCommit = parts[0].charAt(parts[0].length()-1);
+	String[] branch = parts[1].split(" ");
+	String branchName = branch[3];
+		
+	assertEquals(valueOfBadCommit, '0');
+	assertEquals(branchName, "master");
+	assertEquals(parts.length, 3);
+...
 }
 ```
-Success of the test case shows that
-
-#### Test Case 2: 
-[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L111)
-
-_**Test Case flow:**_
-
-+ flow1
++ subFlow2
 ```
-@Test
-public void deleteStableBranchTest(){
-
-	...  //
-	
+public void buildSuccess(){
+...
+	List <WebElement> response = driver.findElements(		
+    		By.xpath("//span[contains(.,'Your bad commits for the day:')]"));
+    		assertNotNull(response);
+    		String repoHealthStatus = response.get(response.size()-1).getText();
+    		String[] parts = repoHealthStatus.split("\n");
+    		char valueOfBadCommit = parts[0].charAt(parts[0].length()-1);
+    		String[] branch = parts[1].split(" ");
+    		String branchName = branch[3];
+    		char authorCommits = parts[3].charAt(parts[3].length()-1);
+    		
+    		assertEquals(valueOfBadCommit, '0');
+    		assertEquals(authorCommits, '1');
+    		assertEquals(branchName, "master");
+...
 }
 ```
 
-+ flow2
++ subFlow3
 ```
-@Test
-public void deleteStableBranchTest(){
-	...  // 
-}
+public void buildFail(){
+...
+	String repoHealthStatus = response.get(response.size()-1).getText();
+	String[] parts = repoHealthStatus.split("\n");
+	char valueOfBadCommit = parts[0].charAt(parts[0].length()-1);
+	String[] branch = parts[1].split(" ");
+	String branchName = branch[3];
+	char authorCommits = parts[3].charAt(parts[3].length()-1);
 
-```
-+ flow3
-```
-@Test
-public void deleteStableBranchTest(){
-	...  // 
-	
+	assertEquals(valueOfBadCommit, '1');
+	assertEquals(authorCommits, '2');
+	assertTrue(branchName.contains("testStable"));
+...
 }
 ```
-Success of the test case shows that
-
 
 ## Task Tracking
 We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
