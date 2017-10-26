@@ -260,7 +260,7 @@ Success of the test case shows that the bot can sucessfully track number of bugg
 
 ### Use Case 3: Create a summary report
 
-#### Test Case 1: 
+#### Test Case 1: Testing for the correct values generated in Report
 [See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/RedisTest.java#L70)
 
 _**Test Case flow:**_
@@ -275,7 +275,7 @@ public void redisTest(){
 }
 
 ```
-
+We are running 3 testcases one for alternate path, one when the build succeeds and another one when build fails.
 + subFlow1
 ```
 public void alternatePath(){
@@ -292,6 +292,8 @@ public void alternatePath(){
 ...
 }
 ```
+Our subflow1 is the alternate path of the user case when the repo is empty without any commits. When repo is empty without any commits then the value of bad commit will be 0 and stable branch name is master.
+
 + subFlow2
 ```
 public void buildSuccess(){
@@ -312,6 +314,7 @@ public void buildSuccess(){
 ...
 }
 ```
+Our subflow2 is calling the buildSuccess function. In this case the build succeeds and the value of bad commits becomes 0 and total number of commits are set to 1.
 
 + subFlow3
 ```
@@ -330,6 +333,7 @@ public void buildFail(){
 ...
 }
 ```
+Our subflow3 is calling the buildFail function. In this case the build fails and the value of bad commits becomes 1 and total number of commits are set to 2.
 
 ## Task Tracking
 We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
