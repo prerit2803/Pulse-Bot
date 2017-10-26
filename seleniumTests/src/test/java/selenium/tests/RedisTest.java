@@ -28,8 +28,8 @@ public class RedisTest
 {
 	private static WebDriver driver;
 	
-	private static String user = "pbhanda2@ncsu.edu";
-	private static String pass = "QWE!@#qwe123";
+	private static String user = System.getenv("username");
+	private static String pass = System.getenv("password");
 	private static CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 	private static String serverAddress = "http://13.59.112.43:3000";
 	
