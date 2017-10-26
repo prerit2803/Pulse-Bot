@@ -54,9 +54,39 @@ _**4. Alternative Flow:**_
 	[E2] Repo has no collaborators.
 
 
-
 ## Mocking
-## Bot Implementation
+
+Our bot needs to mock two outside services:
++ REST calls to Github API
++ Fetch/Store calls to In-memory caching service Redis  
+We used **Mocha** framework on Node.js for mocking and testing these calls.
+### Mock Data collection
+Initially a mocked data for all the use cases was collected by making actual calls to the website using POSTMAN plugin. For Redis a fake data set was created. 
+### Testing
+We used package `chai` to intercepted these calls and sending mocked data instead. Each helper and mian function was mocked and tested. 
+[See full mocking test cases here](https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone2/pulseBot/test)
+
+Sample mocking case is shown below:
+```
+describe('checkUserExists(user):success', ()=>{
+    
+    var testPresentUser= "mbehroo"
+    var mockService1 = nock(handleCollaborator.urlRoot)
+  	 .get('/repos/pulseBotProject/MavenVoid/collaborators/mbehroo')	//'GET' call to github
+  	 .reply(204,data.userExists)
+    
+    // TEST CASE: userExists
+    it('should verify that user exists as collaborator',(done)=>{
+      handleCollaborator.checkUserExists(testPresentUser).then( (result)=>{
+        expect(result).to.equal(testPresentUser)
+        done()
+      })
+    })
+  })
+```
+All the test cases were tested using `npm test` and the result is [here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/pulseBot/test/npm%20test.jpg)
+
+
 ## Selenium testing of each use case
 ### Use Case 1: Maintaining a stable branch
 
@@ -265,7 +295,7 @@ Success of the test case shows that the bot can sucessfully track number of bugg
 
 _**Test Case flow:**_
 
-+ flow1
++ Main function to call all the test
 ```
 @Test
 public void redisTest(){
@@ -276,7 +306,7 @@ public void redisTest(){
 
 ```
 We are running 3 testcases one for alternate path, one when the build succeeds and another one when build fails.
-+ subFlow1
++ Alternate path: When there is no commit on the master branch
 ```
 public void alternatePath(){
 ...
@@ -292,9 +322,9 @@ public void alternatePath(){
 ...
 }
 ```
-Our subflow1 is the alternate path of the user case when the repo is empty without any commits. When repo is empty without any commits then the value of bad commit will be 0 and stable branch name is master.
+Success of these tests shows that the repo is empty without any commits. When repo is empty without any commits then the value of bad commit will be 0 and stable branch name is master.
 
-+ subFlow2
++ Success path: Healthy commit is done and build succeeds
 ```
 public void buildSuccess(){
 ...
@@ -314,9 +344,9 @@ public void buildSuccess(){
 ...
 }
 ```
-Our subflow2 is calling the buildSuccess function. In this case the build succeeds and the value of bad commits becomes 0 and total number of commits are set to 1.
+In this case the build succeeds and the value of bad commits becomes 0 and total number of commits are set to 1.
 
-+ subFlow3
++ Failure path: Buggy commit is done and build fails
 ```
 public void buildFail(){
 ...
@@ -333,7 +363,7 @@ public void buildFail(){
 ...
 }
 ```
-Our subflow3 is calling the buildFail function. In this case the build fails and the value of bad commits becomes 1 and total number of commits are set to 2.
+In this case the build fails and the value of bad commits becomes 1 and total number of commits are set to 2.
 
 ## Task Tracking
 We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
