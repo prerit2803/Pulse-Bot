@@ -49,7 +49,6 @@ describe('totalNoOfCommits()', function(){
     main.totalNoOfCommits(authorName).then(function (results)
     {
       expect(results).to.equal(1);
-      //test case is done. Need this for asychronous operations.
       done();
     });
   });
@@ -60,8 +59,6 @@ describe('totalNoOfCommits()', function(){
      main.addBrokenCommits(authorName).then(function (results){
        expect(results).to.equal(2);
      });
-
-     //test case is done. Need this for asychronous operations.
      done();
    });
  });
@@ -72,7 +69,6 @@ describe('NoOfBrokenCommits()', function(){
   it('should add the first broken commit', function(done) {
     main.NoOfBrokenCommits(authorName).then(function (results){
       expect(results).to.equal(1);
-      //test case is done. Need this for asychronous operations.
       done();
     });
   });
@@ -98,8 +94,6 @@ describe('NoOfBrokenCommits()', function(){
                    expect(results2).to.equal(2);
              });
           });
-
-     //test case is done. Need this for asychronous operations.
      done();
    });
  });
