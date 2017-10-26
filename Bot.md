@@ -56,7 +56,7 @@ _**4. Alternative Flow:**_
 
 ## Mocking
 
-Our bot needs to mock two outside services:
+Our bot needs makes callsto two outside services:
 + REST calls to Github API
 + Fetch/Store calls to In-memory caching service Redis  
 We used **Mocha** framework on Node.js for mocking and testing these calls.
