@@ -367,3 +367,29 @@ In this case the build fails and the value of bad commits becomes 1 and total nu
 We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md)
 
 ## Screencast
+[Usecase1 + bot implementation](https://youtu.be/1NOJXv4eZg4)
+
+[Usecase2]()
+
+[UseCase3](https://youtu.be/0o6-03CGQlw)
+
+## Steps to run the code
+1. Clone this repository and switch to Milestone2 branch
+
+2. cd into the pulseBot directory where package.json is located
+
+3. Run npm install
+
+4. Set the environment variable of slackBot as variable name SLACKTOKEN
+
+5. To run the bot, run "node main.js"
+
+To run the selenium tests:
+
+1. Open the seleniumTests project in Eclipse
+
+2. Set the following environment variables: username:<unityID>, password:<YOUR PASSWORD> for every test case you want to run
+
+3. Run the testcases while the bot is running.
+
+4. Since all Selenium testcases expect the bot has just been started, stop and start the bot between running the Selenium tests.
