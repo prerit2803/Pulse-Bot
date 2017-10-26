@@ -369,7 +369,7 @@ We used Trello for task tracking. A weekly itinerary of tasks performed can be f
 ## Screencast
 [Usecase1 + bot implementation](https://youtu.be/1NOJXv4eZg4)
 
-[Usecase2]()
+[Usecase2](https://youtu.be/S0bk48FxWiY)
 
 [UseCase3](https://youtu.be/0o6-03CGQlw)
 
