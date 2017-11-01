@@ -365,9 +365,9 @@ In this case the build fails and the value of bad commits becomes 1 and total nu
 
 ## Task Tracking
 We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md) 
-Use the following credentials to log in to Trello:
-**username:** Pulsebotproject@gmail.com
-**password:** pulsebot@project
+Use the following credentials to log in to Trello:  
++ **username:** Pulsebotproject@gmail.com
++ **password:** pulsebot@project
 
 ## Screencast
 [Usecase1 + bot implementation](https://youtu.be/1NOJXv4eZg4)
