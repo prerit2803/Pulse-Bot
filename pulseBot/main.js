@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 var client = redis.client
-client.set("stableBranchNameTest", "master")
+client.set("stableBranchName", "master")
 
 app.post('/successBuild', function(req, res) {
   	const body = req.body

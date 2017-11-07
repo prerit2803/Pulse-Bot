@@ -2,7 +2,7 @@ var Botkit = require('botkit');
 var Promise = require('promise');
 var main = require("./redisDataStore.js");
 client = main.client;
-
+var handleCollaborator = require("./handleCollaborator.js");
 
 
 var controller = Botkit.slackbot({
@@ -25,7 +25,7 @@ controller.spawn({
 function checkIfUserExists(slackId){
   return new Promise(function(resolve, reject){
     client.hexists('userMap', slackId , function(err, reply){
-      console.log("Reply is : " + reply);
+      // console.log("Reply is : " + reply);
       resolve(reply);
   	});
   });
@@ -38,14 +38,14 @@ function CheckBlockedUser(authorName){
   });
 }
 function NoofBrokenCommitsToday(authorName){
-  console.log(authorName);
+  // console.log(authorName);
   return new Promise(function(resolve,reject){
     client.exists(authorName,function(err, reply){
       if(reply ==0){
-        console.log("Not blocked user "+authorName);
+        // console.log("Not blocked user "+authorName);
         client.hget('noOfBrokenCommitsToday', authorName, function(err, rep){
 
-                console.log("here "+rep);
+                // console.log("here "+rep);
           if(rep == null)
               resolve(0);
           resolve(rep);
@@ -61,14 +61,14 @@ function NoofBrokenCommitsToday(authorName){
 function adduser(slackId,githubId){
     // console.log("slack id    "+ slackid);
     client.hmset('userMap', slackId, githubId, function(err,reply){
-      console.log('{"GithubID ":"'+githubId+'"}');
+      // console.log('{"GithubID ":"'+githubId+'"}');
     });
   }
 
 
 controller.hears('^(?!.*(#|Hi bot|stable branch name|Grant me repo access|repo health|bad commits left for the day))',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
-	console.log(message);
+	// console.log(message);
 
 	bot.reply(message,"I'm sorry but i only understand the following commands: \n 1. Stable branch name\n 2. Grant me repo access \n 3. repo health \n 4. bad commits left for the day");
 
@@ -76,16 +76,16 @@ controller.hears('^(?!.*(#|Hi bot|stable branch name|Grant me repo access|repo h
 
 controller.hears('Hi bot',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
-	console.log(message);
+	// console.log(message);
 	bot.reply(message,"Hello! How can i help you today ? You can ask me any of the following questions: \n 1. What is the stable branch name ?\n 2. Grant me repo access \n 3. What is the repo health ? \n 4. What are my bad commits left for the day ?");
 
 });
 
 controller.hears('bad commits left for the day',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
-  console.log(message);
+  // console.log(message);
   checkIfUserExists(message.user).then(function(reply){
-    console.log("rep: "+reply);
+    // console.log("rep: "+reply);
     if(reply==0)
     	bot.reply(message,"Enter GitHubID starting with #");
     else{
@@ -101,7 +101,7 @@ controller.hears('bad commits left for the day',['mention', 'direct_mention','di
 
   controller.hears('#',['mention', 'direct_mention','direct_message'], function(bot,message)
 	{
-	  console.log(message);
+	  // console.log(message);
 	  var input = message.text;
 	  var gitID = input.split('#');
 	  var githubID = gitID[1];
@@ -125,7 +125,7 @@ controller.hears('bad commits left for the day',['mention', 'direct_mention','di
 controller.hears('stable branch name',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   // console.log(message);
-  client.get('stableBranchNameTest', function(err, resp){
+  client.get('stableBranchName', function(err, resp){
     if(resp=="master")
       bot.reply(message,"Master branch is stable. No build Failure");
     else {
@@ -136,21 +136,23 @@ controller.hears('stable branch name',['mention', 'direct_mention','direct_messa
 
 controller.hears('Grant me repo access',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
-  console.log(message);
+  // console.log(message);
   checkIfUserExists(message.user).then(function(reply){
-    console.log("rep: "+reply);
+    // console.log("rep: "+reply);
     if(reply==0)
       bot.reply(message,"Enter GitHubID starting with # (dont add spaces)");
     else{
       client.hget('userMap', message.user, function(err, reply){
       CheckBlockedUser(reply).then(function(checkblocked){
         if(checkblocked==0){
-          bot.reply(message, "You already have access to the repo");
+          console.log(reply)
+          // bot.reply(message, "You already have access to the repo");
+          handleCollaborator.adduser(reply)
         }
         else{
-          console.log("User is "+reply);
+          // console.log("User is "+reply);
           client.get(reply,function(err, timetoaccess){
-            console.log("time "+timetoaccess);
+            // console.log("time "+timetoaccess);
             var t = new Date(null); // Epoch
             t.setTime(+timetoaccess*1000);
             bot.reply(message, "You can request next access after: " + t);
@@ -166,9 +168,9 @@ controller.hears('Grant me repo access',['mention', 'direct_mention','direct_mes
 controller.hears('repo health',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
 
-  console.log(message);
+  // console.log(message);
   checkIfUserExists(message.user).then(function(reply){
-    console.log("rep: "+reply);
+    // console.log("rep: "+reply);
     if(reply==0)
       bot.reply(message,"Enter GitHubID starting with # (no spaces)");
 
@@ -179,13 +181,13 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
       var result = "";
       // Displays number of broken commits for user
       client.hget('userMap', message.user, function(err, reply){
-      console.log("usermap is : " + reply);
+      // console.log("usermap is : " + reply);
         NoofBrokenCommitsToday(reply).then(function(resp){
 
           result += "Your bad commits for the day: "+resp;
 
       // Displays stable branch name
-      client.get('stableBranchNameTest', function(err, res){
+      client.get('stableBranchName', function(err, res){
 
           result += " \n Stable Branch is "+ res;
 

@@ -1,8 +1,8 @@
-var redis = require("fakeredis");
+var redis = require("redis");
 var Promise = require('promise');
 client = redis.createClient();
 
-var MaxBrokenCommitThreshold = 5;
+var MaxBrokenCommitThreshold = 1;
 
 function BuildSucceded(userDetails){
   return new Promise(function(resolve, reject){
@@ -70,7 +70,7 @@ function NoOfBrokenCommits(authorName){
              if(reply >= MaxBrokenCommitThreshold){
                var expirationTime = parseInt(((+new Date)/1000)+86400);
                 client.set(authorName, expirationTime);
-                client.expire(authorName, expirationTime);
+                client.expire(authorName, 120);
                 client.hmset('noOfBrokenCommitsToday', authorName, 0, function(err,reply){
                   resolve(0);
                 });
