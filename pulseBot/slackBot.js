@@ -89,7 +89,7 @@ function adduser(slackId,githubId){
   }
 
 
-controller.hears('^(?!.*(#|Hi|stable branch name|Grant me repo access|repo health|bad commits left for the day))',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('^(?!.*(#|Hi||Hello|stable branch name|Grant me repo access|repo health|bad commits left for the day))',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
 	// console.log(message);
 
@@ -97,7 +97,7 @@ controller.hears('^(?!.*(#|Hi|stable branch name|Grant me repo access|repo healt
 
 });
 
-controller.hears('Hi',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears(['Hi','Hello'],['mention', 'direct_mention','direct_message'], function(bot,message)
 {
 	// console.log(message);
 	bot.reply(message,"Hello! How can i help you today ? You can ask me any of the following questions: \n 1. What is the stable branch name ?\n 2. Grant me repo access \n 3. What is the repo health ? \n 4. What are my bad commits left for the day ?");
