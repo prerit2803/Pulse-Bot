@@ -110,6 +110,7 @@ function addUser(user){
 			//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
 			if(response.statusCode===204){
 				//console.log('\n'+Date().toString()+":\tadded "+user)
+				console.log("added user" + user)
 				resolve(user)
 			}
 			else reject("Couldn't add user!\n"+JSON.stringify(response.body))

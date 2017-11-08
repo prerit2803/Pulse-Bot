@@ -4,6 +4,8 @@ var main = require("./redisDataStore.js");
 client = main.client;
 var handleCollaborator = require("./handleCollaborator.js");
 
+var generalChannelId = 'C6VJQE5UY'
+var botUserId = 'U6W8EEE8J'
 
 var controller = Botkit.slackbot({
   debug: false
@@ -12,11 +14,32 @@ var controller = Botkit.slackbot({
 });
 
 // connect the bot to a stream of messages
-controller.spawn({
+var myBot = controller.spawn({
  token: process.env.SLACKTOKEN,
 }).startRTM()
 
+// controller.hears('test',['mention', 'direct_mention','direct_message'], function(bot,message){
+//     console.log(message);
+//     bot.reply(message, "test")
+// })
 
+
+// const context = {
+//   channel: 'C6VJQE5UY',
+//   user: 'U6W8EEE8J'
+// }
+
+// var sayContext = {
+//   text: 'my message text',
+//   channel: 'C6VJQE5UY'
+// }
+
+// myBot.say(sayContext)
+
+// myBot.startConversation(context, function(err, convo) {
+//   convo.ask('Are you sure you want me to shutdown?');
+// })
+// myBot.startConversation()
 // calltotalNoOfCommits();
 // noOfBrokenCommits();
 // userMap();
@@ -143,11 +166,14 @@ controller.hears('Grant me repo access',['mention', 'direct_mention','direct_mes
       bot.reply(message,"Enter GitHubID starting with # (dont add spaces)");
     else{
       client.hget('userMap', message.user, function(err, reply){
-      CheckBlockedUser(reply).then(function(checkblocked){
+        var userToAdd = reply
+        console.log("reply: " + reply)
+      CheckBlockedUser(userToAdd).then(function(checkblocked){
+        console.log("checkblocked: " + checkblocked)
         if(checkblocked==0){
-          console.log(reply)
-          // bot.reply(message, "You already have access to the repo");
-          handleCollaborator.adduser(reply)
+          console.log(userToAdd)
+          bot.reply(message, "You already have access to the repo");
+          handleCollaborator.adduser(userToAdd)
         }
         else{
           // console.log("User is "+reply);
