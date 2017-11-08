@@ -2,6 +2,8 @@ var request = require('request');
 var Promise = require('bluebird');
 var redisDataStore = require("./redisDataStore.js");
 var client = redisDataStore.client
+var slackBot = require("./slackBot.js");
+var myBot = slackBot.myBot
 
 var token = "token " + process.env.githubToken;
 var orgName = "pulseBotProject";
@@ -51,6 +53,11 @@ function refactorOnStableBuild(jenkinsJSON){
     }).then(function(branchName){
       return updateStableBranchName(stableBranchNameKey, "master")
     }).then(function(branchName){
+	  var sayContext = {
+		text: 'master branch is now stable',
+		channel: 'C6VJQE5UY'
+	  }
+	  myBot.say(sayContext)
       resolve("refactorOnStableBuild successful ")
     }).catch(function(error){
       reject(error)
@@ -89,6 +96,11 @@ function refactorOnUnstableBuild(jenkinsJSON){
     }).then(function(stableBranchName){
       return updateStableBranchName(stableBranchNameKey, stableBranchName)
     }).then(function(branchName){
+      var sayContext = {
+		text: 'master branch is unstable. Stable branch is ' + branchName,
+		channel: 'C6VJQE5UY'
+	  }
+	  myBot.say(sayContext)
       resolve("refactorOnUnstableBuild successful")
     }).catch(function(error){
       reject(error)

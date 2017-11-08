@@ -29,6 +29,10 @@ var myBot = controller.spawn({
 //   user: 'U6W8EEE8J'
 // }
 
+// myBot.startConversation(context, function(err, convo) {
+//   convo.ask('Are you sure you want me to shutdown?');
+// })
+
 // var sayContext = {
 //   text: 'my message text',
 //   channel: 'C6VJQE5UY'
@@ -36,10 +40,6 @@ var myBot = controller.spawn({
 
 // myBot.say(sayContext)
 
-// myBot.startConversation(context, function(err, convo) {
-//   convo.ask('Are you sure you want me to shutdown?');
-// })
-// myBot.startConversation()
 // calltotalNoOfCommits();
 // noOfBrokenCommits();
 // userMap();
@@ -172,8 +172,9 @@ controller.hears('Grant me repo access',['mention', 'direct_mention','direct_mes
         console.log("checkblocked: " + checkblocked)
         if(checkblocked==0){
           console.log(userToAdd)
-          bot.reply(message, "You already have access to the repo");
-          handleCollaborator.adduser(userToAdd)
+          handleCollaborator.adduser(userToAdd).then((data)=>{
+            bot.reply(message, "You already have access to the repo");
+          })
         }
         else{
           // console.log("User is "+reply);
@@ -307,3 +308,5 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
 // {
 // 	client.hmset('userMap','jaydeep','jaydeep');
 // }
+
+exports.myBot = myBot

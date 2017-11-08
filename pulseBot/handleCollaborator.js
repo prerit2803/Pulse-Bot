@@ -93,6 +93,7 @@ function removeUser(user){
 
 // adds user to repo as collaborator
 function addUser(user){
+	console.log("called")
 	var options = {
 		url: urlRoot + "/repos/"+orgName+"/"+repoName+"/collaborators/"+user,
 	    method: 'PUT',
