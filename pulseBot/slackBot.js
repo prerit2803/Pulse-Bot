@@ -28,6 +28,15 @@ myBot.api.users.list({},function(err,response) {
   console.log(userIDs)
 })
 
+// Collecting ChannelIDs and channel names
+myBot.api.channels.list({},function(err,response) {
+	var channelIDs = new Object();
+  for (var i = 0; i < response.channels.length;i++){
+  		channelIDs[response.channels[i].id] = response.channels[i].name
+  }
+  console.log(channelIDs)
+})
+
 // controller.hears('test',['mention', 'direct_mention','direct_message'], function(bot,message){
 //     console.log(message);
 //     bot.reply(message, "test")
