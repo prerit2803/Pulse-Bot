@@ -1,6 +1,10 @@
 var Botkit = require('botkit');
 var Promise = require('promise');
 var main = require("./redisDataStore.js");
+var fs = require("fs")
+var path = require("path")
+var exec = require("exec")
+var plotly = require('plotly')(process.env.PLOTLYUSER, process.env.PLOTLYTOKEN)
 client = main.client;
 var handleCollaborator = require("./handleCollaborator.js");
 
@@ -63,6 +67,31 @@ myBot.api.channels.list({},function(err,response) {
 // noOfBrokenCommits();
 // userMap();
 
+function CreateBarGraph(filename, x_value, y_value, widthOfGraph, heightOfGraph){
+  var trace1 = {
+    x: x_value,
+    y: y_value,
+    type: "bar"
+  };
+
+  var figure = { 'data': [trace1] };
+
+  var imgOpts = {
+    format: 'png',
+    width: widthOfGraph,
+    height: heightOfGraph
+
+  };
+  return  new Promise(function(resolve, reject){
+    plotly.getImage(figure, imgOpts, function (error, imageStream) {
+      if (error) return console.log (error);
+      var fileStream = fs.createWriteStream(filename)
+      imageStream.pipe(fileStream)
+      console.log("File written")
+      resolve(filename)
+    });
+  })
+}
 
 function checkIfUserExists(slackId){
   return new Promise(function(resolve, reject){
