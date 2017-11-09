@@ -93,6 +93,32 @@ function CreateBarGraph(filename, x_value, y_value, widthOfGraph, heightOfGraph)
   })
 }
 
+function CreatePieGraph(filename, value, label, widthOfGraph, heightOfGraph,  callback){
+  var trace1 = {
+    values: value,
+    labels: label,
+    type: "pie"
+  };
+
+  var figure = { 'data': [trace1] };
+
+  var imgOpts = {
+    format: 'png',
+    width: widthOfGraph,
+    height: heightOfGraph
+
+  };
+  return  new Promise(function(resolve, reject){
+    plotly.getImage(figure, imgOpts, function (error, imageStream) {
+      if (error) return console.log (error);
+      var fileStream = fs.createWriteStream(filename)
+      imageStream.pipe(fileStream)
+      console.log("File written pie ")
+      resolve(filename)
+    });
+  })
+}
+
 function checkIfUserExists(slackId){
   return new Promise(function(resolve, reject){
     client.hexists('userMap', slackId , function(err, reply){
