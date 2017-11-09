@@ -18,6 +18,16 @@ var myBot = controller.spawn({
  token: process.env.SLACKTOKEN,
 }).startRTM()
 
+// Collecting UserIDs
+myBot.api.users.list({},function(err,response) {
+	var userIDs = new Object();
+  for (var i = 0; i < response.members.length;i++){
+  		userIDs[response.members[i].id] = response.members[i].name
+  }
+
+  console.log(userIDs)
+})
+
 // controller.hears('test',['mention', 'direct_mention','direct_message'], function(bot,message){
 //     console.log(message);
 //     bot.reply(message, "test")
