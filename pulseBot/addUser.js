@@ -32,3 +32,5 @@ function addGithubUser(user){
 		})	
 	})
 }
+
+exports.addGithubUser=addGithubUser;
