@@ -1,21 +1,20 @@
-	var Botkit = require('botkit');                              
 	var request = require('request')
 	var Promise = require('bluebird')
 	
 	var redisDataStore = require("./redisDataStore.js")
-	var client= redisDataStore.client
 	var slackBot = require("./slackBot.js");
+	var client= redisDataStore.client
 	var myBot = slackBot.myBot
-	
+	var threshold = redisDataStore.MaxBrokenCommitThreshold
+
 	var gitToken = "token " + process.env.githubToken
 	var orgName = "pulseBotProject"
 	var repoName = "MavenVoid"
 	var urlRoot = "https://github.ncsu.edu/api/v3"
-	var threshold = redisDataStore.MaxBrokenCommitThreshold
+	
 
 	//main function call to handle a user 	
-	// client.hmset("noOfBrokenCommitsToday",'jrane',3)
-	// client.hmset("userMap",'U7M87B657','jrane')
+	
 
 	//checks if user exists -> send notifications-> removes if necessary
 	function handleUser(gitID){
@@ -80,33 +79,6 @@
 		})
 	}
 
-	// adds user to repo as collaborator
-	function addUser(user){
-		console.log("called")
-		var options = {
-			url: urlRoot + "/repos/"+orgName+"/"+repoName+"/collaborators/"+user,
-		    method: 'PUT',
-		    headers: {
-		      "content-type": "application/json",
-		      "Authorization": gitToken,
-		      "Accept":"application/vnd.github.hellcat-preview+json"
-		    },
-		    json: {
-		    	"permission": "push"
-		    }
-		}
-		return new Promise( (resolve,reject)=>{
-			request(options,(error,response,body)=>{
-				//console.log('\n'+Date().toString()+":\t"+JSON.stringify(response))
-				if(response.statusCode===204){
-					//console.log('\n'+Date().toString()+":\tadded "+user)
-					console.log("added user" + user)
-					resolve(user)
-				}
-				else reject("Couldn't add user!\n"+JSON.stringify(response.body))
-			})	
-		})
-	}
 	
 	// sends a private slack notification if BuggyCount is more than 4
 	function sendWarning(user){
