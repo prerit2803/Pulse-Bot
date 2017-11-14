@@ -1,7 +1,7 @@
 ## 3 Use Cases
 
 
-### Use Case 1: Create a new branch with healthy code and lock it down until master branch is unstable.  
+### Use Case 1: Create a new branch with healthy code and lock it down as long as master branch is unstable.  
 
 _**1. Preconditions:**_  
 + Personal access token for GitHub repositories must be available to the bot.  
