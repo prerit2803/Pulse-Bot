@@ -53,11 +53,11 @@ function refactorOnStableBuild(jenkinsJSON){
     }).then(function(branchName){
       return updateStableBranchName(stableBranchNameKey, "master")
     }).then(function(branchName){
-	  var sayContext = {
-		text: 'master branch is now stable',
-		channel: 'C6VJQE5UY'
-	  }
-	  myBot.say(sayContext)
+  	  var sayContext = {
+    		text: 'master branch is now stable',
+    		channel: 'C6VJQE5UY'
+  	  }
+  	  myBot.say(sayContext)
       resolve("refactorOnStableBuild successful ")
     }).catch(function(error){
       reject(error)
@@ -97,10 +97,10 @@ function refactorOnUnstableBuild(jenkinsJSON){
       return updateStableBranchName(stableBranchNameKey, stableBranchName)
     }).then(function(branchName){
       var sayContext = {
-		text: 'master branch is unstable. Stable branch is ' + branchName,
-		channel: 'C6VJQE5UY'
-	  }
-	  myBot.say(sayContext)
+    		text: 'master branch is unstable. Stable branch is ' + branchName,
+    		channel: 'C6VJQE5UY'
+  	  }
+      myBot.say(sayContext)
       resolve("refactorOnUnstableBuild successful")
     }).catch(function(error){
       reject(error)

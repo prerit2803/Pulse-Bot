@@ -4,9 +4,9 @@
 	
 	var redisDataStore = require("./redisDataStore.js")
 	var client= redisDataStore.client
-	var threshold= redisDataStore.MaxBrokenCommitThreshold;
-	var zero = require("./slackBot.js").myBot;
-
+	var slackBot = require("./slackBot.js");
+	var myBot = slackBot.myBot
+	
 	var gitToken = "token " + process.env.githubToken
 	var orgName = "pulseBotProject"
 	var repoName = "MavenVoid"
@@ -122,7 +122,7 @@
 						text: 'You have made '+value+' broken commits today.',
 						channel: channel
 					}
-					zero.say(notification)
+					myBot.say(notification)
 				}	
 			})
 			resolve(user)
@@ -142,7 +142,7 @@
 								text: 'You have been temporarily removed as collaborator of '+ repoName,
 								channel: channel
 							}
-							zero.say(notification, (err,response)=>{
+							myBot.say(notification, (err,response)=>{
 								resolve(user)	
 							})
 							
