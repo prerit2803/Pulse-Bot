@@ -1,44 +1,36 @@
 	var Botkit = require('botkit');                              
 	var request = require('request')
 	var Promise = require('bluebird')
-	var redisDataStore = require("./redisDataStore.js");
-	var client = redisDataStore.client;
-	//var bot = require("./slackBot.js");
+	
+	var client = require("./redisDataStore.js").client;
+	var bot = require("./slackBot.js").myBot;
+	
 	var gitToken = "token " + process.env.githubToken
 	var orgName = "pulseBotProject"
 	var repoName = "MavenVoid"
 	var urlRoot = "https://github.ncsu.edu/api/v3"
 
-	//main function call to handle a user 
-	var controller = Botkit.slackbot({
-	  debug: false
-	  //include "log: false" to disable logging
-	  //or a "logLevel" integer from 0 to 7 to adjust logging verbosity
-	});
+	//main function call to handle a user 	
+	client.hmset("noOfBrokenCommitsToday",'jrane',3)
+	client.hmset("userMap",'U7M87B657','jrane')
 
-	// connect the bot to a stream of messages
-	var bot = controller.spawn({
-	 token: process.env.SLACKTOKEN,
-	}).startRTM()
-	
-	handleUser('jrane1')
-		//console.log('\n'+Date().toString()+":\t"+user)
-		//return addUser(user)
-	.catch((value)=>{
-		console.log('catch '+value)
-	}).done()
-	
-	//addUser(userName)
-	//client.set('jrane',1)
-	//checks if user exists -> removes if necessary
+	//checks if user exists -> send notifications-> removes if necessary
 	function handleUser(gitID){
-		return checkUserExists(gitID)
-		.then(sendWarning)
-		.then(sendNotification)
-		.then(removeUser)
+		return new Promise( (resolve,reject)=>{
+			checkUserExists(gitID)
+			.then(sendWarning)
+			.then(sendNotification)
+			.then( (user)=>{
+				client.exists(user, (err, hasToBeRemoved)=>{
+					if(hasToBeRemoved == 1){
+						resolve(removeUser(user))
+					}
+				})
+			}).catch(console.log)
+		})
 	}
 
-	// check if user is a member of organizationcd 
+	// checks if user is a member of organizationcd 
 	function checkUserExists(user){
 		var options = {
 			url: urlRoot + "/repos/"+orgName+"/"+ repoName+"/collaborators/"+user,
@@ -55,11 +47,9 @@
 				if(response.statusCode===204){
 					resolve(user)
 				}
-				else reject("Couldn't find user!\n"+response.body)
+				else reject("User doesn't exist!\n"+response.body)
 			})	
-		})/*.catch((value)=>{
-			console.log(value)
-		})*/
+		})
 	}
 
 	// removes user from list of collaborators
@@ -84,9 +74,7 @@
 					reject("Couldn't remove user!\n"+response.body)
 				} 
 			})
-		})/*.catch( (value)=>{
-			console.log(value)
-		})*/
+		})
 	}
 
 	// adds user to repo as collaborator
@@ -114,15 +102,10 @@
 				}
 				else reject("Couldn't add user!\n"+JSON.stringify(response.body))
 			})	
-		})/*.catch( (value)=>{
-			console.log(value)
-		})*/
+		})
 	}
 	
-	client.hmset("noOfBrokenCommitsToday",'jrane',4)
-	client.hmset("userMap",'U7M87B657','jrane')
-	
-	// send a slack notification if userBuggyCommitCount is more than 4
+	// sends a private slack notification if BuggyCount is more than 4
 	function sendWarning(user){
 		return new Promise( (resolve,reject)=>{
 			var channel
@@ -139,12 +122,12 @@
 					}
 					bot.say(notification)
 				}	
-				else reject("Less than 4 count!")
 			})
 			resolve(user)
 		})
 	}
 
+	//sends a private notification if user is removed
 	function sendNotification(user){
 		return new Promise( (resolve,reject)=>{
 			client.exists(user, (err, hasToBeRemoved)=>{
