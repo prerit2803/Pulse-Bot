@@ -3,7 +3,7 @@
 	var Promise = require('bluebird')
 	
 	var redisDataStore = require("./redisDataStore.js")
-	var client= redisDataStore.Client
+	var client= redisDataStore.client
 	var threshold= redisDataStore.MaxBrokenCommitThreshold;
 	var zero = require("./slackBot.js").myBot;
 
