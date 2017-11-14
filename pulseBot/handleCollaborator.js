@@ -129,6 +129,5 @@
 	}
 
 	exports.handleUser= handleUser;
-	exports.addUser= addUser;
 	exports.removeUser= removeUser;
 	exports.checkUserExists= checkUserExists;
