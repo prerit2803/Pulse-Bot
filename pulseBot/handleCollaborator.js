@@ -6,7 +6,7 @@
 	var client= redisDataStore.Client
 	var threshold= redisDataStore.MaxBrokenCommitThreshold;
 	var zero = require("./slackBot.js").myBot;
-	var threshold= 
+
 	var gitToken = "token " + process.env.githubToken
 	var orgName = "pulseBotProject"
 	var repoName = "MavenVoid"
