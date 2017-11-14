@@ -7,7 +7,7 @@ var path = require("path")
 var exec = require("exec")
 var plotly = require('plotly')(process.env.PLOTLYUSER, process.env.PLOTLYTOKEN)
 client = main.client;
-var handleCollaborator = require("./handleCollaborator.js");
+
 
 var generalChannelId = 'C6VJQE5UY'
 var botUserId = 'U6W8EEE8J'
