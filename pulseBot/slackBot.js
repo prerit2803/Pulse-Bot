@@ -273,82 +273,134 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
   checkIfUserExists(message.user).then(function(reply){
     // console.log("rep: "+reply);
     if(reply==0)
-      bot.reply(message,"Enter GitHubID starting with # (no spaces)");
+    bot.reply(message,"Enter GitHubID starting with # (no spaces)");
 
-  	  // After entering Github ID, the user should still be able to see the repo health. User-Specific report will be
-  	  // showing null values, while repo specific values can still be visible to the new user.
+    // After entering Github ID, the user should still be able to see the repo health. User-Specific report will be
+    // showing null values, while repo specific values can still be visible to the new user.
 
     else{
       var result = "";
       // Displays number of broken commits for user
-      client.hget('userMap', message.user, function(err, reply){
-      // console.log("usermap is : " + reply);
-        NoofBrokenCommitsToday(reply).then(function(resp){
+      client.hget('userMap', message.user, function(err, user){
+        // console.log("usermap is : " + reply);
 
-          result += "Your bad commits for the day: "+resp;
+        NoofBrokenCommitsToday(user).then(function(resp){
 
-      // Displays stable branch name
-      client.get('stableBranchName', function(err, res){
+          // result += "Your bad commits for the day: "+resp;
+          // Displays stable branch name
+          client.get('stableBranchName', function(err, res){
 
-          result += " \n Stable Branch is "+ res;
+            result += " \n Stable Branch is "+ res;
 
-          // bot.reply(message, result);
+            // bot.reply(message, result);
+            // total number of commits, contributors and their commits
+            // result="";
+            client.hgetall('totalNoOfCommits',function(err,commits){
+
+              var totcommitscount = 0
+              var arr = commits;
+              var nameArray = []
+              var totalCommitArray = []
+              var brokenCommitArray = []
+              var i = 0;
+              var repostats = "";
+              for (var key in arr) {
+                i+=1;
+                if (arr.hasOwnProperty(key)) {
+                  var val = arr[key];
+                  totcommitscount+= +val;
+                  repostats+= (key+" "+val+"\n");
+                  nameArray.push(key)
+                  totalCommitArray.push(val)
+                }
+              }
+
+              // displays bad and good commits percentage
+              client.hgetall('noOfBrokenCommits',function(err,brokencommits){
+
+                var arr = brokencommits;
+                var totbadcommitscount = 0;
+
+                for (var key in arr) {
+                  if (arr.hasOwnProperty(key)) {
+                    var val = arr[key];
+                    totbadcommitscount+= +val;
+                  }
+                }
+
+                badcommitspercentage = (totbadcommitscount/totcommitscount)*100;
+                goodcommitspercentage = 100 - badcommitspercentage;
+                bot.reply(message, result);
+                // result += "\nBad commits percentage on repo: " + badcommitspercentage.toFixed(2) + "% \n Good commmits percentage on repo: " + goodcommitspercentage.toFixed(2)+"%";
+
+                //  ********Pie Chart*******
+                CreatePieGraph('1.png', [badcommitspercentage, goodcommitspercentage], ['bad commits ','good commits'], 500,500).then(function (name){
+
+                  exec('curl -F file=@'+name+' -F channels=#graphicstest -F title=Commits_On_Repo -F token=xoxp-234211370995-253161359987-268642849140-a680a94fac8d45a1872608cfb74e7500 https://slack.com/api/files.upload', function(err,out,code){
+                    if(err instanceof Error)
+                    throw err;
+                    console.log("yayyy for pie!")
+                  } )
+                })
+                //********Bar Chart*****
+                console.log(" Admin is  " + user + resp)
+
+                if(user == 'abilala'){
+
+                  CreateBarGraph('3.png', nameArray, totalCommitArray, 500, 500).then(function (name){
+                    exec('curl -F file=@'+name+' -F channels=#graphicstest -F title=AllContributors -F token=xoxp-234211370995-253161359987-268642849140-a680a94fac8d45a1872608cfb74e7500 https://slack.com/api/files.upload', function(err,out,code){
+                      if(err instanceof Error)
+                      throw err;
+                      console.log("yayyy!")
+                    } )
+                  })
 
 
+                  // result+ = "List of Blocked Users \n"
+                  var blockedUsers = ""
+                  for(i =0; i< nameArray.length; i++){
+                    var name = nameArray[i]
+                    console.log(" value is " + name)
+                    client.get(name,function(err, blocked){
+                      console.log(" heree " + blocked+" "+name)
+                      if(blocked){
+                        var t = new Date(null); // Epoch
+                        t.setTime(+blocked*1000);
+                        blockedUsers += name + " "+ t
+                        console.log(blockedUsers + "blocked user ")
+                        bot.reply(message,"Blocked User: "+blockedUsers)
+                      }
+                    })
+                  }
+                }
+                else if(resp != "User is Blocked"){
+                  CreateBarGraph('2.png', ['Total number of broken commits Today'], [resp], 500,500).then(function (name){
+                    exec('curl -F file=@'+name+' -F channels=#graphicstest -F title=Broken_Commits_Today,Threshold=5 -F filename=Threshold=5 -F token=xoxp-234211370995-253161359987-268642849140-a680a94fac8d45a1872608cfb74e7500 https://slack.com/api/files.upload', function(err,out,code){
+                      if(err instanceof Error)
+                      throw err;
+                      console.log("yayyy!")
+                    } )
+                  }) }
 
-      // total number of commits, contributors and their commits
-      // result="";
-      client.hgetall('totalNoOfCommits',function(err,reply){
+                  else{
+                    console.log("User is blocked")
+                    client.get(user,function(err, timetoaccess){
+                      // console.log("time "+timetoaccess);
+                      var t = new Date(null); // Epoch
+                      t.setTime(+timetoaccess*1000);
+                      bot.reply(message, "You are blocked and can request next access after: " + t);
+                    });
 
-      		var totcommitscount = 0
-      		var arr = reply;
-    		var i = 0;
-      		var repostats = "";
-      		for (var key in arr) {
-      			i+=1;
-  			if (arr.hasOwnProperty(key)) {
-   				var val = arr[key];
-    			totcommitscount+= +val;
-    			repostats+= (key+" "+val+"\n");
-  					}
-				}
+                  }
+                })
+              })
+            })
+          })
+        })
+      }
+    })
+  })
 
-			// result += "\n Number of contributors on repo: " +i+ " \n Total number of commits on this repo: " + totcommitscount +
-			// "\n Names of repo contributors and their total commits: \n" + repostats;
-			result+="\n Names of repo contributors and their total commits: \n" + repostats;
-
-      		// bot.reply(message, result);
-
-      // result="";
-
-      // displays bad and good commits percentage
-      client.hgetall('noOfBrokenCommits',function(err,reply){
-
-      		var arr = reply;
-      		var totbadcommitscount = 0;
-
-      		for (var key in arr) {
-  			if (arr.hasOwnProperty(key)) {
-   				var val = arr[key];
-    			totbadcommitscount+= +val;
-  					}
-				}
-
-			badcommitspercentage = (totbadcommitscount/totcommitscount)*100;
-			goodcommitspercentage = 100 - badcommitspercentage;
-
-			// result += "\nBad commits percentage on repo: " + badcommitspercentage.toFixed(2) + "% \n Good commmits percentage on repo: " + goodcommitspercentage.toFixed(2)+"%";
-      		bot.reply(message, result);
-
-
-      		  });
-      		});
-          });
-        });
-      });
-    }
-  });
-});
 
 
 // function calltotalNoOfCommits()
