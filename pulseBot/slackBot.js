@@ -1,6 +1,7 @@
 var Botkit = require('botkit');
 var Promise = require('promise');
 var main = require("./redisDataStore.js");
+var addGithubUser = require("./addUser.js").addGithubUser;
 var fs = require("fs")
 var path = require("path")
 var exec = require("exec")
@@ -10,7 +11,6 @@ var handleCollaborator = require("./handleCollaborator.js");
 
 var generalChannelId = 'C6VJQE5UY'
 var botUserId = 'U6W8EEE8J'
-
 var controller = Botkit.slackbot({
   debug: false
   //include "log: false" to disable logging
@@ -33,14 +33,14 @@ myBot.api.users.list({},function(err,response) {
 })
 
 // Collecting ChannelIDs and channel names
-myBot.api.channels.list({},function(err,response) {
+/*myBot.api.channels.list({},function(err,response) {
 	var channelIDs = new Object();
   for (var i = 0; i < response.channels.length;i++){
   		channelIDs[response.channels[i].id] = response.channels[i].name
   }
   console.log(channelIDs)
 })
-
+*/
 // controller.hears('test',['mention', 'direct_mention','direct_message'], function(bot,message){
 //     console.log(message);
 //     bot.reply(message, "test")
@@ -246,7 +246,7 @@ controller.hears('Grant me repo access',['mention', 'direct_mention','direct_mes
         console.log("checkblocked: " + checkblocked)
         if(checkblocked==0){
           console.log(userToAdd)
-          handleCollaborator.adduser(userToAdd).then((data)=>{
+          addUser.addGithubUser(userToAdd).then((data)=>{
             bot.reply(message, "You already have access to the repo");
           })
         }
