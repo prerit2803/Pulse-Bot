@@ -373,9 +373,25 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
                     })
                   }
                 }
-                
+                else if(resp != "User is Blocked"){
+                  CreateBarGraph('2.png', ['Total number of broken commits Today'], [resp], 500,500).then(function (name){
+                    exec('curl -F file=@'+name+' -F channels=#graphicstest -F title=Broken_Commits_Today,Threshold=5 -F filename=Threshold=5 -F token=xoxp-234211370995-253161359987-268642849140-a680a94fac8d45a1872608cfb74e7500 https://slack.com/api/files.upload', function(err,out,code){
+                      if(err instanceof Error)
+                      throw err;
+                      console.log("yayyy!")
+                    } )
+                  }) }
 
-                
+                  else{
+                    console.log("User is blocked")
+                    client.get(user,function(err, timetoaccess){
+                      // console.log("time "+timetoaccess);
+                      var t = new Date(null); // Epoch
+                      t.setTime(+timetoaccess*1000);
+                      bot.reply(message, "You are blocked and can request next access after: " + t);
+                    });
+
+                  }
                 })
               })
             })
