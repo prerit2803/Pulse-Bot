@@ -3,7 +3,7 @@
 	var Promise = require('bluebird')
 	
 	var client = require("./redisDataStore.js").client;
-	var bot = require("./slackBot.js").myBot;
+	var zero = require("./slackBot.js").myBot;
 	
 	var gitToken = "token " + process.env.githubToken
 	var orgName = "pulseBotProject"
@@ -120,7 +120,7 @@
 						text: 'You have made '+value+' broken commits today.',
 						channel: channel
 					}
-					bot.say(notification)
+					zero.say(notification)
 				}	
 			})
 			resolve(user)
@@ -140,7 +140,7 @@
 								text: 'You have been temporarily removed as collaborator of '+ repoName,
 								channel: channel
 							}
-							bot.say(notification, (err,response)=>{
+							zero.say(notification, (err,response)=>{
 								resolve(user)	
 							})
 							
@@ -157,7 +157,3 @@
 	exports.addUser= addUser;
 	exports.removeUser= removeUser;
 	exports.checkUserExists= checkUserExists;
-	exports.orgName = orgName;
-	exports.repoName = repoName;
-	exports.urlRoot= urlRoot;
-	exports.client = client
