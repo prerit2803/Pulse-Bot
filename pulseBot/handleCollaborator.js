@@ -11,10 +11,11 @@
 	var orgName = "pulseBotProject"
 	var repoName = "MavenVoid"
 	var urlRoot = "https://github.ncsu.edu/api/v3"
+	var threshold = redisDataStore.MaxBrokenCommitThreshold
 
 	//main function call to handle a user 	
-	client.hmset("noOfBrokenCommitsToday",'jrane',3)
-	client.hmset("userMap",'U7M87B657','jrane')
+	// client.hmset("noOfBrokenCommitsToday",'jrane',3)
+	// client.hmset("userMap",'U7M87B657','jrane')
 
 	//checks if user exists -> send notifications-> removes if necessary
 	function handleUser(gitID){
