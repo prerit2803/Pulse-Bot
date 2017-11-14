@@ -2,9 +2,11 @@
 	var request = require('request')
 	var Promise = require('bluebird')
 	
-	var client = require("./redisDataStore.js").client;
+	var redisDataStore = require("./redisDataStore.js")
+	var client= redisDataStore.Client
+	var threshold= redisDataStore.MaxBrokenCommitThreshold;
 	var zero = require("./slackBot.js").myBot;
-	
+	var threshold= 
 	var gitToken = "token " + process.env.githubToken
 	var orgName = "pulseBotProject"
 	var repoName = "MavenVoid"
@@ -115,7 +117,7 @@
 				else reject("SlackID not found")
 			})
 			client.hget("noOfBrokenCommitsToday",user, (err, value)=>{
-				if(!err && value>=4){
+				if(!err && value>=threshold-1){
 					var notification= {
 						text: 'You have made '+value+' broken commits today.',
 						channel: channel
