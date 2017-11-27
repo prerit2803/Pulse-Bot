@@ -1,7 +1,7 @@
 ---
 - name: Get apt key for jenkins
   apt_key: 
-    url: https://jenkins-ci.org/debian/jenkins-ci.org.key
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
     state: present
     validate_certs: False
 
@@ -50,17 +50,25 @@
 - name: create groovy script directory
   file: path=/var/lib/jenkins/init.groovy.d state=directory mode=0755
 
-- name: copy groovy script
+- name: copy new user groovy script
   template:
     src: groovy_script
     dest: /var/lib/jenkins/init.groovy.d/basic-security.groovy
 
-- name: edit groovy script
-  lineinfile:
-    dest: /var/lib/jenkins/init.groovy.d/basic-security.groovy
-    state: present
-    regexp: 'hudsonRealm.createAccount("user","password")'
-    line: 'hudsonRealm.createAccount("user","password")'
+- name: copy credentials groovy script
+  template:
+    src: credentials_groovy
+    dest: /var/lib/jenkins/init.groovy.d/credentials_groovy.groovy
+
+- name: create key file
+  file:
+    path: '/keyFile'
+    state: touch
+
+- name: copy key
+  copy:
+    content: '{{ private_key }}'
+    dest: '/keyFile'
 
 - name: restart jenkins
   service:
@@ -121,6 +129,17 @@
   args:
     chdir: "/home/{{ ansible_ssh_user }}"
 
+- name: get conditional-buildstep plugin
+  command: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ install-plugin conditional-buildstep --username admin --password {{ pass.stdout }}"
+  when: list_plugins.stdout.find( 'Conditional BuildStep' ) == -1
+  register: task_result
+  until: task_result.rc == 0
+  retries: 15
+  delay: 3
+  ignore_errors: yes
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
 - name: copy maven config
   template: 
     src: hudson.tasks.Maven.xml 
@@ -131,6 +150,11 @@
     src: jenkins.mvn.GlobalMavenConfig.xml 
     dest: /var/lib/jenkins/jenkins.mvn.GlobalMavenConfig.xml
 
+#- name: copy global credentials
+#  template: 
+#    src: credentials.xml 
+#    dest: /var/lib/jenkins/credentials.xml
+    
 - name: restart jenkins
   service:
     name: jenkins
@@ -145,3 +169,20 @@
   until: result.status == 200
   retries: 60
   delay: 5
+
+- name: copy job template
+  template: 
+    src: job.xml 
+    dest: /home/{{ ansible_ssh_user }}/job.xml
+
+- name: list jobs
+  shell: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ list-jobs --username admin --password {{ pass.stdout }}"
+  register: job_list
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
+- name: create job
+  shell: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ create-job {{ job_name }} --username admin --password {{ pass.stdout }} < job.xml"
+  when: job_list.stdout.find( "{{ job_name }}" ) == -1
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
