@@ -7,6 +7,7 @@ var path = require("path")
 var exec = require("exec")
 var plotly = require('plotly')(process.env.PLOTLYUSER, process.env.PLOTLYTOKEN)
 var exectoken = process.env.SLACKTOKEN
+var manager = process.env.MANAGER
 client = main.client;
 
 
@@ -349,7 +350,7 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
                 //********Bar Chart*****
                 //console.log(" Admin is  " + user + resp)
 
-                if(user == 'abilala'){
+                if(user == manager){
 
                   CreateBarGraph('3.png', nameArray, totalCommitArray, 500, 500).then(function (name){
                     exec('curl -F file=@'+name+' -F channels='+message.channel+'  -F title=AllContributorsTotalCommits -F token='+exectoken+' https://slack.com/api/files.upload', function(err,out,code){
