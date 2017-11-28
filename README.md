@@ -1,5 +1,4 @@
-# PulseBot
-Software Engineering Fall 2017 Project
+# Deployment
 
 Steps to setup ssh-forwarding:  
 To clone a repository from github.ncsu.edu, additional configuration needs to be done to allow cloning of the repository on the server without credentials:
