@@ -1,0 +1,60 @@
+---
+#- name: test
+#  command: 'sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 68576280'
+#  ignore_errors: yes
+
+#- name: test1
+#  command: 'sudo apt-add-repository "deb https://deb.nodesource.com/node_7.x main"'
+#  ignore_errors: yes
+ 
+#- apt_repository:
+#    repo: 'deb-src https://deb.nodesource.com/setup_6.x main'
+#    state: present
+ 
+#- name: test1
+#  command: 'curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -'
+  #ignore_errors: yes
+ 
+#- name: test2
+#  command: 'sudo apt-get update'
+#  ignore_errors: yes
+  
+#- name: test3
+#  command: 'sudo apt-get install -y nodejs'
+  #ignore_errors: yes
+
+#- name: add apt key for nodesource
+#  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+#    validate_certs=False
+
+#- name: add repo for nodesource
+#  apt_repository:
+#    repo: 'deb https://deb.nodesource.com/node_7.x $(lsb_release -sc) main'
+#    update_cache: yes
+ 
+#- name: Install node, npm
+#  apt:
+#   pkg: "{{item}}"
+#    state: present
+#    update_cache: yes
+#  with_items:
+#    - nodejs
+#    - npm
+  #become: true
+  #become_user: root
+
+- name: Run npm install
+  npm:
+    path: /home/{{ ansible_ssh_user }}/CSC510-Project/pulseBot
+    state: latest
+
+- name: run forever
+  command: forever start main.js
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/CSC510-Project/pulseBot
+  environment:
+    SLACKTOKEN: '{{ SLACKTOKEN }}'
+    githubToken: '{{ githubToken }}'
+    UPLOADTOKEN: '{{ UPLOADTOKEN }}'
+    PLOTLYUSER: '{{ PLOTLYUSER }}'
+    PLOTLYTOKEN: '{{ PLOTLYTOKEN }}'
