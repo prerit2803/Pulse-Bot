@@ -40,3 +40,4 @@ Command to run the ansible playbook:
 ```
 ansible-playbook main.yml -i inventory --ask-vault-pass
 ```
+**password for ansible-vault**: pulseBot123
