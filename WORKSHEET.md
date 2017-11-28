@@ -22,7 +22,7 @@
 | 5 | Additional Patterns | Writing Design.md            |                                       | [Trello Card](https://trello.com/c/SxTvgYAM)         | All            | 21-Sep      | 21-Sep |
 
 
-## Milestone 2 : Bot
+## Milestone 2 : BOT
 
 ### Week 2: Sept 28 - Oct 5
 
@@ -86,3 +86,16 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 14 | Worksheet Update | Tracking Tasks |    Complete  | [Trello Card](https://trello.com/c/IRZ5Dbrx)         | Jaydeep   | 13-Nov      | 13-Nov |
 | 15 | Screencast | Combining all screencasts |  Complete  | [Trello Card](https://trello.com/c/bQhqzkTX)        | All | 13-Nov    | 13-Nov |
+## Milestone 4 : DEPLOY
+### Week 6 : Nov 16 - Nov 23
+|   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |  
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 16 | Ansible Script | Script written to deploy Bot |    Complete  | [Trello Card](https://trello.com/c/DEtFdqqe)         | Prerit Akriti  | 20-Nov      | 20-Nov |
+| 15 | Jenkins Setup | Ansible Script for Jenkins Setup |  Complete  | [Trello Card](https://trello.com/c/JHEsCLGY)        | Shaishav Ankur Jaydeep | 23-Nov    | 23-Nov |
+### Week 7 : Nov 24 - Nov 28
+|   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |  
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | Bot Refinement | Handling Invalid Commands |    Complete  | [Trello Card](https://trello.com/c/hFoVNPXm)         | Jaydeep Ankur  | 26-Nov      | 27-Nov |
+| 18 | Acceptance Instructions | Compiling Acceptance Test Instructions |  Complete  | [Trello Card](https://trello.com/c/QgkRNiZo)        | All | 26-Nov    | 26-Nov |
+| 19 | Screencast | Final Screencast for Demo |  Complete  | [Trello Card](https://trello.com/c/dmpOrT1U)        | All | 27-Nov    | 27-Nov |
+| 20 | Worksheet Update | Tracking Tasks |    Complete  | [Trello Card](https://trello.com/c/O2HBrypP)         | All  | 27-Nov      | 27-Nov |
