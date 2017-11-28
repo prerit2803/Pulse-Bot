@@ -91,7 +91,7 @@
 |   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |  
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 16 | Ansible Script | Script written to deploy Bot |    Complete  | [Trello Card](https://trello.com/c/DEtFdqqe)         | Prerit Akriti  | 20-Nov      | 20-Nov |
-| 15 | Jenkins Setup | Ansible Script for Jenkins Setup |  Complete  | [Trello Card](https://trello.com/c/JHEsCLGY)        | Shaishav Ankur Jaydeep | 23-Nov    | 23-Nov |
+| 15 | Jenkins Setup | Ansible Script for Jenkins Setup |  Complete  | [Trello Card](https://trello.com/c/JHEsCLGY)        | Shaishav Ankur | 23-Nov    | 23-Nov |
 ### Week 7 : Nov 24 - Nov 28
 |   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |  
 | --- | --- | --- | --- | --- | --- | --- | --- |
