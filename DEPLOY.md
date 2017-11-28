@@ -1,6 +1,7 @@
 # CSC510-Project
 Software Engineering Fall 2017 Project
 
+Steps to setup ssh-forwarding:  
 To clone a repository from github.ncsu.edu, additional configuration needs to be done to allow cloning of the repository on the server without credentials:
 
 (we will be referring to the ansible server as **ansible machine** and the remote host(where our bot has is to be installed) as **server**)
@@ -32,4 +33,10 @@ Host <Your server's IP address>
 * Now ssh into the server from the ansible machine and execute the following command to ensure the server can communicate with github.ncsu.edu without credentials:
 ```
 ssh -T git@github.ncsu.edu
+```
+
+
+Command to run the ansible playbook: 
+```
+ansible-playbook main.yml -i inventory --ask-vault-pass
 ```
