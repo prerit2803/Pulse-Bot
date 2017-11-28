@@ -1,1 +1,1 @@
-AWS ansible_ssh_host=52.87.243.186 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/vagrant/keys/myaws.pem
+AWS ansible_ssh_host=184.72.200.121 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/vagrant/keys/myaws.pem
