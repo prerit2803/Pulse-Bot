@@ -1,0 +1,34 @@
+{
+  "name": "pulseBot",
+  "version": "0.0.0",
+  "description": "Implementation of pulseBot",
+  "main": "main.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.ncsu.edu/sshah11/CSC510-Project"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "async": "^2.5.0",
+    "bluebird": "^3.5.1",
+    "body-parser": "~1.18.2",
+    "botkit": "^0.6.4",
+    "chai": "^4.1.2",
+    "exec": "^0.2.1",
+    "express": "~4.16.2",
+    "fakeredis": "^2.0.0",
+    "fs": "0.0.1-security",
+    "mocha": "^4.0.0",
+    "nock": "^9.0.17",
+    "orchestrate": "^0.8.2",
+    "plotly": "^1.0.6",
+    "promise": "^8.0.1",
+    "redis": "^2.8.0",
+    "redis-mock": "^0.20.0",
+    "request": "^2.83.0"
+  }
+}
