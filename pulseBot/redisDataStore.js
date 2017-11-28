@@ -2,7 +2,7 @@ var redis = require("redis");
 var Promise = require('promise');
 client = redis.createClient();
 
-var MaxBrokenCommitThreshold = 3;
+var MaxBrokenCommitThreshold = 5;
 
 function BuildSucceded(userDetails){
   return new Promise(function(resolve, reject){
