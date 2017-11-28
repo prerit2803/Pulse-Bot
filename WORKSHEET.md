@@ -95,7 +95,7 @@
 ### Week 7 : Nov 24 - Nov 28
 |   | Deliverable         |    Description                            | Item/Status                    | Issues/Tasks                          | Team Members | Estimated Date | Actual Date |  
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 17 | Bot Refinement | Handling Invalid Commands |    Complete  | [Trello Card](https://trello.com/c/hFoVNPXm)         | Jaydeep Ankur  | 26-Nov      | 27-Nov |
+| 17 | Bot Refinement | Handling Invalid Commands |    Complete  | [Trello Card](https://trello.com/c/hFoVNPXm)         | Jaydeep  | 26-Nov      | 27-Nov |
 | 18 | Acceptance Instructions | Compiling Acceptance Test Instructions |  Complete  | [Trello Card](https://trello.com/c/QgkRNiZo)        | All | 26-Nov    | 26-Nov |
-| 19 | Screencast | Final Screencast for Demo |  Complete  | [Trello Card](https://trello.com/c/dmpOrT1U)        | All | 27-Nov    | 27-Nov |
+| 19 | Screencast | Final Screencast for Demo |  Complete  | [Trello Card](https://trello.com/c/dmpOrT1U)        | Ankur | 27-Nov    | 27-Nov |
 | 20 | Worksheet Update | Tracking Tasks |    Complete  | [Trello Card](https://trello.com/c/O2HBrypP)         | All  | 27-Nov      | 27-Nov |
