@@ -186,7 +186,10 @@ controller.hears('bad commits left for the day',['mention', 'direct_mention','di
     else{
     	client.hget('userMap', message.user, function(err, reply){
     		NoofBrokenCommitsToday(reply).then(function(resp){
-    			 bot.reply(message, "Number of bad commits left: "+(5-(+resp)));
+			if(resp==="User is Blocked")
+				bot.reply(message,"You are currently blocked");
+			else
+    			 	bot.reply(message, "Number of bad commits left: "+(5-(+resp)));
     		});
     	});
     }
