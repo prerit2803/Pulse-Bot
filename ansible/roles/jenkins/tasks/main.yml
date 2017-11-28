@@ -1,0 +1,188 @@
+---
+- name: Get apt key for jenkins
+  apt_key: 
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+    validate_certs: False
+
+- name: Add jenkins package url	
+  command: sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+- name: Install jenkins
+  apt:
+    name: jenkins
+    state: present
+    update_cache: yes
+
+- name: Start Jenkins
+  service: 
+    name: jenkins 
+    state: started 
+    enabled: yes
+
+- pause:
+    minutes: 1
+
+- name: change HTTP port of Jenkins
+  replace:
+    dest: /etc/default/jenkins
+    regexp: 'HTTP_PORT=8080'
+    replace: 'HTTP_PORT={{ http_port }}'
+
+- name: get initial admin password
+  shell: cat "{{jenkins_home}}/secrets/initialAdminPassword"
+  register: pass
+
+- name: set security to allow anonymous build
+  lineinfile:
+    dest: /var/lib/jenkins/config.xml
+    state: present
+    regexp: '<denyAnonymousReadAccess>true</denyAnonymousReadAccess>'
+    line: '<denyAnonymousReadAccess>false</denyAnonymousReadAccess>'
+
+- name: set security to Enable proxy compatibility
+  lineinfile:
+    dest: /var/lib/jenkins/config.xml
+    state: present
+    regexp: '<excludeClientIPFromCrumb>false</excludeClientIPFromCrumb>'
+    line: '<excludeClientIPFromCrumb>true</excludeClientIPFromCrumb>'
+
+- name: create groovy script directory
+  file: path=/var/lib/jenkins/init.groovy.d state=directory mode=0755
+
+- name: copy new user groovy script
+  template:
+    src: groovy_script
+    dest: /var/lib/jenkins/init.groovy.d/basic-security.groovy
+
+- name: copy credentials groovy script
+  template:
+    src: credentials_groovy
+    dest: /var/lib/jenkins/init.groovy.d/credentials_groovy.groovy
+
+- name: create key file
+  file:
+    path: '/keyFile'
+    state: touch
+
+- name: copy key
+  copy:
+    content: '{{ private_key }}'
+    dest: '/keyFile'
+
+- name: restart jenkins
+  service:
+    name: jenkins
+    state: restarted
+    enabled: yes
+
+- name: check jenkins state
+  uri:
+    url: "http://localhost:{{ http_port }}/cli"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 5
+
+- name: get cli
+  get_url:
+    url: "http://localhost:{{ http_port }}/jnlpJars/jenkins-cli.jar"
+    dest: "/home/{{ ansible_ssh_user }}/"
+
+- name: get installed plugin list
+  command: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ list-plugins --username admin --password {{ pass.stdout }}"
+  register: list_plugins
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
+- name: get git plugin
+  command: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ install-plugin git --username admin --password {{ pass.stdout }}"
+  when: list_plugins.stdout.find( 'Git plugin' ) == -1
+  register: task_result
+  until: task_result.rc == 0
+  retries: 15
+  delay: 3
+  ignore_errors: yes
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
+- name: get maven plugin
+  command: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ install-plugin maven-plugin --username admin --password {{ pass.stdout }}"
+  when: list_plugins.stdout.find( 'Maven Integration plugin' ) == -1
+  register: task_result
+  until: task_result.rc == 0
+  retries: 15
+  delay: 3
+  ignore_errors: yes
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
+- name: get jacoco plugin
+  command: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ install-plugin jacoco --username admin --password {{ pass.stdout }}"
+  when: list_plugins.stdout.find( 'JaCoCo plugin' ) == -1
+  register: task_result
+  until: task_result.rc == 0
+  retries: 15
+  delay: 3
+  ignore_errors: yes
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
+- name: get conditional-buildstep plugin
+  command: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ install-plugin conditional-buildstep --username admin --password {{ pass.stdout }}"
+  when: list_plugins.stdout.find( 'Conditional BuildStep' ) == -1
+  register: task_result
+  until: task_result.rc == 0
+  retries: 15
+  delay: 3
+  ignore_errors: yes
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
+- name: copy maven config
+  template: 
+    src: hudson.tasks.Maven.xml 
+    dest: /var/lib/jenkins/hudson.tasks.Maven.xml
+
+- name: copy global maven config
+  template: 
+    src: jenkins.mvn.GlobalMavenConfig.xml 
+    dest: /var/lib/jenkins/jenkins.mvn.GlobalMavenConfig.xml
+
+#- name: copy global credentials
+#  template: 
+#    src: credentials.xml 
+#    dest: /var/lib/jenkins/credentials.xml
+    
+- name: restart jenkins
+  service:
+    name: jenkins
+    state: restarted
+    enabled: yes
+
+- name: check jenkins state
+  uri:
+    url: "http://localhost:{{ http_port }}/cli"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 5
+
+- name: copy job template
+  template: 
+    src: job.xml 
+    dest: /home/{{ ansible_ssh_user }}/job.xml
+
+- name: list jobs
+  shell: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ list-jobs --username admin --password {{ pass.stdout }}"
+  register: job_list
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
+
+- name: create job
+  shell: "java -jar jenkins-cli.jar -s http://localhost:{{ http_port }}/ create-job {{ job_name }} --username admin --password {{ pass.stdout }} < job.xml"
+  when: job_list.stdout.find( "{{ job_name }}" ) == -1
+  args:
+    chdir: "/home/{{ ansible_ssh_user }}"
