@@ -68,9 +68,9 @@ function NoOfBrokenCommits(authorName){
       else{
          client.hget('noOfBrokenCommitsToday', authorName ,function(err, reply){
              if(reply >= MaxBrokenCommitThreshold){
-               var expirationTime = parseInt(((+new Date)/1000)+120);
+               var expirationTime = parseInt(((+new Date)/1000)+86400);
                 client.set(authorName, expirationTime);
-                client.expire(authorName, 120);
+                client.expire(authorName, expirationTime);
                 client.hmset('noOfBrokenCommitsToday', authorName, 0, function(err,reply){
                   resolve(0);
                 });
