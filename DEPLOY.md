@@ -3,7 +3,7 @@ Software Engineering Fall 2017 Project
 
 To clone a repository from github.ncsu.edu, additional configuration needs to be done to allow cloning of the repository on the server without credentials:
 
-(we will be referring to the ansible server as **ansible machine** and the remote host(where iTrust is to be installed) as **server**)
+(we will be referring to the ansible server as **ansible machine** and the remote host(where our bot has is to be installed) as **server**)
 
 * create a public-private key pair on the ansible machine using the following commands:
 ```
@@ -18,7 +18,7 @@ eval `ssh-agent`
 ```
 ssh-add ~/.ssh/private_key
 ```
-* Add the public key to the github account where the iTrust repository is located.
+* Add the public key to the github account of this repository.
 * Ensure the ansible machine can ssh into the github.ncsu.edu without credentials using the following command:
 ```
 ssh -T git@github.ncsu.edu
