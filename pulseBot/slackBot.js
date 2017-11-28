@@ -176,7 +176,7 @@ controller.hears(['Hi','Hello'],['mention', 'direct_mention','direct_message'], 
 
 });
 
-controller.hears('bad commits left for the day',['mention', 'direct_mention','direct_message'], function(bot,message)
+controller.hears('bad commits for the day',['mention', 'direct_mention','direct_message'], function(bot,message)
 {
   // console.log(message);
   checkIfUserExists(message.user).then(function(reply){
