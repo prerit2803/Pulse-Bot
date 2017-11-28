@@ -90,7 +90,7 @@ function CreateBarGraph(filename, x_value, y_value, widthOfGraph, heightOfGraph)
       if (error) return console.log (error);
       var fileStream = fs.createWriteStream(filename)
       imageStream.pipe(fileStream)
-      console.log("File written")
+      //console.log("File written")
       resolve(filename)
     });
   })
@@ -120,7 +120,7 @@ function CreatePieGraph(filename, value, label, widthOfGraph, heightOfGraph,  ca
 	    //console.log("writing in pie");
       var fileStream = fs.createWriteStream(filename)
       imageStream.pipe(fileStream)
-      console.log("File written pie ")
+      //console.log("File written pie ")
       resolve(filename)}
     });
   })
@@ -347,7 +347,7 @@ controller.hears('repo health',['mention', 'direct_mention','direct_message'], f
                   } )
                 })
                 //********Bar Chart*****
-                console.log(" Admin is  " + user + resp)
+                //console.log(" Admin is  " + user + resp)
 
                 if(user == 'abilala'){
 
