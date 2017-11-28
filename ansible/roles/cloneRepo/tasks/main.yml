@@ -1,0 +1,13 @@
+---
+- name: ensure directory present
+  file:
+    path: /home/{{ ansible_ssh_user }}/CSC510-Project
+    state: directory
+
+- name: clone git
+  git:
+    repo: git@github.ncsu.edu:sshah11/CSC510-Project.git
+    dest: /home/{{ ansible_ssh_user }}/CSC510-Project
+    version: Milestone3
+    accept_hostkey: yes
+    
