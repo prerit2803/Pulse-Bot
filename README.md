@@ -56,10 +56,19 @@ Once you log into the slack team, commence testing(details for which follow shor
 
 ### Github details
 We have been added both TAs as collaborators to our test repository. Login using your respective unity-id and password to the following repository.
-+ **Repository:** (MavenVoid)[https://github.ncsu.edu/pulseBotProject/MavenVoid]
++ **Repository:** [MavenVoid](https://github.ncsu.edu/pulseBotProject/MavenVoid)
 + **User-1:** mbehroo
 + **User-2:** ntabass
 
 ## Instructions: Use Case 1
 ## Instructions: Use Case 2
 ## Instructions: Use Case 3
+# Task-Tracking
+
+We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone4/WORKSHEET.md) 
+Use the following credentials to log in to Trello:  
++ **username:** Pulsebotproject@gmail.com
++ **password:** pulsebot@project
+
+# Screencast
+[Screencast: Deployment + Use cases]()
