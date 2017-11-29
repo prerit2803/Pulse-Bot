@@ -3,11 +3,11 @@
 We will be referring to the master server i.e. the machine from where ansible script will be run as **ansible machine** and the remote host i.e. the machine where our bot has to be installed as **server**.
 
 The deployment of bot includes the following steps:
-+ Setting up the ansible machine.
-+ Enabling ssh-forwarding on ansible machine.
++ Setting up the ansible machine
++ Enabling ssh-forwarding on ansible machine
 + Deployment on server
 
-## Setting up the ansible machine.
+## Setting up the ansible machine
 * Clone the [repo](https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone4) into the ansible machine.
 ```
 git clone https://github.ncsu.edu/sshah11/CSC510-Project.git -b Milestone4
