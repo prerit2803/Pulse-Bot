@@ -8,7 +8,7 @@ The deployment of bot includes the following steps:
 + Deployment on server
 
 ## Setting up the ansible machine.
-* Clone the (repo)[https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone4] into the ansible machine.
+* Clone the (repo)[!https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone4] into the ansible machine.
 ```
 git clone https://github.ncsu.edu/sshah11/CSC510-Project.git -b Milestone4
 ```
@@ -64,6 +64,8 @@ ansible-playbook main.yml -i inventory --ask-vault-pass
 
 # Acceptance Testing
 
+After the deployment, the pulsebot becomes online in the slack group and is ready to rock and roll! Let's see how it can be tested.
+
 ## Credentials
 
 ### Slack details
@@ -76,12 +78,30 @@ We have created two slack accounts on our team, and a channel for TAs to test.
 Once you log into the slack team, commence testing(details for which follow shortly), on the #testing channel.
 
 ### Github details
-We have added both TAs as collaborators to our test repository. Login using your respective unity-id and password to the following repository.
+We have added both TAs and Professor Parnin as collaborators to our test repository. Login using your respective unity-id and password to the following repository.
 + **Repository:** [MavenVoid](https://github.ncsu.edu/pulseBotProject/MavenVoid)
 + **User-1:** mbehroo
 + **User-2:** ntabass
++ **User-3:** cjparnin
+
+* Next, clone the test repository on ansible machine. This will allow you to commit from git shell/command-line.
+```
+git clone https://github.ncsu.edu/pulseBotProject/MavenVoid.git
+```
+* Change the working directory in git shell/command-line to `MavenVoid/src/test/java/edu/ncsu/mavenvoid/MavenVoid/`
+We placed two shell scripts `goodCommit.sh` and `badCommit.sh` in this directory to facilitate making a good and bad commits. (You may also choose to edit AppTest.java directly.)  
+  
+**Committing on repository:**
+We refer to **good commit** as a commit which passes all the test cases and gets successfully built on the Jenkins server. Similarly a **bad commit** is a commit which fails at least one test case and builds unsuccessfully on the Jenkins server.  
+Simulating a good/bad commit can be done in two ways:
++ Manually, by editing the AppTest.java and ensuring `assert(true)` for a good commit (`assert(false)` for a bad commit) in the `testApp` method. Followed by a manual commit to the master branch.
++ In an automatated way by running commands `./goodCommit.sh` for good commit and `./badCommit.sh` for bad commit. This will only prompt you to enter your git username and passwords. 
+_Note: Manually commiting from the Github website will not yield the desired reults. Please use only a console to commit._
 
 ## Instructions: Use Case 1
+**Use Case 1:Create a new branch with healthy code and lock it down until master branch is unstable.***  
+* The bot needs one initial healthy commit to refer as stable branch. Make a good commit i.e. a commit that passes the test case in AppTest.java. You can either do it in two ways:
++ Manually, 
 
 ## Instructions: Use Case 2
 
