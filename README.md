@@ -40,3 +40,26 @@ Command to run the ansible playbook:
 ansible-playbook main.yml -i inventory --ask-vault-pass
 ```
 **password for ansible-vault**: pulseBot123
+
+# Acceptance Testing
+
+## Credentials
+
+### Slack details
+We have created two slack accounts on our team, and a channel for TAs to test.  
++ **Slack team:** pulsebot-project.slack.com
++ **Channel:** testing
++ **Username-1**: pulsebot.test@gmail.com,\t **Password:** pulsebot#12
++ **Username-2:** pulsebot.test2@gmail.com,\t **Password:** pulsebot#12
+
+Once you log into the slack team, commence testing(details for which follow shortly), on the #testing channel.
+
+### Github details
+We have been added both TAs as collaborators to our test repository. Login using your respective unity-id and password to the following repository.
++ **Repository:** (MavenVoid)[https://github.ncsu.edu/pulseBotProject/MavenVoid]
++ **User-1:** mbehroo
++ **User-2:** ntabass
+
+## Instructions: Use Case 1
+## Instructions: Use Case 2
+## Instructions: Use Case 3
