@@ -1,9 +1,29 @@
 # Deployment
 
-Steps to setup ssh-forwarding:  
-To clone a repository from github.ncsu.edu, additional configuration needs to be done to allow cloning of the repository on the server without credentials:
+We will be referring to the master server i.e. the machine from where ansible script will be run as **ansible machine** and the remote host i.e. the machine where our bot has to be installed as **server**.
 
-(we will be referring to the ansible server as **ansible machine** and the remote host(where our bot has is to be installed) as **server**)
+The deployment of bot includes the following steps:
++ Setting up the ansible machine.
++ Enabling ssh-forwarding on ansible machine.
++ Deployment on server
+
+## Setting up the ansible machine.
+* Clone the (repo)[https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone4] into the ansible machine.
+```
+git clone https://github.ncsu.edu/sshah11/CSC510-Project.git -b Milestone4
+```
+
+* Install ansible on the ansible machine
+```
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+```
+
+* Change working directory to `CSC510-Project/ansible`
+
+## Enabling ssh-forwarding on ansible machine
+To clone a repository from github.ncsu.edu, additional configuration needs to be done to allow cloning of the repository on the server without credentials:
 
 * create a public-private key pair on the ansible machine using the following commands:
 ```
@@ -34,6 +54,7 @@ Host <Your server's IP address>
 ssh -T git@github.ncsu.edu
 ```
 
+## Deployment using ansible
 
 Command to run the ansible playbook: 
 ```
