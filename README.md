@@ -84,26 +84,28 @@ We have added both TAs and Professor Parnin as collaborators to our test reposit
 + **User-2:** ntabass
 + **User-3:** cjparnin
 
-* Next, clone the test repository on ansible machine. This will allow you to commit from git shell/command-line.
+Next, clone the test repository on ansible machine. This will allow you to commit from git shell/command-line.
 ```
 git clone https://github.ncsu.edu/pulseBotProject/MavenVoid.git
 ```
-* Change the working directory in git shell/command-line to `MavenVoid/src/test/java/edu/ncsu/mavenvoid/MavenVoid/`
+Change the working directory in git shell/command-line to `MavenVoid/src/test/java/edu/ncsu/mavenvoid/MavenVoid/`   
 We placed two shell scripts `goodCommit.sh` and `badCommit.sh` in this directory to facilitate making a good and bad commits. (You may also choose to edit AppTest.java directly.)  
   
-**Committing on repository:**
-We refer to **good commit** as a commit which passes all the test cases and gets successfully built on the Jenkins server. Similarly a **bad commit** is a commit which fails at least one test case and builds unsuccessfully on the Jenkins server.  
+**Committing on repository:** We refer to **good commit** as a commit which passes all the test cases and gets successfully built on the Jenkins server. Similarly **bad commit** is a commit which fails at least one test case and builds unsuccessfully on the Jenkins server.  
 Simulating a good/bad commit can be done in two ways:
 + Manually, by editing the AppTest.java and ensuring `assert(true)` for a good commit (`assert(false)` for a bad commit) in the `testApp` method. Followed by a manual commit to the master branch.
-+ In an automatated way by running commands `./goodCommit.sh` for good commit and `./badCommit.sh` for bad commit. This will only prompt you to enter your git username and passwords. 
-_Note: Manually commiting from the Github website will not yield the desired reults. Please use only a console to commit._
++ In an automated way by running commands `./goodCommit.sh` for good commit and `./badCommit.sh` for bad commit. This will only prompt you to enter your git username and passwords.   
+_Note: Manually commiting from the Github website will not yield the desired action from pulseBot. Please use only a console to commit._
 
 ## Instructions: Use Case 1
 **Use Case 1:Create a new branch with healthy code and lock it down until master branch is unstable.***  
-* The bot needs one initial healthy commit to refer as stable branch. Make a good commit i.e. a commit that passes the test case in AppTest.java. You can either do it in two ways:
-+ Manually, 
+* The bot needs one initial healthy commit to refer as stable branch. Make one good commit and ensure it reflects on the github website.
+* Once this is done, on every commit if a build on master branch fails, the pulseBot creates a new protected branch with the last stable commit as its HEAD. When the master branch becomes stable again, bot deletes the branch that was created in previous step.
+**Example:** If, after the initial (first) commit, the second commit fails the build then pulseBot creates a protected stable branch (named stablebranch, followed by a number) with it's HEAD at the last stable commit(the first commit in this case). If the third commit on master branch is good then the protected branch is deleted since master is now stable. If the third commit on the master branch is bad then the stable branch remains since master branch is not stable yet.
+* Use slack to ask the bot about the current stable branch every time a commit is made on the master branch, it will respond with the stable branch name.
 
 ## Instructions: Use Case 2
+
 
 ## Instructions: Use Case 3
 
