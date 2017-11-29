@@ -115,8 +115,8 @@ _Note: We added both mbehroo and ntabass as contributors with write permissions 
 
 ## Instructions: Use Case 3
 **Use Case 3: Create a report with a summary of number of commits per user and their segregation into broken or stable.**
-* Every user can see it's own commit history divided in terms of good and bad commits. Ask the pulseBot on slack "What is the repo health ?" to which a user can see a pie chart of it's total commits classified into good and bad commits. Second graph it can see is how far it is from the threshold value. PulseBot also provides the stable branch name to the user.
-* If the user is admin, then in addition to these details, pulseBot provides a list of users who have been temporarily blocked(removed as collaborator)
+* Every user can see it's own commit history divided in terms of good and bad commits. Ask the pulseBot on slack "What is the repo health ?" to which a user can see a pie chart of repo's total commits classified into good and bad commits. Second graph it can see is how far it is from the threshold value. PulseBot also provides the stable branch name to the user.
+* If the user is admin, then commits of all collaborators of the repo will be displayed in a Bar graph, repo's good and bad commits will be displayed in a Pie graph and pulseBot provides a stable branch name and a list of users who have been temporarily blocked (removed as collaborator) along with their next access time.
 
 # Task-Tracking
 
