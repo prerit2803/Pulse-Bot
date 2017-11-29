@@ -67,6 +67,9 @@ ansible-playbook main.yml -i inventory --ask-vault-pass
 After the deployment, the pulsebot becomes online in the slack group and is ready to rock and roll! Let's see how it can be tested.
 
 ## Credentials
+### Jenkins
+* **username:** user
+* **password:** password
 
 ### Slack details
 We have created two slack accounts on our team, and a channel for TAs to test.  
