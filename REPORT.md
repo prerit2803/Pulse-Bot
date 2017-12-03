@@ -11,9 +11,9 @@ We define our three use cases as below:
 We have designed a bot capable of maintaining the last healthy state of a repository and tracking the number of buggy commits made by a contributors of a repository. These capabilities are extended to a chatbot which can perform multiple tasks like tentatively revoking their permission to commit given they cross a threshold count, generate a report for all users, chat with a user. It interacts, in background, with a Continuous Integration service (Jenkins) to get and track the status of a build triggered by a collaborator’s commit on a git repo. The bot maintains the statistics for each user and responds to user queries on Slack.  
 When a user commits a code, it gets automatically queued for a build job. If the build fails, users debugs and keeps committing until it’s fixed, thereby possibly doing more buggy commits in the process. Our bot runs the job of maintaining the status of each build perpetuated by a commit and maintains a safe branch after each commit. The best feature of the bot is that it automates the result tracking of each commits and can answer users on Slack portal through a chat. This makes the process of tracking seamless and hence a good solution for any industry. 
  
-![alt](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig1.png "Architecture")
+![alt](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig1.png)
 
-_** Fig 1: Architecture**_
+_**Fig 1: Architecture**_
 
 ### Components
 + **AWS EC2:** The server which acts as our host server on which Jenkins builds the job.
@@ -28,59 +28,87 @@ _** Fig 1: Architecture**_
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig2.png)
 
 _**Fig 2: When a build fails, bot creates a new healthy branch**_
-
+  
+  
+ . 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig3.png)
 
 _**Fig 3: Bot notifies on Slack about the new healthy branch**_
-
+  
+    
+  .    
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig4.png)
 
 _**Fig 4: Bot deletes the branch as soon as master become stable**_
-
+  
+    
+   .   
 ![](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig5.png)
 
 _**Fig 5: Bot notifies on Slack when the master branch become stable again**_
-
+  
+    
+      
+    .  
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig6.png)
 
 _**Fig 6: Bot replies with current stable branch name**_
-
+  
+  
 ### Blocking buggy code commiters**
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig7.png)
 
 _**Fig 7: Bot notifies when a user is nearing threshold**_
-
+  
+    
+      
+     . 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig8.png) 
 
 _**Fig 8: Bot notifies when the user gets removed from the collaborator**_
-
+  
+    
+      
+      .
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig9.png) 
 
 _**Fig 9: User “pbhanda2” is removed from the collaborator’s list on GitHub as he crossed the threshold of broken commits on that day**_
-
+  
+    
+      
+      .
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig10.png) 
 
 _**Fig 10: When the user requests access but is still blocked.**_
-
+  
+    
+      
+      .
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig11.png) 
 
 _**Fig 11: When the user request access after 24 hours**_
-
+  
+  
 ### Keeping statistics of user commits 
 The collaborator of the repo will see the total good and bad commits made and also the number of broken commits made today.
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig12.PNG) 
 
 _**Fig 12: Collaborators repo health report**_
-
+  
+    
+      
+      
 The manager will get stats of all the collaborators in repo and total commits made by them along with total good and bad commits made on repo.
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig13.png) 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig14.PNG) 
 
 _**Fig 13-14: Managers repo health report**_
-
+  
+    
+    
 
 ## Reflection on the development process
 
