@@ -15,56 +15,56 @@ We used botkit in nodejs to connect with slack. The bot receives build status fr
 Maintaining a healthy branch in the repo at any time 
 As soon as build on master branch fails, the bot creates a new branch with the last stable commit as its HEAD.
 
-Fig 2: When a build fails, bot creates a new healthy branch
-Bot also notifies in the slack general channel about the new healthy branch.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig2.png "Healthy Branch on build Fail")
+**Fig 2: When a build fails, bot creates a new healthy branch
+Bot also notifies in the slack general channel about the new healthy branch.**
 
-Fig 3: Bot notifies on Slack about the new healthy branch
-When the master branch becomes stable again, bot deletes the branch that was created in previous step.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig3.png "Bot Notification" )
+**Fig 3: Bot notifies on Slack about the new healthy branch
+When the master branch becomes stable again, bot deletes the branch that was created in previous step.**
 
-Fig 4: Bot deletes the branch as soon as master become stable
-Bot notifies in slack general channel when the master branch is stable again.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig4.png "Bot delete branch")
+**Fig 4: Bot deletes the branch as soon as master become stable
+Bot notifies in slack general channel when the master branch is stable again.**
 
-Fig 5: Bot notifies on Slack when the master branch become stable again
-User asks which is the current stable branch
 
-Fig 6: Bot replies with current stable branch name
+**Fig 5: Bot notifies on Slack when the master branch become stable again
+User asks which is the current stable branch**
+
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig6.png "Stable Branch Name")
+**Fig 6: Bot replies with current stable branch name
 Limiting buggy code commits
-User commits broken code and exceeds the threshold for a day.
+User commits broken code and exceeds the threshold for a day.**
 
-Fig 7: Bot notifies when a user is nearing threshold
-User will be removed temporarily from the collaborator of the repository.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig7.png "Bot threshold notif")
+**Fig 7: Bot notifies when a user is nearing threshold
+User will be removed temporarily from the collaborator of the repository.**
 
-Fig 8: Bot notifies when the user gets removed from the collaborator
-User “pbhanda2” is removed from the collaborators list on the repo.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig8.png "User Notif when removed") 
+**Fig 8: Bot notifies when the user gets removed from the collaborator
+User “pbhanda2” is removed from the collaborators list on the repo.**
 
-Fig 9: User “pbhanda2” is removed from the collaborator’s list on GitHub as he crossed the threshold of broken commits on that day
-User can request next access after 24 hours through bot.
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig9.png "User Removed" ) 
+**Fig 9: User “pbhanda2” is removed from the collaborator’s list on GitHub as he crossed the threshold of broken commits on that day
+User can request next access after 24 hours through bot.**
 
-Fig 10: When the user is still blocked and request access
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig10.png "Blocked user access") 
+**Fig 10: When the user is still blocked and request access**
 
-Fig 11: When the user request access after 24 hours
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig11.png "Access Request") 
+**Fig 11: When the user request access after 24 hours**
 
 Keeping statistics of user commits 
 The collaborator of the repo will see the total good and bad commits made and also the number of broken commits made today.
 
 
-
-Fig 12: Collaborators repo health report
-The manager will get stats of all the collaborators in repo and total commits made by them along with total good and bad commits made on repo. 
-
-
-
-Fig 13: Managers repo health report
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig12.PNG "Health Report") 
+**Fig 12: Collaborators repo health report
+The manager will get stats of all the collaborators in repo and total commits made by them along with total good and bad commits made on repo.**
 
 
-
-
-
-
-
-
-
-
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig13.png "Manager Health Report") 
+**Fig 13: Managers repo health report**
 
 
 ## Reflection on the development process
@@ -75,6 +75,7 @@ The process of developing the PulseBot was one of the most engaging experiences 
 Following are some of the most important reflections/learnings for the team on the development process:
 
 + Moving from Ambiguity to Specificity in the Problem Statement for the Bot
+
 When the team decided to build a slackbot that would prevent the master branch of a repo from being affected by buggy commits and at the same time maintain statistics about the repo health, there was ambiguity  about the potential scope of the project. This ambiguity helped us brainstorm and come up with significantly useful use cases for this bot. These use cases covered the most of the functionalities we envisioned our bot to carry out and therefore were able to move from the ambiguity in our problem statement to specificity.
 
 
