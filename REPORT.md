@@ -1,5 +1,5 @@
 # Report: PulseBot
-## Screencast link
+## Screencast
 The link for PulseBot [screencast](https://youtu.be/vSI9bx8m5ec).
 ## Problem Statement
 In a Continuous Integration environment, it is essential to maintain a healthy state of the deployment branch of a repository. Several buggy commits that fail the build may mess up the repository health and pose quite a challenge for developers to maintain a stable branch for deployment. Currently no concrete solutions exist to prevent this scenario. If a particular user responsible for successive buggy commits is not denied access, it may lead to a cascading effect and affect severely the health of the repository and working of other users in the long run.  
