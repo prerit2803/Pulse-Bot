@@ -1,6 +1,0 @@
----
-jenkins_home: /var/lib/jenkins
-http_port: 9999
-user: test
-pass: test
-job_name: myJob
