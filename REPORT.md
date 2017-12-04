@@ -82,10 +82,10 @@ _**Fig 11: When the user request access after 24 hours**_
   
 ### Keeping statistics of user commits 
 + The collaborator of the repo will see the total good and bad commits made and also the number of broken commits made today.
-
+![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig15.png)
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig12.PNG) 
 
-_**Fig 12: Collaborators repo health report**_
+_**Fig 12-13: Collaborators repo health report**_
   
     
       
@@ -95,7 +95,7 @@ _**Fig 12: Collaborators repo health report**_
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig13.png) 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig14.PNG) 
 
-_**Fig 13-14: Managers repo health report**_
+_**Fig 14-15: Managers repo health report**_
   
     
     
