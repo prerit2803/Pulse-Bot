@@ -27,73 +27,61 @@ _**Fig 1: Architecture**_
 ## Features
 ### Maintaining a healthy branch in the repo at any time 
 
+ + As soon as build on master branch fails, the bot creates a new branch with the last stable commit as its HEAD.  
+ 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig2.png)
 
 _**Fig 2: When a build fails, bot creates a new healthy branch**_
-  
-  
- . 
+ + Bot also notifies in the slack general channel about the new healthy branch    
+ 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig3.png)
 
 _**Fig 3: Bot notifies on Slack about the new healthy branch**_
-  
-    
-  .    
+ + When the master branch becomes stable again, bot deletes the branch that was created in previous step.  
+ 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig4.png)
 
 _**Fig 4: Bot deletes the branch as soon as master become stable**_
-  
-    
-   .   
+ + Bot notifies in slack general channel when the master branch is stable again.  
+ 
 ![](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig5.png)
 
 _**Fig 5: Bot notifies on Slack when the master branch become stable again**_
-  
-    
-      
-    .  
+ + User asks which is the current stable branch 
+ 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig6.png)
 
 _**Fig 6: Bot replies with current stable branch name**_
   
   
 ### Blocking buggy code commiters**
++ User commits broken code and exceeds the threshold for a day.  
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig7.png)
 
 _**Fig 7: Bot notifies when a user is nearing threshold**_
-  
-    
-      
-     . 
+ + User will be removed temporarily from the collaborator of the repository.
+
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig8.png) 
 
 _**Fig 8: Bot notifies when the user gets removed from the collaborator**_
+  + User “pbhanda2” is removed from the collaborators list on the repo.  
   
-    
-      
-      .
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig9.png) 
 
 _**Fig 9: User “pbhanda2” is removed from the collaborator’s list on GitHub as he crossed the threshold of broken commits on that day**_
+  + User can request next access after 24 hours through bot.  
   
-    
-      
-      .
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig10.png) 
 
 _**Fig 10: When the user requests access but is still blocked.**_
   
-    
-      
-      .
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig11.png) 
 
 _**Fig 11: When the user request access after 24 hours**_
   
-  
 ### Keeping statistics of user commits 
-The collaborator of the repo will see the total good and bad commits made and also the number of broken commits made today.
++ The collaborator of the repo will see the total good and bad commits made and also the number of broken commits made today.
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig12.PNG) 
 
@@ -102,7 +90,7 @@ _**Fig 12: Collaborators repo health report**_
     
       
       
-The manager will get stats of all the collaborators in repo and total commits made by them along with total good and bad commits made on repo.
++ The manager will get stats of all the collaborators in repo and total commits made by them along with total good and bad commits made on repo.
 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig13.png) 
 ![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone5/images/fig14.PNG) 
