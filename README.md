@@ -8,9 +8,9 @@ The deployment of bot includes the following steps:
 + Deployment on server
 
 ## Setting up the ansible machine
-* Clone the [repo](https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone4) into the ansible machine.
+* Clone the [repo](https://github.com/prerit2803/Pulse-Bot/tree/Milestone4) into the ansible machine.
 ```
-git clone https://github.ncsu.edu/sshah11/CSC510-Project.git -b Milestone4
+git clone https://github.com/prerit2803/Pulse-Bot.git -b Milestone4
 ```
 
 * Install ansible on the ansible machine
@@ -123,7 +123,7 @@ _Note: We added both mbehroo and ntabass as contributors with write permissions 
 
 # Task-Tracking
 
-We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone4/WORKSHEET.md) 
+We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](./WORKSHEET.md) 
 Use the following credentials to log in to Trello:  
 + **username:** Pulsebotproject@gmail.com
 + **password:** pulsebot@project
