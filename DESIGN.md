@@ -79,24 +79,24 @@ Use Case 3: Create a report with a summary of number of commits per user and the
 ## Design Sketches
 ### Story Board
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/StoryBoard.jpeg)
+![alt text](./StoryBoard.jpeg)
 
 ### Wire Frame
 
 These wireframes depict the manner in which the bot responds to different types of users (blocked/not blocked) on the slack interface.  
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe1.gif)  
+![alt text](./Wireframe1.gif)  
 
 
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Wireframe2.gif)
+![alt text](./Wireframe2.gif)
 
 ## Architecture Design  
 
 ### Architecture Components
 
 The following diagram shows the architectural components of the bot.
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern3.png)
+![alt text](./Pattern3.png)
 
 + **Jenkins**: This is a Continuous Integration service that has already been established and is running on the build server. Our bot interacts with the Jenkins service to get status of the build jobs initiated by a commit. 
 
@@ -119,7 +119,7 @@ In this pattern, there are multiple events that can be termed as Explicit Invoca
 + If build is successful, then the bot updates the stats in it's records.
 + If the git user has exceeded the threshold of buggy commits for that day, bot revokes it's permission to commit in the repository.  
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern2.png)  
+![alt text](./Pattern2.png)  
 This architectural pattern represents the flow of events when a build job is finished by the Jenkins.
 
 
@@ -129,7 +129,7 @@ This architectural pattern represents the flow of events when a build job is fin
 + Parse the chat for a request.   
 + Respond with the correct statistics.  
 
-![alt text](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone1/Pattern1.png)  
+![alt text](./Pattern1.png)  
 This architectural pattern represents the flow of events when a user requests through a chat.
 
 
