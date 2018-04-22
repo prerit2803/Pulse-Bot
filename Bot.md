@@ -64,7 +64,7 @@ We used **Mocha** framework on Node.js for mocking and testing these calls.
 Initially a mocked data for all the use cases was collected by making actual calls to the website using POSTMAN plugin. For Redis a fake data set was created. 
 ### Testing
 We used package `chai` to intercepted these calls and sending mocked data instead. Each helper and mian function was mocked and tested. 
-[See full mocking test cases here](https://github.ncsu.edu/sshah11/CSC510-Project/tree/Milestone2/pulseBot/test)
+[See full mocking test cases here](./pulseBot/test)
 
 Sample mocking case is shown below:
 ```
@@ -84,14 +84,14 @@ describe('checkUserExists(user):success', ()=>{
     })
   })
 ```
-All the test cases were tested using `npm test` and the result is [here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/pulseBot/test/npm%20test.jpg)
+All the test cases were tested using `npm test` and the result is ![](./pulseBot/test/npm%20test.jpg)
 
 
 ## Selenium testing of each use case
 ### Use Case 1: Maintaining a stable branch
 
 #### Test Case 1: Create a stable branch
-[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L78)
+[See the full selenium test case here](./seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L78)
 
 _**Test Case flow:**_
 
@@ -124,7 +124,7 @@ driver.get("https://github.ncsu.edu/pulseBotProject/MavenVoid");
 Success of the test case shows that a stable branch is created which is protected when the build of the package fails with code on the master branch.
 
 #### Test Case 2: Delete a stable branch if master is stable
-[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/9ec9b4c0dcb4c3dceec2ba787c0f20b615a020ce/seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L111)
+[See the full selenium test case here](./seleniumTests/src/test/java/selenium/tests/githubBranchTest.java#L111)
 
 _**Test Case flow:**_
 
@@ -160,7 +160,7 @@ Success of the test case shows that when master branch becomes stable, the previ
 
 #### Test Case 1: Blocking a user making more buggy commits than the threshold (5 in our case).
 
-[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/CollaboratorTest.java#L66)
+[See the full selenium test case here](./seleniumTests/src/test/java/selenium/tests/CollaboratorTest.java#L66)
 
 _**Test Case flow:**_
 
@@ -224,7 +224,7 @@ Success of the test case shows that the bot can sucessfully track number of bugg
 
 #### Test Case 2: Not blocking a user making less buggy commits than the threshold (5 in our case).
 
-[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/CollaboratorTest.java#L124)
+[See the full selenium test case here](./seleniumTests/src/test/java/selenium/tests/CollaboratorTest.java#L124)
 
 _**Test Case flow:**_
 
@@ -289,7 +289,7 @@ Success of the test case shows that the bot can sucessfully track number of bugg
 ### Use Case 3: Create a summary report
 
 #### Test Case 1: Testing for the correct values generated in Report
-[See the full selenium test case here](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/seleniumTests/src/test/java/selenium/tests/RedisTest.java#L70)
+[See the full selenium test case here](./seleniumTests/src/test/java/selenium/tests/RedisTest.java#L70)
 
 _**Test Case flow:**_
 
@@ -364,7 +364,7 @@ public void buildFail(){
 In this case the build fails and the value of bad commits becomes 1 and total number of commits are set to 2.
 
 ## Task Tracking
-We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](https://github.ncsu.edu/sshah11/CSC510-Project/blob/Milestone2/WORKSHEET.md) 
+We used Trello for task tracking. A weekly itinerary of tasks performed can be found in the [worksheet.md.](./WORKSHEET.md) 
 Use the following credentials to log in to Trello:  
 + **username:** Pulsebotproject@gmail.com
 + **password:** pulsebot@project
